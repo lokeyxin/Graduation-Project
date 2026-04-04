@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ragproject.ragserver.mapper.UserMapper">
+
+    <resultMap id="UserResultMap" type="com.ragproject.ragserver.model.User">
+        <id property="userId" column="user_id"/>
+        <result property="username" column="username"/>
+        <result property="passwordHash" column="password_hash"/>
+        <result property="displayName" column="display_name"/>
+        <result property="status" column="status"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <select id="findByUsername" parameterType="string" resultMap="UserResultMap">
+        SELECT user_id, username, password_hash, display_name, status, created_at, updated_at
+        FROM t_user
+        WHERE username = #{username}
+        LIMIT 1
+    </select>
+
+    <select id="findById" parameterType="long" resultMap="UserResultMap">
+        SELECT user_id, username, password_hash, display_name, status, created_at, updated_at
+        FROM t_user
+        WHERE user_id = #{userId}
+        LIMIT 1
+    </select>
+
+    <insert id="insert" parameterType="com.ragproject.ragserver.model.User" useGeneratedKeys="true" keyProperty="userId">
+        INSERT INTO t_user (username, password_hash, display_name, status)
+        VALUES (#{username}, #{passwordHash}, #{displayName}, #{status})
+    </insert>
+
+</mapper>

@@ -1,0 +1,353 @@
+<script setup>
+import { computed, onMounted, ref, nextTick } from 'vue'
+import { createSession, listDocuments, listMessages, listSessions, login, streamChat, uploadDocument } from './services/api'
+
+const username = ref('demo01')
+const password = ref('123456')
+const errorMessage = ref('')
+const loginLoading = ref(false)
+const token = ref('')
+const displayName = ref('')
+
+const sessionList = ref([])
+const activeSessionId = ref(null)
+const messageList = ref([])
+const inputMessage = ref('')
+const isGenerating = ref(false)
+const messageViewport = ref(null)
+const currentView = ref('chat')
+
+const documentList = ref([])
+const uploadFile = ref(null)
+const uploadFileInput = ref(null)
+const uploadLoading = ref(false)
+const knowledgeMessage = ref('')
+const knowledgeError = ref('')
+
+const isLoggedIn = computed(() => Boolean(token.value))
+
+function autoScrollToBottom() {
+  nextTick(() => {
+    if (messageViewport.value) {
+      messageViewport.value.scrollTop = messageViewport.value.scrollHeight
+    }
+  })
+}
+
+async function handleLogin() {
+  if (loginLoading.value) return
+  errorMessage.value = ''
+  loginLoading.value = true
+  try {
+    const response = await login({
+      username: username.value,
+      password: password.value,
+    })
+
+    token.value = response.token
+    displayName.value = response.displayName
+    localStorage.setItem('ragToken', response.token)
+    localStorage.setItem('ragDisplayName', response.displayName)
+
+    await loadSessionList()
+    await loadDocumentListSilently()
+  } catch (error) {
+    token.value = ''
+    displayName.value = ''
+    sessionList.value = []
+    messageList.value = []
+    activeSessionId.value = null
+    localStorage.removeItem('ragToken')
+    localStorage.removeItem('ragDisplayName')
+    errorMessage.value = error?.message || '登录失败，请重试。'
+  } finally {
+    loginLoading.value = false
+  }
+}
+
+function logout() {
+  token.value = ''
+  displayName.value = ''
+  sessionList.value = []
+  messageList.value = []
+  activeSessionId.value = null
+  currentView.value = 'chat'
+  documentList.value = []
+  uploadFile.value = null
+  knowledgeMessage.value = ''
+  knowledgeError.value = ''
+  localStorage.removeItem('ragToken')
+  localStorage.removeItem('ragDisplayName')
+}
+
+async function loadDocumentListSilently() {
+  try {
+    documentList.value = await listDocuments()
+  } catch (_) {
+    documentList.value = []
+  }
+}
+
+async function loadSessionList() {
+  sessionList.value = await listSessions()
+  if (!sessionList.value.length) {
+    await createNewSession()
+    return
+  }
+
+  activeSessionId.value = sessionList.value[0].sessionId
+  await loadMessages(activeSessionId.value)
+}
+
+async function createNewSession() {
+  const newSession = await createSession({ title: '新对话' })
+  sessionList.value = [newSession, ...sessionList.value]
+  activeSessionId.value = newSession.sessionId
+  messageList.value = []
+  return newSession
+}
+
+async function loadMessages(sessionId) {
+  activeSessionId.value = sessionId
+  messageList.value = await listMessages(sessionId)
+  autoScrollToBottom()
+}
+
+async function sendMessage() {
+  if (isGenerating.value) return
+
+  const userContent = inputMessage.value.trim()
+  if (!userContent) return
+
+  inputMessage.value = ''
+  isGenerating.value = true
+
+  let sessionId = activeSessionId.value
+  let assistantMessage = null
+
+  try {
+    if (!sessionId) {
+      const newSession = await createNewSession()
+      sessionId = newSession.sessionId
+    }
+
+    messageList.value.push({
+      messageId: Date.now(),
+      sessionId,
+      role: 'user',
+      content: userContent,
+      createdAt: new Date().toISOString(),
+    })
+
+    assistantMessage = {
+      messageId: Date.now() + 1,
+      sessionId,
+      role: 'assistant',
+      content: '',
+      createdAt: new Date().toISOString(),
+    }
+    messageList.value.push(assistantMessage)
+    autoScrollToBottom()
+
+    await streamChat(
+      { sessionId, message: userContent },
+      {
+        onMessage(chunk) {
+          assistantMessage.content += chunk
+          autoScrollToBottom()
+        },
+        onDone() {},
+        onError(error) {
+          assistantMessage.content = error || '生成失败，请重试。'
+        },
+      },
+    )
+
+    await loadMessages(sessionId)
+  } catch (error) {
+    if (assistantMessage) {
+      assistantMessage.content = error?.message || '生成失败，请重试。'
+    } else {
+      errorMessage.value = error?.message || '发送失败，请重试。'
+    }
+  } finally {
+    isGenerating.value = false
+  }
+}
+
+function handleKeydown(event) {
+  if (event.key === 'Enter' && !event.shiftKey) {
+    event.preventDefault()
+    sendMessage()
+  }
+}
+
+function switchView(view) {
+  currentView.value = view
+  if (view === 'knowledge') {
+    loadDocumentListSilently()
+  }
+}
+
+function handleUploadFileChange(event) {
+  const file = event.target.files?.[0]
+  uploadFile.value = file || null
+  knowledgeMessage.value = ''
+  knowledgeError.value = ''
+}
+
+function statusText(status) {
+  if (status === 1) return '已入库'
+  if (status === 2) return '处理中'
+  if (status === 0) return '失败'
+  return '未知'
+}
+
+async function submitDocumentUpload() {
+  if (uploadLoading.value) return
+  if (!uploadFile.value) {
+    knowledgeError.value = '请先选择 .docx 文件。'
+    return
+  }
+
+  knowledgeMessage.value = ''
+  knowledgeError.value = ''
+  uploadLoading.value = true
+
+  try {
+    const result = await uploadDocument(uploadFile.value)
+    knowledgeMessage.value = `上传成功：${result.documentName}（新增知识片段 ${result.knowledgeItemCount} 条）`
+    uploadFile.value = null
+    if (uploadFileInput.value) {
+      uploadFileInput.value.value = ''
+    }
+    documentList.value = await listDocuments()
+  } catch (error) {
+    knowledgeError.value = error?.message || '上传失败，请重试。'
+  } finally {
+    uploadLoading.value = false
+  }
+}
+
+onMounted(async () => {
+  // 按需求强制每次进入都显示登录页。
+  localStorage.removeItem('ragToken')
+  localStorage.removeItem('ragDisplayName')
+  token.value = ''
+  displayName.value = ''
+})
+</script>
+
+<template>
+  <div class="appShell">
+    <div v-if="!isLoggedIn" class="loginPanel">
+      <h1>AI 智能客服系统</h1>
+      <p>使用测试账号登录后开始对话</p>
+      <label>
+        用户名
+        <input v-model="username" type="text" placeholder="请输入用户名" />
+      </label>
+      <label>
+        密码
+        <input v-model="password" type="password" placeholder="请输入密码" @keydown.enter="handleLogin" />
+      </label>
+      <button class="loginActionButton" :disabled="loginLoading" @click="handleLogin">
+        {{ loginLoading ? '登录中...' : '确定登录' }}
+      </button>
+      <span v-if="errorMessage" class="errorText">{{ errorMessage }}</span>
+    </div>
+
+    <div v-else class="chatLayout">
+      <aside class="leftSidebar">
+        <div class="sidebarHeader">
+          <button class="primaryButton" @click="createNewSession">+ 新对话</button>
+        </div>
+        <div class="sidebarNav">
+          <button class="sessionItem" :class="{ active: currentView === 'chat' }" @click="switchView('chat')">对话区</button>
+          <button class="sessionItem" :class="{ active: currentView === 'knowledge' }" @click="switchView('knowledge')">知识库</button>
+        </div>
+        <div class="sessionList">
+          <button
+            v-for="session in sessionList"
+            :key="session.sessionId"
+            class="sessionItem"
+            :class="{ active: session.sessionId === activeSessionId }"
+            :disabled="currentView !== 'chat'"
+            @click="loadMessages(session.sessionId)"
+          >
+            {{ session.title }}
+          </button>
+        </div>
+        <div class="sidebarFooter">
+          <span>{{ displayName }}</span>
+          <button class="ghostButton" @click="logout">退出</button>
+        </div>
+      </aside>
+
+      <main v-if="currentView === 'chat'" class="chatMain">
+        <section ref="messageViewport" class="messageViewport">
+          <div
+            v-for="message in messageList"
+            :key="message.messageId"
+            class="messageRow"
+            :class="message.role"
+          >
+            <div class="bubble">{{ message.content }}</div>
+          </div>
+        </section>
+
+        <footer class="inputArea">
+          <textarea
+            v-model="inputMessage"
+            placeholder="请输入问题，点击“开始对话”发送（Shift + Enter 换行）"
+            @keydown="handleKeydown"
+          />
+          <button
+            class="primaryButton"
+            :disabled="isGenerating"
+            @click="sendMessage"
+          >
+            {{ isGenerating ? '生成中...' : '开始对话' }}
+          </button>
+        </footer>
+      </main>
+
+      <main v-else class="knowledgeMain">
+        <section class="knowledgePanel">
+          <h2>知识库文件上传</h2>
+          <p>当前仅支持 Word 文档 .docx，上传后会自动解析并入库。</p>
+
+          <div class="uploadRow">
+            <input
+              ref="uploadFileInput"
+              type="file"
+              accept=".docx"
+              @change="handleUploadFileChange"
+            />
+            <button class="primaryButton" :disabled="uploadLoading" @click="submitDocumentUpload">
+              {{ uploadLoading ? '上传处理中...' : '上传并入库' }}
+            </button>
+          </div>
+
+          <div v-if="uploadFile" class="uploadHint">已选择：{{ uploadFile.name }}</div>
+          <div v-if="knowledgeMessage" class="successText">{{ knowledgeMessage }}</div>
+          <div v-if="knowledgeError" class="errorText">{{ knowledgeError }}</div>
+        </section>
+
+        <section class="knowledgePanel">
+          <h3>我的文档</h3>
+          <div v-if="!documentList.length" class="emptyText">暂无文档，请先上传。</div>
+          <div v-else class="docList">
+            <div v-for="doc in documentList" :key="doc.documentId" class="docRow">
+              <div class="docName">{{ doc.documentName }}</div>
+              <div class="docMeta">
+                <span class="docStatus">{{ statusText(doc.status) }}</span>
+                <span>{{ new Date(doc.createdAt).toLocaleString() }}</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+</template>
