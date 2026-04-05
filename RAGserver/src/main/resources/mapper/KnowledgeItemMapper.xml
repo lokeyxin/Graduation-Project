@@ -6,6 +6,7 @@
 
     <resultMap id="KnowledgeItemResultMap" type="com.ragproject.ragserver.model.KnowledgeItem">
         <id property="knowledgeId" column="knowledge_id"/>
+        <result property="documentId" column="document_id"/>
         <result property="question" column="question"/>
         <result property="answer" column="answer"/>
         <result property="status" column="status"/>
@@ -14,17 +15,17 @@
     </resultMap>
 
     <select id="findActiveItems" resultMap="KnowledgeItemResultMap">
-        SELECT knowledge_id, question, answer, status, created_at, updated_at
+        SELECT knowledge_id, document_id, question, answer, status, created_at, updated_at
         FROM t_knowledge_item
         WHERE status = 1
         ORDER BY knowledge_id ASC
     </select>
 
     <insert id="insertBatch">
-        INSERT INTO t_knowledge_item (question, answer, status)
+        INSERT INTO t_knowledge_item (document_id, question, answer, status)
         VALUES
         <foreach collection="items" item="item" separator=",">
-            (#{item.question}, #{item.answer}, #{item.status})
+            (#{item.documentId}, #{item.question}, #{item.answer}, #{item.status})
         </foreach>
     </insert>
 

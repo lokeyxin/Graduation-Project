@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref, nextTick } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, nextTick } from 'vue'
 import { createSession, listDocuments, listMessages, listSessions, login, streamChat, uploadDocument } from './services/api'
 
 const username = ref('demo01')
@@ -23,6 +23,12 @@ const uploadFileInput = ref(null)
 const uploadLoading = ref(false)
 const knowledgeMessage = ref('')
 const knowledgeError = ref('')
+const documentPollingTimer = ref(null)
+const documentPollingErrorCount = ref(0)
+
+const DOCUMENT_PROCESSING_STATUS = 2
+const DOCUMENT_POLLING_INTERVAL_MS = 3000
+const DOCUMENT_POLLING_MAX_ERRORS = 3
 
 const isLoggedIn = computed(() => Boolean(token.value))
 
@@ -66,6 +72,7 @@ async function handleLogin() {
 }
 
 function logout() {
+  stopDocumentPolling()
   token.value = ''
   displayName.value = ''
   sessionList.value = []
@@ -80,11 +87,55 @@ function logout() {
   localStorage.removeItem('ragDisplayName')
 }
 
+function hasProcessingDocuments(documents) {
+  return Array.isArray(documents) && documents.some((doc) => doc.status === DOCUMENT_PROCESSING_STATUS)
+}
+
+function stopDocumentPolling() {
+  if (documentPollingTimer.value !== null) {
+    clearInterval(documentPollingTimer.value)
+    documentPollingTimer.value = null
+  }
+}
+
+function startDocumentPolling() {
+  if (documentPollingTimer.value !== null || currentView.value !== 'knowledge') {
+    return
+  }
+
+  documentPollingErrorCount.value = 0
+  documentPollingTimer.value = setInterval(async () => {
+    try {
+      const documents = await listDocuments()
+      documentList.value = documents
+      documentPollingErrorCount.value = 0
+
+      if (!hasProcessingDocuments(documents)) {
+        stopDocumentPolling()
+      }
+    } catch (_) {
+      documentPollingErrorCount.value += 1
+      if (documentPollingErrorCount.value >= DOCUMENT_POLLING_MAX_ERRORS) {
+        stopDocumentPolling()
+        knowledgeError.value = '文档状态自动刷新失败，请稍后手动重试。'
+      }
+    }
+  }, DOCUMENT_POLLING_INTERVAL_MS)
+}
+
 async function loadDocumentListSilently() {
   try {
-    documentList.value = await listDocuments()
+    const documents = await listDocuments()
+    documentList.value = documents
+
+    if (currentView.value === 'knowledge' && hasProcessingDocuments(documents)) {
+      startDocumentPolling()
+    } else {
+      stopDocumentPolling()
+    }
   } catch (_) {
     documentList.value = []
+    stopDocumentPolling()
   }
 }
 
@@ -183,6 +234,10 @@ function handleKeydown(event) {
 }
 
 function switchView(view) {
+  if (view !== 'knowledge') {
+    stopDocumentPolling()
+  }
+
   currentView.value = view
   if (view === 'knowledge') {
     loadDocumentListSilently()
@@ -216,12 +271,12 @@ async function submitDocumentUpload() {
 
   try {
     const result = await uploadDocument(uploadFile.value)
-    knowledgeMessage.value = `上传成功：${result.documentName}（新增知识片段 ${result.knowledgeItemCount} 条）`
+    knowledgeMessage.value = `上传成功：${result.documentName}（后台正在解析并入库，状态将自动刷新）`
     uploadFile.value = null
     if (uploadFileInput.value) {
       uploadFileInput.value.value = ''
     }
-    documentList.value = await listDocuments()
+    await loadDocumentListSilently()
   } catch (error) {
     knowledgeError.value = error?.message || '上传失败，请重试。'
   } finally {
@@ -235,6 +290,10 @@ onMounted(async () => {
   localStorage.removeItem('ragDisplayName')
   token.value = ''
   displayName.value = ''
+})
+
+onBeforeUnmount(() => {
+  stopDocumentPolling()
 })
 </script>
 

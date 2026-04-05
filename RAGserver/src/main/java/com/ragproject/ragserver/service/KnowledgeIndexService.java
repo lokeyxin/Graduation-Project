@@ -32,6 +32,7 @@ public class KnowledgeIndexService {
     @EventListener(ApplicationReadyEvent.class)
     public void buildIndexOnStartup() {
         try {
+            // 启动时按“状态有效”全量加载知识项，保证向量库和关系库初始一致。
             List<KnowledgeItem> items = knowledgeItemMapper.findActiveItems();
             if (items.isEmpty()) {
                 log.info("No active knowledge items found, skip vector indexing");
@@ -54,6 +55,7 @@ public class KnowledgeIndexService {
             return;
         }
 
+        // 增量模式：只将本次新增知识项加入向量库，避免每次上传都全量重建索引。
         List<Document> documents = items.stream()
                 .map(this::toDocument)
                 .toList();
@@ -63,14 +65,21 @@ public class KnowledgeIndexService {
 
     private Document toDocument(KnowledgeItem item) {
         Map<String, Object> metadata = new HashMap<>();
-        metadata.put("knowledgeId", item.getKnowledgeId());
-        metadata.put("question", item.getQuestion());
+        // 向量库文档元数据不允许 null 值，这里只写入非空字段。
+        if (item.getKnowledgeId() != null) {
+            metadata.put("knowledgeId", item.getKnowledgeId());
+        }
+        if (item.getDocumentId() != null) {
+            metadata.put("documentId", item.getDocumentId());
+        }
 
         String question = StringUtils.hasText(item.getQuestion()) ? item.getQuestion().trim() : "";
         String answer = StringUtils.hasText(item.getAnswer()) ? item.getAnswer().trim() : "";
+        metadata.put("question", question);
         String content = "标准问题: " + question + "\n标准答案: " + answer;
         
-        log.info("Indexing document: {}", content);
+        // 保留轻量日志便于排障，避免打印过大的原文导致日志噪声。
+        log.info("Indexing document. knowledgeId={}, documentId={}", item.getKnowledgeId(), item.getDocumentId());
         return new Document(content, metadata);
     }
 }

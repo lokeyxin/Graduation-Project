@@ -28,12 +28,15 @@ CREATE TABLE t_document (
 
 CREATE TABLE t_knowledge_item (
     knowledge_id BIGINT PRIMARY KEY AUTO_INCREMENT COMMENT '知识项ID',
+    document_id BIGINT NULL COMMENT '关联文档ID',
     question VARCHAR(512) NOT NULL COMMENT '标准问题',
     answer TEXT NOT NULL COMMENT '标准答案',
     status TINYINT NOT NULL DEFAULT 1 COMMENT '状态:1有效0无效',
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    KEY idx_knowledge_status (status)
+    KEY idx_knowledge_status (status),
+    KEY idx_knowledge_document_id (document_id),
+    CONSTRAINT fk_knowledge_document_id FOREIGN KEY (document_id) REFERENCES t_document(document_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='知识问答表';
 
 CREATE TABLE t_chat_session (

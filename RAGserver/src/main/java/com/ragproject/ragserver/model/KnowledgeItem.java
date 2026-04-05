@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 public class KnowledgeItem {
     private Long knowledgeId;
+    private Long documentId;
     private String question;
     private String answer;
     private Integer status;
@@ -16,6 +17,14 @@ public class KnowledgeItem {
 
     public void setKnowledgeId(Long knowledgeId) {
         this.knowledgeId = knowledgeId;
+    }
+
+    public Long getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(Long documentId) {
+        this.documentId = documentId;
     }
 
     public String getQuestion() {

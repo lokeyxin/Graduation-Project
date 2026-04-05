@@ -131,6 +131,12 @@ textarea {
   gap: 8px;
 }
 
+.sidebarNav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
 .sessionItem {
   width: 100%;
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -147,6 +153,11 @@ textarea {
   background: rgba(255, 255, 255, 0.14);
 }
 
+.sessionItem:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .sidebarFooter {
   display: flex;
   align-items: center;
@@ -160,6 +171,82 @@ textarea {
   display: grid;
   grid-template-rows: 1fr auto;
   min-height: 100vh;
+}
+
+.knowledgeMain {
+  padding: 24px clamp(12px, 5vw, 100px);
+  display: grid;
+  gap: 16px;
+  align-content: start;
+}
+
+.knowledgePanel {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.knowledgePanel h2,
+.knowledgePanel h3 {
+  margin: 0 0 8px;
+}
+
+.knowledgePanel p {
+  margin: 0 0 12px;
+  color: var(--text-sub);
+}
+
+.uploadRow {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.uploadHint {
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--text-sub);
+}
+
+.successText {
+  color: #137333;
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+.docList {
+  display: grid;
+  gap: 8px;
+}
+
+.docRow {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #ffffff;
+}
+
+.docName {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.docMeta {
+  display: flex;
+  gap: 12px;
+  color: var(--text-sub);
+  font-size: 13px;
+}
+
+.docStatus {
+  color: var(--primary);
+}
+
+.emptyText {
+  color: var(--text-sub);
+  font-size: 14px;
 }
 
 .messageViewport {

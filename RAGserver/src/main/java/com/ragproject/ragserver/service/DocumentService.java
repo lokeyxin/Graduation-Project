@@ -4,14 +4,10 @@ import com.ragproject.ragserver.common.BusinessException;
 import com.ragproject.ragserver.dto.response.DocumentResponse;
 import com.ragproject.ragserver.dto.response.DocumentUploadResponse;
 import com.ragproject.ragserver.mapper.DocumentMapper;
-import com.ragproject.ragserver.mapper.KnowledgeItemMapper;
 import com.ragproject.ragserver.model.Document;
-import com.ragproject.ragserver.model.KnowledgeItem;
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,21 +18,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 public class DocumentService {
     private static final Logger log = LoggerFactory.getLogger(DocumentService.class);
-    private static final int CHUNK_SIZE = 700;
     private static final int STATUS_FAILED = 0;
     private static final int STATUS_ACTIVE = 1;
     private static final int STATUS_PROCESSING = 2;
 
     private final DocumentMapper documentMapper;
-    private final KnowledgeItemMapper knowledgeItemMapper;
-    private final KnowledgeIndexService knowledgeIndexService;
+    private final DocumentIngestionAsyncService documentIngestionAsyncService;
 
     @Value("${app.upload.knowledge-dir:uploads/knowledge}")
     private String knowledgeUploadDir;
@@ -44,15 +37,24 @@ public class DocumentService {
     @Value("${app.upload.allowed-extension:.docx}")
     private String allowedExtension;
 
+    /**
+     * 该服务只负责“快速返回”的同步步骤：校验、保存文件、落文档元数据、触发异步任务。
+     *
+     * 解析 Word 与向量入库是耗时操作，放在异步服务中执行，避免大文件阻塞上传接口线程。
+     */
     public DocumentService(DocumentMapper documentMapper,
-                           KnowledgeItemMapper knowledgeItemMapper,
-                           ObjectProvider<KnowledgeIndexService> knowledgeIndexServiceProvider) {
+                           DocumentIngestionAsyncService documentIngestionAsyncService) {
         this.documentMapper = documentMapper;
-        this.knowledgeItemMapper = knowledgeItemMapper;
-        this.knowledgeIndexService = knowledgeIndexServiceProvider.getIfAvailable();
+        this.documentIngestionAsyncService = documentIngestionAsyncService;
     }
 
-    public DocumentUploadResponse uploadAndIngest(Long userId, MultipartFile file) {
+    /**
+     * 上传接口主流程：
+     * 1. 同步完成基础校验和文件落盘；
+     * 2. 文档状态置为“处理中”；
+     * 3. 立即返回，后台异步执行“解析 + 切片 + 知识项入库 + 向量索引”。
+     */
+    public DocumentUploadResponse uploadAndIngestAsync(Long userId, MultipartFile file) {
         validateUpload(file);
 
         String originalName = file.getOriginalFilename();
@@ -65,28 +67,12 @@ public class DocumentService {
         document.setStatus(STATUS_PROCESSING);
         documentMapper.insert(document);
 
-        try {
-            List<String> chunks = parseAndChunkDocx(file);
-            if (chunks.isEmpty()) {
-                throw new BusinessException("D400", "文档内容为空，无法入库");
-            }
+        // 异步任务只传“轻量且可序列化”的参数，避免在后台线程持有 MultipartFile 流对象。
+        documentIngestionAsyncService.ingestDocxAsync(document.getDocumentId(), originalName, savedPath);
 
-            List<KnowledgeItem> items = buildKnowledgeItems(originalName, chunks);
-            knowledgeItemMapper.insertBatch(items);
-            if (knowledgeIndexService != null) {
-                knowledgeIndexService.addKnowledgeItems(items);
-            }
-
-            documentMapper.updateStatusById(document.getDocumentId(), STATUS_ACTIVE);
-            return new DocumentUploadResponse(document.getDocumentId(), originalName, STATUS_ACTIVE, items.size());
-        } catch (BusinessException ex) {
-            documentMapper.updateStatusById(document.getDocumentId(), STATUS_FAILED);
-            throw ex;
-        } catch (Exception ex) {
-            documentMapper.updateStatusById(document.getDocumentId(), STATUS_FAILED);
-            log.error("Document upload failed. userId={}, documentId={}, file={}", userId, document.getDocumentId(), originalName, ex);
-            throw new BusinessException("D500", "文档解析或入库失败");
-        }
+        log.info("Document accepted for async ingestion. userId={}, documentId={}, file={}",
+                userId, document.getDocumentId(), originalName);
+        return new DocumentUploadResponse(document.getDocumentId(), originalName, STATUS_PROCESSING, null);
     }
 
     public List<DocumentResponse> listDocuments(Long userId) {
@@ -95,6 +81,12 @@ public class DocumentService {
                 .toList();
     }
 
+    /**
+     * 上传前校验：
+     * - 文件必须存在且非空
+     * - 文件名必须存在
+     * - 仅允许配置中的后缀（当前默认 .docx）
+     */
     private void validateUpload(MultipartFile file) {
         if (file == null || file.isEmpty()) {
             throw new BusinessException("D400", "上传文件不能为空");
@@ -111,6 +103,13 @@ public class DocumentService {
         }
     }
 
+    /**
+     * 将上传文件写入本地目录，返回最终绝对路径。
+     *
+     * 注意：
+     * - 使用 UUID 生成目标文件名，防止同名覆盖；
+     * - 使用 REPLACE_EXISTING 保证同 UUID 时仍可覆盖（概率极低，仅作为防御）。
+     */
     private String saveFile(MultipartFile file) {
         Path uploadRoot = Paths.get(knowledgeUploadDir).toAbsolutePath().normalize();
         String originalName = file.getOriginalFilename();
@@ -127,46 +126,5 @@ public class DocumentService {
         } catch (IOException ex) {
             throw new BusinessException("D500", "文件保存失败");
         }
-    }
-
-    private List<String> parseAndChunkDocx(MultipartFile file) {
-        List<String> paragraphs = new ArrayList<>();
-        try (InputStream in = file.getInputStream(); XWPFDocument doc = new XWPFDocument(in)) {
-            doc.getParagraphs().forEach(p -> {
-                String text = p.getText();
-                if (StringUtils.hasText(text)) {
-                    paragraphs.add(text.trim());
-                }
-            });
-        } catch (IOException ex) {
-            throw new BusinessException("D422", "Word 文档解析失败");
-        }
-
-        String merged = String.join("\n", paragraphs).trim();
-        if (!StringUtils.hasText(merged)) {
-            return List.of();
-        }
-
-        List<String> chunks = new ArrayList<>();
-        for (int i = 0; i < merged.length(); i += CHUNK_SIZE) {
-            int end = Math.min(i + CHUNK_SIZE, merged.length());
-            String chunk = merged.substring(i, end).trim();
-            if (chunk.length() >= 10) {
-                chunks.add(chunk);
-            }
-        }
-        return chunks;
-    }
-
-    private List<KnowledgeItem> buildKnowledgeItems(String documentName, List<String> chunks) {
-        List<KnowledgeItem> items = new ArrayList<>();
-        for (int i = 0; i < chunks.size(); i++) {
-            KnowledgeItem item = new KnowledgeItem();
-            item.setQuestion("【" + documentName + "】第" + (i + 1) + "段");
-            item.setAnswer(chunks.get(i));
-            item.setStatus(STATUS_ACTIVE);
-            items.add(item);
-        }
-        return items;
     }
 }

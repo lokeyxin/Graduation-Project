@@ -27,7 +27,7 @@ public class DocumentController {
     public ApiResponse<DocumentUploadResponse> upload(@RequestParam("file") MultipartFile file,
                                                       HttpServletRequest servletRequest) {
         Long userId = (Long) servletRequest.getAttribute("currentUserId");
-        return ApiResponse.ok(documentService.uploadAndIngest(userId, file));
+        return ApiResponse.ok(documentService.uploadAndIngestAsync(userId, file));
     }
 
     @GetMapping
