@@ -262,7 +262,7 @@ function statusText(status) {
 async function submitDocumentUpload() {
   if (uploadLoading.value) return
   if (!uploadFile.value) {
-    knowledgeError.value = '请先选择 .docx 文件。'
+    knowledgeError.value = '请先选择支持格式文件（.docx/.pdf/.md/.json/.txt）。'
     return
   }
 
@@ -416,13 +416,13 @@ onBeforeUnmount(() => {
       <main v-else class="knowledgeMain">
         <section class="knowledgePanel">
           <h2>知识库文件上传</h2>
-          <p>当前仅支持 Word 文档 .docx，上传后会自动解析并入库。</p>
+          <p>支持 Word(.docx)、PDF(.pdf)、Markdown(.md)、JSON(.json)、TXT(.txt)，上传后会自动解析并入库。</p>
 
           <div class="uploadRow">
             <input
               ref="uploadFileInput"
               type="file"
-              accept=".docx"
+              accept=".docx,.pdf,.md,.json,.txt"
               @change="handleUploadFileChange"
             />
             <button class="primaryButton" :disabled="uploadLoading" @click="submitDocumentUpload">

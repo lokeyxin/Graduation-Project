@@ -22,7 +22,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -38,8 +41,8 @@ public class DocumentService {
     @Value("${app.upload.knowledge-dir:uploads/knowledge}")
     private String knowledgeUploadDir;
 
-    @Value("${app.upload.allowed-extension:.docx}")
-    private String allowedExtension;
+    @Value("${app.upload.allowed-extensions:${app.upload.allowed-extension:.docx}}")
+    private String allowedExtensions;
 
     /**
      * 该服务只负责“快速返回”的同步步骤：校验、保存文件、落文档元数据、触发异步任务。
@@ -95,7 +98,7 @@ public class DocumentService {
         }
 
         // 异步任务只传“轻量且可序列化”的参数，避免在后台线程持有 MultipartFile 流对象。
-        documentIngestionAsyncService.ingestDocxAsync(documentId, originalName, savedPath);
+        documentIngestionAsyncService.ingestDocumentAsync(documentId, originalName, savedPath);
 
         log.info("Document accepted for async ingestion. userId={}, documentId={}, file={}",
                 userId, documentId, originalName);
@@ -157,10 +160,32 @@ public class DocumentService {
             throw new BusinessException("D400", "文件名不能为空");
         }
 
-        String normalized = originalName.toLowerCase();
-        if (!normalized.endsWith(allowedExtension.toLowerCase())) {
-            throw new BusinessException("D415", "目前仅支持 .docx 文件上传");
+        String extension = getFileExtension(originalName);
+        Set<String> extensionSet = parseAllowedExtensions();
+        if (!extensionSet.contains(extension)) {
+            throw new BusinessException("D415", "目前仅支持以下格式上传: " + String.join(", ", extensionSet));
         }
+    }
+
+    private String getFileExtension(String fileName) {
+        int idx = fileName.lastIndexOf('.');
+        if (idx < 0 || idx == fileName.length() - 1) {
+            throw new BusinessException("D415", "文件缺少有效后缀");
+        }
+        return fileName.substring(idx).toLowerCase();
+    }
+
+    private Set<String> parseAllowedExtensions() {
+        Set<String> result = Arrays.stream(allowedExtensions.split(","))
+                .map(String::trim)
+                .filter(StringUtils::hasText)
+                .map(ext -> ext.startsWith(".") ? ext : "." + ext)
+                .map(String::toLowerCase)
+                .collect(java.util.stream.Collectors.toCollection(LinkedHashSet::new));
+        if (result.isEmpty()) {
+            result.add(".docx");
+        }
+        return result;
     }
 
     /**

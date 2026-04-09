@@ -4,6 +4,9 @@ import com.ragproject.ragserver.common.BusinessException;
 import com.ragproject.ragserver.mapper.DocumentMapper;
 import com.ragproject.ragserver.mapper.KnowledgeItemMapper;
 import com.ragproject.ragserver.model.KnowledgeItem;
+import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +18,7 @@ import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -53,10 +57,10 @@ public class DocumentIngestionAsyncService {
      */
     @Async
     @Transactional
-    public void ingestDocxAsync(Long documentId, String documentName, String sourcePath) {
+    public void ingestDocumentAsync(Long documentId, String documentName, String sourcePath) {
         long start = System.currentTimeMillis();
         try {
-            List<String> chunks = parseAndChunkDocx(sourcePath);
+            List<String> chunks = parseAndChunkDocument(sourcePath, documentName);
             if (chunks.isEmpty()) {
                 throw new BusinessException("D400", "文档内容为空，无法入库");
             }
@@ -79,12 +83,36 @@ public class DocumentIngestionAsyncService {
     }
 
     /**
-     * 解析本地 docx：
-     * - 读取段落文本；
-     * - 清理空白内容；
-     * - 按固定长度切片，过滤过短噪声文本。
+     * 解析本地文档并切片：
+     * - docx: 使用 Apache POI 提取段落文本；
+     * - pdf: 使用 PDFBox 提取全文文本；
+     * - md/txt/json: 按 UTF-8 原文读取。
      */
-    private List<String> parseAndChunkDocx(String sourcePath) {
+    private List<String> parseAndChunkDocument(String sourcePath, String documentName) {
+        String extension = resolveExtension(sourcePath, documentName);
+        String text = switch (extension) {
+            case ".docx" -> extractDocxText(sourcePath);
+            case ".pdf" -> extractPdfText(sourcePath);
+            case ".md", ".txt", ".json" -> extractPlainText(sourcePath);
+            default -> throw new BusinessException("D415", "暂不支持该文件格式: " + extension);
+        };
+
+        return chunkText(text);
+    }
+
+    private String resolveExtension(String sourcePath, String documentName) {
+        String name = documentName;
+        if (!StringUtils.hasText(name)) {
+            name = sourcePath;
+        }
+        int idx = name.lastIndexOf('.');
+        if (idx < 0 || idx == name.length() - 1) {
+            throw new BusinessException("D415", "文件缺少有效后缀");
+        }
+        return name.substring(idx).toLowerCase();
+    }
+
+    private String extractDocxText(String sourcePath) {
         List<String> paragraphs = new ArrayList<>();
         Path path = Paths.get(sourcePath);
 
@@ -99,7 +127,29 @@ public class DocumentIngestionAsyncService {
             throw new BusinessException("D422", "Word 文档解析失败");
         }
 
-        String merged = String.join("\n", paragraphs).trim();
+        return String.join("\n", paragraphs).trim();
+    }
+
+    private String extractPdfText(String sourcePath) {
+        Path path = Paths.get(sourcePath);
+        try (PDDocument document = Loader.loadPDF(path.toFile())) {
+            PDFTextStripper stripper = new PDFTextStripper();
+            return stripper.getText(document).trim();
+        } catch (IOException ex) {
+            throw new BusinessException("D422", "PDF 文档解析失败");
+        }
+    }
+
+    private String extractPlainText(String sourcePath) {
+        Path path = Paths.get(sourcePath);
+        try {
+            return Files.readString(path, StandardCharsets.UTF_8).trim();
+        } catch (IOException ex) {
+            throw new BusinessException("D422", "文本类文档解析失败");
+        }
+    }
+
+    private List<String> chunkText(String merged) {
         if (!StringUtils.hasText(merged)) {
             return List.of();
         }
