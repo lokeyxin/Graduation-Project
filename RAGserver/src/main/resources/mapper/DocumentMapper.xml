@@ -19,6 +19,13 @@
         VALUES (#{userId}, #{documentName}, #{sourcePath}, #{status})
     </insert>
 
+    <select id="findById" resultMap="DocumentResultMap">
+        SELECT document_id, user_id, document_name, source_path, status, created_at, updated_at
+        FROM t_document
+        WHERE document_id = #{documentId}
+        LIMIT 1
+    </select>
+
     <select id="findByUserIdAndDocumentName" resultMap="DocumentResultMap">
         SELECT document_id, user_id, document_name, source_path, status, created_at, updated_at
         FROM t_document
@@ -39,6 +46,11 @@
             status = #{status}
         WHERE document_id = #{documentId}
     </update>
+
+    <delete id="deleteById">
+        DELETE FROM t_document
+        WHERE document_id = #{documentId}
+    </delete>
 
     <select id="findByUserId" parameterType="long" resultMap="DocumentResultMap">
         SELECT document_id, user_id, document_name, source_path, status, created_at, updated_at

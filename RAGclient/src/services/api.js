@@ -84,6 +84,12 @@ export function uploadDocument(file, overwrite = false) {
   })
 }
 
+export function deleteDocument(documentId) {
+  return request(`/documents/${documentId}`, {
+    method: 'DELETE',
+  })
+}
+
 export async function streamChat(payload, handlers) {
   const token = localStorage.getItem('ragToken')
   let response

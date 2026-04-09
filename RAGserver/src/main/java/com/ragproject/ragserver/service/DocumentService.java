@@ -9,8 +9,10 @@ import com.ragproject.ragserver.model.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,6 +33,7 @@ public class DocumentService {
     private final DocumentMapper documentMapper;
     private final KnowledgeItemMapper knowledgeItemMapper;
     private final DocumentIngestionAsyncService documentIngestionAsyncService;
+    private final KnowledgeIndexService knowledgeIndexService;
 
     @Value("${app.upload.knowledge-dir:uploads/knowledge}")
     private String knowledgeUploadDir;
@@ -45,10 +48,12 @@ public class DocumentService {
      */
     public DocumentService(DocumentMapper documentMapper,
                            KnowledgeItemMapper knowledgeItemMapper,
-                           DocumentIngestionAsyncService documentIngestionAsyncService) {
+                           DocumentIngestionAsyncService documentIngestionAsyncService,
+                           ObjectProvider<KnowledgeIndexService> knowledgeIndexServiceProvider) {
         this.documentMapper = documentMapper;
         this.knowledgeItemMapper = knowledgeItemMapper;
         this.documentIngestionAsyncService = documentIngestionAsyncService;
+        this.knowledgeIndexService = knowledgeIndexServiceProvider.getIfAvailable();
     }
 
     /**
@@ -101,6 +106,39 @@ public class DocumentService {
         return documentMapper.findByUserId(userId).stream()
                 .map(doc -> new DocumentResponse(doc.getDocumentId(), doc.getDocumentName(), doc.getStatus(), doc.getCreatedAt()))
                 .toList();
+    }
+
+    @Transactional
+    public void deleteDocument(Long userId, Long documentId) {
+        Document document = documentMapper.findById(documentId);
+        if (document == null) {
+            throw new BusinessException("D404", "文档不存在或已删除");
+        }
+
+        if (!document.getUserId().equals(userId)) {
+            throw new BusinessException("D403", "无权删除该文档");
+        }
+
+        if (document.getStatus() != null && document.getStatus() == STATUS_PROCESSING) {
+            throw new BusinessException("D409", "文档处理中，暂不支持删除");
+        }
+
+        if (knowledgeIndexService != null) {
+            try {
+                knowledgeIndexService.deleteByDocumentId(documentId);
+            } catch (Exception ex) {
+                throw new BusinessException("D500", "文档索引删除失败，请稍后重试");
+            }
+        }
+
+        knowledgeItemMapper.deleteByDocumentId(documentId);
+        int deleted = documentMapper.deleteById(documentId);
+        if (deleted <= 0) {
+            throw new BusinessException("D404", "文档不存在或已删除");
+        }
+
+        deleteFileQuietly(document.getSourcePath());
+        log.info("Document deleted. userId={}, documentId={}", userId, documentId);
     }
 
     /**

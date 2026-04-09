@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref, nextTick } from 'vue'
-import { createSession, listDocuments, listMessages, listSessions, login, streamChat, uploadDocument } from './services/api'
+import { createSession, deleteDocument, listDocuments, listMessages, listSessions, login, streamChat, uploadDocument } from './services/api'
 
 const username = ref('demo01')
 const password = ref('123456')
@@ -21,6 +21,7 @@ const documentList = ref([])
 const uploadFile = ref(null)
 const uploadFileInput = ref(null)
 const uploadLoading = ref(false)
+const deletingDocumentId = ref(null)
 const knowledgeMessage = ref('')
 const knowledgeError = ref('')
 const documentPollingTimer = ref(null)
@@ -300,6 +301,31 @@ async function submitDocumentUpload() {
   }
 }
 
+async function handleDeleteDocument(doc) {
+  if (!doc?.documentId || deletingDocumentId.value !== null) return
+  if (doc.status === DOCUMENT_PROCESSING_STATUS) {
+    knowledgeError.value = '文档处理中，暂不支持删除。'
+    return
+  }
+
+  const confirmed = window.confirm(`确认删除文档“${doc.documentName}”吗？删除后无法恢复。`)
+  if (!confirmed) return
+
+  knowledgeMessage.value = ''
+  knowledgeError.value = ''
+  deletingDocumentId.value = doc.documentId
+
+  try {
+    await deleteDocument(doc.documentId)
+    knowledgeMessage.value = `删除成功：${doc.documentName}`
+    await loadDocumentListSilently()
+  } catch (error) {
+    knowledgeError.value = error?.message || '删除失败，请重试。'
+  } finally {
+    deletingDocumentId.value = null
+  }
+}
+
 onMounted(async () => {
   // 按需求强制每次进入都显示登录页。
   localStorage.removeItem('ragToken')
@@ -418,6 +444,13 @@ onBeforeUnmount(() => {
               <div class="docMeta">
                 <span class="docStatus">{{ statusText(doc.status) }}</span>
                 <span>{{ new Date(doc.createdAt).toLocaleString() }}</span>
+                <button
+                  class="dangerButton"
+                  :disabled="doc.status === DOCUMENT_PROCESSING_STATUS || deletingDocumentId === doc.documentId"
+                  @click="handleDeleteDocument(doc)"
+                >
+                  {{ deletingDocumentId === doc.documentId ? '删除中...' : '删除' }}
+                </button>
               </div>
             </div>
           </div>

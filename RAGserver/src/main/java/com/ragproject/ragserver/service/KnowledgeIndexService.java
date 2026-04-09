@@ -68,6 +68,15 @@ public class KnowledgeIndexService {
         log.info("Incremental knowledge indexing finished, itemCount={}", documents.size());
     }
 
+    public void deleteByDocumentId(Long documentId) {
+        if (documentId == null) {
+            return;
+        }
+        String filterExpression = "documentId == " + documentId;
+        vectorStore.delete(filterExpression);
+        log.info("Vector index delete finished. documentId={}", documentId);
+    }
+
     private void addDocumentsInBatches(List<Document> documents, String source) {
         if (documents == null || documents.isEmpty()) {
             return;
