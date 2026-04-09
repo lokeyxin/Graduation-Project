@@ -4,10 +4,12 @@ import com.ragproject.ragserver.common.BusinessException;
 import com.ragproject.ragserver.dto.response.DocumentResponse;
 import com.ragproject.ragserver.dto.response.DocumentUploadResponse;
 import com.ragproject.ragserver.mapper.DocumentMapper;
+import com.ragproject.ragserver.mapper.KnowledgeItemMapper;
 import com.ragproject.ragserver.model.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,11 +26,10 @@ import java.util.UUID;
 @Service
 public class DocumentService {
     private static final Logger log = LoggerFactory.getLogger(DocumentService.class);
-    private static final int STATUS_FAILED = 0;
-    private static final int STATUS_ACTIVE = 1;
     private static final int STATUS_PROCESSING = 2;
 
     private final DocumentMapper documentMapper;
+    private final KnowledgeItemMapper knowledgeItemMapper;
     private final DocumentIngestionAsyncService documentIngestionAsyncService;
 
     @Value("${app.upload.knowledge-dir:uploads/knowledge}")
@@ -43,8 +44,10 @@ public class DocumentService {
      * 解析 Word 与向量入库是耗时操作，放在异步服务中执行，避免大文件阻塞上传接口线程。
      */
     public DocumentService(DocumentMapper documentMapper,
+                           KnowledgeItemMapper knowledgeItemMapper,
                            DocumentIngestionAsyncService documentIngestionAsyncService) {
         this.documentMapper = documentMapper;
+        this.knowledgeItemMapper = knowledgeItemMapper;
         this.documentIngestionAsyncService = documentIngestionAsyncService;
     }
 
@@ -54,25 +57,44 @@ public class DocumentService {
      * 2. 文档状态置为“处理中”；
      * 3. 立即返回，后台异步执行“解析 + 切片 + 知识项入库 + 向量索引”。
      */
-    public DocumentUploadResponse uploadAndIngestAsync(Long userId, MultipartFile file) {
+    public DocumentUploadResponse uploadAndIngestAsync(Long userId, MultipartFile file, boolean overwrite) {
         validateUpload(file);
 
         String originalName = file.getOriginalFilename();
-        String savedPath = saveFile(file);
+        Document existing = documentMapper.findByUserIdAndDocumentName(userId, originalName);
+        if (existing != null && !overwrite) {
+            throw new BusinessException("D409", "已存在同名文件，请确认是否替换");
+        }
 
-        Document document = new Document();
-        document.setUserId(userId);
-        document.setDocumentName(originalName);
-        document.setSourcePath(savedPath);
-        document.setStatus(STATUS_PROCESSING);
-        documentMapper.insert(document);
+        String savedPath = saveFile(file);
+        Long documentId;
+
+        if (existing == null) {
+            try {
+                Document document = new Document();
+                document.setUserId(userId);
+                document.setDocumentName(originalName);
+                document.setSourcePath(savedPath);
+                document.setStatus(STATUS_PROCESSING);
+                documentMapper.insert(document);
+                documentId = document.getDocumentId();
+            } catch (DuplicateKeyException ex) {
+                deleteFileQuietly(savedPath);
+                throw new BusinessException("D409", "已存在同名文件，请确认是否替换");
+            }
+        } else {
+            knowledgeItemMapper.deleteByDocumentId(existing.getDocumentId());
+            deleteFileQuietly(existing.getSourcePath());
+            documentMapper.updateForReplace(existing.getDocumentId(), savedPath, STATUS_PROCESSING);
+            documentId = existing.getDocumentId();
+        }
 
         // 异步任务只传“轻量且可序列化”的参数，避免在后台线程持有 MultipartFile 流对象。
-        documentIngestionAsyncService.ingestDocxAsync(document.getDocumentId(), originalName, savedPath);
+        documentIngestionAsyncService.ingestDocxAsync(documentId, originalName, savedPath);
 
         log.info("Document accepted for async ingestion. userId={}, documentId={}, file={}",
-                userId, document.getDocumentId(), originalName);
-        return new DocumentUploadResponse(document.getDocumentId(), originalName, STATUS_PROCESSING, null);
+                userId, documentId, originalName);
+        return new DocumentUploadResponse(documentId, originalName, STATUS_PROCESSING, null);
     }
 
     public List<DocumentResponse> listDocuments(Long userId) {
@@ -125,6 +147,17 @@ public class DocumentService {
             return target.toString();
         } catch (IOException ex) {
             throw new BusinessException("D500", "文件保存失败");
+        }
+    }
+
+    private void deleteFileQuietly(String sourcePath) {
+        if (!StringUtils.hasText(sourcePath)) {
+            return;
+        }
+        try {
+            Files.deleteIfExists(Paths.get(sourcePath));
+        } catch (IOException ex) {
+            log.warn("Failed to delete old uploaded file. path={}", sourcePath, ex);
         }
     }
 }

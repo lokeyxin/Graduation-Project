@@ -29,4 +29,9 @@
         </foreach>
     </insert>
 
+    <delete id="deleteByDocumentId">
+        DELETE FROM t_knowledge_item
+        WHERE document_id = #{documentId}
+    </delete>
+
 </mapper>

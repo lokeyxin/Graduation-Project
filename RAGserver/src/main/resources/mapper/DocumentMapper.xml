@@ -19,9 +19,24 @@
         VALUES (#{userId}, #{documentName}, #{sourcePath}, #{status})
     </insert>
 
+    <select id="findByUserIdAndDocumentName" resultMap="DocumentResultMap">
+        SELECT document_id, user_id, document_name, source_path, status, created_at, updated_at
+        FROM t_document
+        WHERE user_id = #{userId}
+          AND document_name = #{documentName}
+        LIMIT 1
+    </select>
+
     <update id="updateStatusById">
         UPDATE t_document
         SET status = #{status}
+        WHERE document_id = #{documentId}
+    </update>
+
+    <update id="updateForReplace">
+        UPDATE t_document
+        SET source_path = #{sourcePath},
+            status = #{status}
         WHERE document_id = #{documentId}
     </update>
 

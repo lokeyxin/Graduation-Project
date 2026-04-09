@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.vectorstore.VectorStore;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.event.EventListener;
@@ -20,9 +21,13 @@ import java.util.Map;
 @ConditionalOnProperty(prefix = "app.rag.index", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class KnowledgeIndexService {
     private static final Logger log = LoggerFactory.getLogger(KnowledgeIndexService.class);
+    private static final int MAX_PROVIDER_BATCH_LIMIT = 10;
 
     private final KnowledgeItemMapper knowledgeItemMapper;
     private final VectorStore vectorStore;
+
+    @Value("${app.rag.index.max-batch-size:10}")
+    private int indexBatchSize;
 
     public KnowledgeIndexService(KnowledgeItemMapper knowledgeItemMapper, VectorStore vectorStore) {
         this.knowledgeItemMapper = knowledgeItemMapper;
@@ -43,7 +48,7 @@ public class KnowledgeIndexService {
                     .map(this::toDocument)
                     .toList();
 
-            vectorStore.add(documents);
+            addDocumentsInBatches(documents, "startup");
             log.info("Knowledge index initialized, itemCount={}", documents.size());
         } catch (Exception ex) {
             log.warn("Failed to initialize knowledge index, fallback to normal chat. reason={}", ex.getMessage());
@@ -59,8 +64,27 @@ public class KnowledgeIndexService {
         List<Document> documents = items.stream()
                 .map(this::toDocument)
                 .toList();
-        vectorStore.add(documents);
+        addDocumentsInBatches(documents, "incremental");
         log.info("Incremental knowledge indexing finished, itemCount={}", documents.size());
+    }
+
+    private void addDocumentsInBatches(List<Document> documents, String source) {
+        if (documents == null || documents.isEmpty()) {
+            return;
+        }
+
+        int safeBatchSize = Math.min(Math.max(indexBatchSize, 1), MAX_PROVIDER_BATCH_LIMIT);
+        int total = documents.size();
+        for (int start = 0; start < total; start += safeBatchSize) {
+            int end = Math.min(start + safeBatchSize, total);
+            vectorStore.add(documents.subList(start, end));
+        }
+
+        if (indexBatchSize > MAX_PROVIDER_BATCH_LIMIT) {
+            log.warn("Configured app.rag.index.max-batch-size={} exceeds provider limit {}, clamped automatically",
+                    indexBatchSize, MAX_PROVIDER_BATCH_LIMIT);
+        }
+        log.info("Vector index write finished. source={}, itemCount={}, batchSize={}", source, total, safeBatchSize);
     }
 
     private Document toDocument(KnowledgeItem item) {

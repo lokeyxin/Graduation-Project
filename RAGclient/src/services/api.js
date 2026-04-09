@@ -41,7 +41,9 @@ async function request(path, options = {}) {
   }
 
   if (!response.ok || !data.success) {
-    throw new Error(data.message || '请求失败')
+    const error = new Error(data.message || '请求失败')
+    error.code = data.code
+    throw error
   }
 
   return data.data
@@ -73,10 +75,10 @@ export function listDocuments() {
   return request('/documents')
 }
 
-export function uploadDocument(file) {
+export function uploadDocument(file, overwrite = false) {
   const formData = new FormData()
   formData.append('file', file)
-  return request('/documents/upload', {
+  return request(`/documents/upload?overwrite=${overwrite}`, {
     method: 'POST',
     body: formData,
   })

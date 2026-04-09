@@ -23,6 +23,7 @@ CREATE TABLE t_document (
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     KEY idx_document_user_id (user_id),
+    UNIQUE KEY uk_document_user_name (user_id, document_name),
     CONSTRAINT fk_document_user_id FOREIGN KEY (user_id) REFERENCES t_user(user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='文档元数据表';
 

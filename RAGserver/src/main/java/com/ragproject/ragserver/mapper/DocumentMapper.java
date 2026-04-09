@@ -10,7 +10,13 @@ import java.util.List;
 public interface DocumentMapper {
     int insert(Document document);
 
+    Document findByUserIdAndDocumentName(@Param("userId") Long userId, @Param("documentName") String documentName);
+
     int updateStatusById(@Param("documentId") Long documentId, @Param("status") Integer status);
+
+    int updateForReplace(@Param("documentId") Long documentId,
+                         @Param("sourcePath") String sourcePath,
+                         @Param("status") Integer status);
 
     List<Document> findByUserId(@Param("userId") Long userId);
 }

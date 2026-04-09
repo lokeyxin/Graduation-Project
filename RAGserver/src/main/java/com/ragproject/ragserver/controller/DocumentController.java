@@ -25,9 +25,10 @@ public class DocumentController {
 
     @PostMapping("/upload")
     public ApiResponse<DocumentUploadResponse> upload(@RequestParam("file") MultipartFile file,
+                                                      @RequestParam(value = "overwrite", defaultValue = "false") boolean overwrite,
                                                       HttpServletRequest servletRequest) {
         Long userId = (Long) servletRequest.getAttribute("currentUserId");
-        return ApiResponse.ok(documentService.uploadAndIngestAsync(userId, file));
+        return ApiResponse.ok(documentService.uploadAndIngestAsync(userId, file, overwrite));
     }
 
     @GetMapping

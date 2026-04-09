@@ -270,8 +270,24 @@ async function submitDocumentUpload() {
   uploadLoading.value = true
 
   try {
-    const result = await uploadDocument(uploadFile.value)
-    knowledgeMessage.value = `上传成功：${result.documentName}（后台正在解析并入库，状态将自动刷新）`
+    let result
+    try {
+      result = await uploadDocument(uploadFile.value, false)
+      knowledgeMessage.value = `上传成功：${result.documentName}（后台正在解析并入库，状态将自动刷新）`
+    } catch (error) {
+      if (error?.code === 'D409') {
+        const shouldOverwrite = window.confirm('已存在同名文件，是否替换原文件并重新入库？')
+        if (!shouldOverwrite) {
+          knowledgeMessage.value = '已取消替换，原文件保持不变。'
+          return
+        }
+        result = await uploadDocument(uploadFile.value, true)
+        knowledgeMessage.value = `已替换上传：${result.documentName}（后台正在重新解析并入库）`
+      } else {
+        throw error
+      }
+    }
+
     uploadFile.value = null
     if (uploadFileInput.value) {
       uploadFileInput.value.value = ''
