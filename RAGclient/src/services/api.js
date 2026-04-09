@@ -71,6 +71,12 @@ export function listMessages(sessionId) {
   return request(`/sessions/${sessionId}/messages`)
 }
 
+export function deleteSession(sessionId) {
+  return request(`/sessions/${sessionId}`, {
+    method: 'DELETE',
+  })
+}
+
 export function listDocuments() {
   return request('/documents')
 }

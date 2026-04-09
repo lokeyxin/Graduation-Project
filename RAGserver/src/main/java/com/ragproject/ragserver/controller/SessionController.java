@@ -38,4 +38,12 @@ public class SessionController {
         Long userId = (Long) servletRequest.getAttribute("currentUserId");
         return ApiResponse.ok(sessionService.listMessages(userId, sessionId));
     }
+
+    @DeleteMapping("/{sessionId}")
+    public ApiResponse<Void> deleteSession(@PathVariable Long sessionId,
+                                           HttpServletRequest servletRequest) {
+        Long userId = (Long) servletRequest.getAttribute("currentUserId");
+        sessionService.deleteSession(userId, sessionId);
+        return ApiResponse.ok(null);
+    }
 }

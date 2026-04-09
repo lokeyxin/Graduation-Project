@@ -35,4 +35,25 @@
         LIMIT 1
     </select>
 
+        <update id="updateStatusBySessionIdAndUserId">
+                UPDATE t_chat_session
+                SET status = #{status}
+                WHERE session_id = #{sessionId}
+                    AND user_id = #{userId}
+        </update>
+
+        <update id="updateStatusByUserId">
+                UPDATE t_chat_session
+                SET status = #{status}
+                WHERE user_id = #{userId}
+                    AND status = 1
+        </update>
+
+        <select id="countActiveByUserId" resultType="int">
+                SELECT COUNT(*)
+                FROM t_chat_session
+                WHERE user_id = #{userId}
+                    AND status = 1
+        </select>
+
 </mapper>

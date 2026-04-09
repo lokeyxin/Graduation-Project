@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref, nextTick } from 'vue'
-import { createSession, deleteDocument, listDocuments, listMessages, listSessions, login, streamChat, uploadDocument } from './services/api'
+import { createSession, deleteDocument, deleteSession, listDocuments, listMessages, listSessions, login, streamChat, uploadDocument } from './services/api'
 
 const username = ref('demo01')
 const password = ref('123456')
@@ -10,6 +10,7 @@ const token = ref('')
 const displayName = ref('')
 
 const sessionList = ref([])
+const deletingSessionId = ref(null)
 const activeSessionId = ref(null)
 const messageList = ref([])
 const inputMessage = ref('')
@@ -157,6 +158,26 @@ async function createNewSession() {
   activeSessionId.value = newSession.sessionId
   messageList.value = []
   return newSession
+}
+
+async function handleDeleteSession(event, sessionId) {
+  event.stopPropagation()
+  if (deletingSessionId.value !== null) return
+
+  const confirmed = window.confirm('确认删除该对话吗？删除后不可恢复。')
+  if (!confirmed) return
+
+  deletingSessionId.value = sessionId
+  errorMessage.value = ''
+
+  try {
+    await deleteSession(sessionId)
+    await loadSessionList()
+  } catch (error) {
+    errorMessage.value = error?.message || '删除会话失败，请重试。'
+  } finally {
+    deletingSessionId.value = null
+  }
 }
 
 async function loadMessages(sessionId) {
@@ -368,16 +389,27 @@ onBeforeUnmount(() => {
           <button class="sessionItem" :class="{ active: currentView === 'knowledge' }" @click="switchView('knowledge')">知识库</button>
         </div>
         <div class="sessionList">
-          <button
+          <div
             v-for="session in sessionList"
             :key="session.sessionId"
-            class="sessionItem"
-            :class="{ active: session.sessionId === activeSessionId }"
-            :disabled="currentView !== 'chat'"
-            @click="loadMessages(session.sessionId)"
+            class="sessionRow"
           >
-            {{ session.title }}
-          </button>
+            <button
+              class="sessionItem"
+              :class="{ active: session.sessionId === activeSessionId }"
+              :disabled="currentView !== 'chat'"
+              @click="loadMessages(session.sessionId)"
+            >
+              {{ session.title }}
+            </button>
+            <button
+              class="sessionDeleteButton"
+              :disabled="deletingSessionId === session.sessionId"
+              @click="handleDeleteSession($event, session.sessionId)"
+            >
+              {{ deletingSessionId === session.sessionId ? '...' : '删' }}
+            </button>
+          </div>
         </div>
         <div class="sidebarFooter">
           <span>{{ displayName }}</span>

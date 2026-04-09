@@ -28,6 +28,13 @@
         LIMIT 1
     </select>
 
+    <select id="findAllActiveUsers" resultMap="UserResultMap">
+        SELECT user_id, username, password_hash, display_name, status, created_at, updated_at
+        FROM t_user
+        WHERE status = 1
+        ORDER BY user_id ASC
+    </select>
+
     <insert id="insert" parameterType="com.ragproject.ragserver.model.User" useGeneratedKeys="true" keyProperty="userId">
         INSERT INTO t_user (username, password_hash, display_name, status)
         VALUES (#{username}, #{passwordHash}, #{displayName}, #{status})

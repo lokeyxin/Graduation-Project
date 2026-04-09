@@ -13,4 +13,12 @@ public interface ChatSessionMapper {
     List<ChatSession> findByUserId(@Param("userId") Long userId);
 
     ChatSession findBySessionIdAndUserId(@Param("sessionId") Long sessionId, @Param("userId") Long userId);
+
+    int updateStatusBySessionIdAndUserId(@Param("sessionId") Long sessionId,
+                                         @Param("userId") Long userId,
+                                         @Param("status") Integer status);
+
+    int updateStatusByUserId(@Param("userId") Long userId, @Param("status") Integer status);
+
+    int countActiveByUserId(@Param("userId") Long userId);
 }

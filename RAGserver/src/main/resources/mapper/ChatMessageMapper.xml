@@ -25,4 +25,9 @@
         ORDER BY message_id ASC
     </select>
 
+    <delete id="deleteBySessionId">
+        DELETE FROM t_chat_message
+        WHERE session_id = #{sessionId}
+    </delete>
+
 </mapper>
