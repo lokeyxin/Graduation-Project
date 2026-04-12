@@ -45,6 +45,7 @@ public class DatabaseSchemaPatchRunner implements CommandLineRunner {
         ensureDocumentIdIndex();
         backfillDocumentIdForLegacyRows();
         ensureDocumentIdForeignKey();
+        ensureGraphEntityLinkTable();
     }
 
     private boolean isMySqlDatabase() {
@@ -110,6 +111,42 @@ public class DatabaseSchemaPatchRunner implements CommandLineRunner {
                 FOREIGN KEY (document_id) REFERENCES t_document(document_id)
                 """);
         log.info("Schema patch applied: added fk_knowledge_document_id");
+    }
+
+    private void ensureGraphEntityLinkTable() {
+        if (tableExists("t_graph_entity_link")) {
+            return;
+        }
+
+        jdbcTemplate.execute("""
+                CREATE TABLE t_graph_entity_link (
+                    id BIGINT PRIMARY KEY AUTO_INCREMENT COMMENT '连接ID',
+                    document_id BIGINT NOT NULL COMMENT '文档ID',
+                    knowledge_id BIGINT NOT NULL COMMENT '知识项ID',
+                    graph_node_id BIGINT NOT NULL COMMENT 'Neo4j节点ID',
+                    entity_name VARCHAR(255) NOT NULL COMMENT '实体名',
+                    entity_type VARCHAR(64) NOT NULL COMMENT '实体类型',
+                    source_chunk_no INT NOT NULL DEFAULT 1 COMMENT '来源分片序号',
+                    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    UNIQUE KEY uk_graph_link_knowledge_node (knowledge_id, graph_node_id),
+                    KEY idx_graph_link_document_id (document_id),
+                    KEY idx_graph_link_knowledge_id (knowledge_id),
+                    CONSTRAINT fk_graph_link_document_id FOREIGN KEY (document_id) REFERENCES t_document(document_id),
+                    CONSTRAINT fk_graph_link_knowledge_id FOREIGN KEY (knowledge_id) REFERENCES t_knowledge_item(knowledge_id)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='MySQL与Neo4j实体连接表'
+                """);
+
+        log.info("Schema patch applied: created table t_graph_entity_link");
+    }
+
+    private boolean tableExists(String tableName) {
+        Integer count = jdbcTemplate.queryForObject("""
+                SELECT COUNT(*)
+                FROM information_schema.TABLES
+                WHERE TABLE_SCHEMA = DATABASE()
+                  AND TABLE_NAME = ?
+                """, Integer.class, tableName);
+        return count != null && count > 0;
     }
 
     private boolean columnExists(String tableName, String columnName) {

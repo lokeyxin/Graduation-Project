@@ -37,6 +37,7 @@ public class DocumentService {
     private final KnowledgeItemMapper knowledgeItemMapper;
     private final DocumentIngestionAsyncService documentIngestionAsyncService;
     private final KnowledgeIndexService knowledgeIndexService;
+    private final GraphKnowledgeService graphKnowledgeService;
 
     @Value("${app.upload.knowledge-dir:uploads/knowledge}")
     private String knowledgeUploadDir;
@@ -52,11 +53,13 @@ public class DocumentService {
     public DocumentService(DocumentMapper documentMapper,
                            KnowledgeItemMapper knowledgeItemMapper,
                            DocumentIngestionAsyncService documentIngestionAsyncService,
-                           ObjectProvider<KnowledgeIndexService> knowledgeIndexServiceProvider) {
+                           ObjectProvider<KnowledgeIndexService> knowledgeIndexServiceProvider,
+                           ObjectProvider<GraphKnowledgeService> graphKnowledgeServiceProvider) {
         this.documentMapper = documentMapper;
         this.knowledgeItemMapper = knowledgeItemMapper;
         this.documentIngestionAsyncService = documentIngestionAsyncService;
         this.knowledgeIndexService = knowledgeIndexServiceProvider.getIfAvailable();
+        this.graphKnowledgeService = graphKnowledgeServiceProvider.getIfAvailable();
     }
 
     /**
@@ -91,6 +94,9 @@ public class DocumentService {
                 throw new BusinessException("D409", "已存在同名文件，请确认是否替换");
             }
         } else {
+            if (graphKnowledgeService != null) {
+                graphKnowledgeService.deleteByDocumentId(existing.getDocumentId());
+            }
             knowledgeItemMapper.deleteByDocumentId(existing.getDocumentId());
             deleteFileQuietly(existing.getSourcePath());
             documentMapper.updateForReplace(existing.getDocumentId(), savedPath, STATUS_PROCESSING);
@@ -131,6 +137,14 @@ public class DocumentService {
                 knowledgeIndexService.deleteByDocumentId(documentId);
             } catch (Exception ex) {
                 throw new BusinessException("D500", "文档索引删除失败，请稍后重试");
+            }
+        }
+
+        if (graphKnowledgeService != null) {
+            try {
+                graphKnowledgeService.deleteByDocumentId(documentId);
+            } catch (Exception ex) {
+                throw new BusinessException("D500", "文档图谱删除失败，请稍后重试");
             }
         }
 

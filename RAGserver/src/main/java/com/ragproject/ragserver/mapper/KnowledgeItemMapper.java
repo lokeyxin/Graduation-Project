@@ -10,6 +10,8 @@ import java.util.List;
 public interface KnowledgeItemMapper {
     List<KnowledgeItem> findActiveItems();
 
+    int insert(KnowledgeItem item);
+
     int insertBatch(@Param("items") List<KnowledgeItem> items);
 
     int deleteByDocumentId(@Param("documentId") Long documentId);

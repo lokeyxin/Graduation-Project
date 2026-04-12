@@ -39,13 +39,16 @@ public class DocumentIngestionAsyncService {
     private final DocumentMapper documentMapper;
     private final KnowledgeItemMapper knowledgeItemMapper;
     private final KnowledgeIndexService knowledgeIndexService;
+    private final GraphKnowledgeService graphKnowledgeService;
 
     public DocumentIngestionAsyncService(DocumentMapper documentMapper,
                                          KnowledgeItemMapper knowledgeItemMapper,
-                                         ObjectProvider<KnowledgeIndexService> knowledgeIndexServiceProvider) {
+                                         ObjectProvider<KnowledgeIndexService> knowledgeIndexServiceProvider,
+                                         ObjectProvider<GraphKnowledgeService> graphKnowledgeServiceProvider) {
         this.documentMapper = documentMapper;
         this.knowledgeItemMapper = knowledgeItemMapper;
         this.knowledgeIndexService = knowledgeIndexServiceProvider.getIfAvailable();
+        this.graphKnowledgeService = graphKnowledgeServiceProvider.getIfAvailable();
     }
 
     /**
@@ -66,7 +69,21 @@ public class DocumentIngestionAsyncService {
             }
 
             List<KnowledgeItem> items = buildKnowledgeItems(documentId, documentName, chunks);
-            knowledgeItemMapper.insertBatch(items);
+            for (int i = 0; i < items.size(); i++) {
+                KnowledgeItem item = items.get(i);
+                knowledgeItemMapper.insert(item);
+
+                // 图谱链路可按配置关闭，不影响知识项主链路落库。
+                if (graphKnowledgeService != null) {
+                    try {
+                        graphKnowledgeService.extractAndPersist(documentId, documentName, item, i + 1);
+                    } catch (Exception graphEx) {
+                        // 图谱失败不影响知识项主链路，避免整单回滚。
+                        log.warn("Graph extraction skipped for one chunk. documentId={}, knowledgeId={}, reason={}",
+                                documentId, item.getKnowledgeId(), graphEx.getMessage());
+                    }
+                }
+            }
 
             // 索引服务可能在某些测试/配置环境下被关闭，因此做可选调用。
             if (knowledgeIndexService != null) {

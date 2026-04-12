@@ -21,6 +21,11 @@
         ORDER BY knowledge_id ASC
     </select>
 
+    <insert id="insert" parameterType="com.ragproject.ragserver.model.KnowledgeItem" useGeneratedKeys="true" keyProperty="knowledgeId">
+        INSERT INTO t_knowledge_item (document_id, question, answer, status)
+        VALUES (#{documentId}, #{question}, #{answer}, #{status})
+    </insert>
+
     <insert id="insertBatch">
         INSERT INTO t_knowledge_item (document_id, question, answer, status)
         VALUES

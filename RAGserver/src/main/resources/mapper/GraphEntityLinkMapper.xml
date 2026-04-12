@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ragproject.ragserver.mapper.GraphEntityLinkMapper">
+
+    <resultMap id="GraphEntityLinkResultMap" type="com.ragproject.ragserver.model.GraphEntityLink">
+        <id property="id" column="id"/>
+        <result property="documentId" column="document_id"/>
+        <result property="knowledgeId" column="knowledge_id"/>
+        <result property="graphNodeId" column="graph_node_id"/>
+        <result property="entityName" column="entity_name"/>
+        <result property="entityType" column="entity_type"/>
+        <result property="sourceChunkNo" column="source_chunk_no"/>
+        <result property="createdAt" column="created_at"/>
+    </resultMap>
+
+    <insert id="insertBatch">
+        INSERT IGNORE INTO t_graph_entity_link
+        (document_id, knowledge_id, graph_node_id, entity_name, entity_type, source_chunk_no)
+        VALUES
+        <foreach collection="items" item="item" separator=",">
+            (#{item.documentId}, #{item.knowledgeId}, #{item.graphNodeId}, #{item.entityName}, #{item.entityType}, #{item.sourceChunkNo})
+        </foreach>
+    </insert>
+
+    <delete id="deleteByDocumentId">
+        DELETE FROM t_graph_entity_link
+        WHERE document_id = #{documentId}
+    </delete>
+
+</mapper>
