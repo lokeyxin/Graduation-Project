@@ -29,4 +29,33 @@
         WHERE document_id = #{documentId}
     </delete>
 
+    <select id="findByGraphNodeIds" resultMap="GraphEntityLinkResultMap">
+        SELECT id, document_id, knowledge_id, graph_node_id, entity_name, entity_type, source_chunk_no, created_at
+        FROM t_graph_entity_link
+        WHERE graph_node_id IN
+        <foreach collection="graphNodeIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="findDistinctKnowledgeIdsByGraphNodeIds" resultType="long">
+        SELECT DISTINCT knowledge_id
+        FROM t_graph_entity_link
+        WHERE graph_node_id IN
+        <foreach collection="graphNodeIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        ORDER BY knowledge_id ASC
+    </select>
+
+    <select id="findDistinctDocumentIdsByKnowledgeIds" resultType="long">
+        SELECT DISTINCT document_id
+        FROM t_graph_entity_link
+        WHERE knowledge_id IN
+        <foreach collection="knowledgeIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        ORDER BY document_id ASC
+    </select>
+
 </mapper>
