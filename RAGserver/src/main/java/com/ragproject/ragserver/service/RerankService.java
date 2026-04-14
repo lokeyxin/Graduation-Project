@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.client.ResourceAccessException;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -45,6 +46,8 @@ public class RerankService {
 
     public List<RerankResult> rerank(String query, List<String> documents, int topN) {
         if (!rerankEnabled || !StringUtils.hasText(query) || documents == null || documents.isEmpty()) {
+            log.debug("Rerank skipped. enabled={}, queryPresent={}, documentCount={}",
+                    rerankEnabled, StringUtils.hasText(query), documents == null ? 0 : documents.size());
             return List.of();
         }
         if (!StringUtils.hasText(endpoint) || !StringUtils.hasText(apiKey)) {
@@ -52,6 +55,7 @@ public class RerankService {
             return List.of();
         }
 
+        long start = System.currentTimeMillis();
         try {
             Map<String, Object> payload = Map.of(
                     "model", rerankModel,
@@ -102,11 +106,32 @@ public class RerankService {
             }
 
             results.sort(Comparator.comparingDouble(RerankResult::score).reversed());
+            log.debug("Rerank success. documentCount={}, topN={}, resultCount={}, costMs={}",
+                    documents.size(), Math.max(topN, 1), results.size(), System.currentTimeMillis() - start);
             return results;
         } catch (Exception ex) {
-            log.warn("Rerank failed, fallback to vector ranking. reason={}", ex.getMessage());
+            long costMs = System.currentTimeMillis() - start;
+            log.warn("Rerank failed, fallback to vector ranking. failureType={}, costMs={}, reason={}",
+                    classifyFailure(ex), costMs, ex.getMessage());
             return List.of();
         }
+    }
+
+    private String classifyFailure(Exception ex) {
+        if (ex instanceof ResourceAccessException) {
+            String message = ex.getMessage();
+            if (message != null) {
+                String lower = message.toLowerCase();
+                if (lower.contains("connection reset")) {
+                    return "connection-reset";
+                }
+                if (lower.contains("timed out") || lower.contains("timeout")) {
+                    return "timeout";
+                }
+            }
+            return "resource-access";
+        }
+        return "other";
     }
 
     public record RerankResult(int index, double score) {

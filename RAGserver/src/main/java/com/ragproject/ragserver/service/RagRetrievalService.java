@@ -51,6 +51,9 @@ public class RagRetrievalService {
     @Value("${app.rag.hybrid.rrf-weight:0.2}")
     private double rrfWeight;
 
+    @Value("${app.rag.observability.debug-top-n:3}")
+    private int debugTopN;
+
     public RagRetrievalService(VectorStore vectorStore,
                                RerankService rerankService,
                                ObjectProvider<GraphRetrievalService> graphRetrievalServiceProvider) {
@@ -64,9 +67,11 @@ public class RagRetrievalService {
             return "";
         }
 
+        String trimmedQuestion = question.trim();
+        long start = System.currentTimeMillis();
         try {
             SearchRequest request = SearchRequest.builder()
-                    .query(question.trim())
+                    .query(trimmedQuestion)
                     .topK(Math.max(recallTopK, 1))
                     .build();
 
@@ -76,16 +81,27 @@ public class RagRetrievalService {
             }
 
             List<Candidate> vectorCandidates = buildCandidates(documents, "vector", Map.of(), false);
-            List<Candidate> graphCandidates = buildGraphVectorCandidates(question.trim());
+                List<Candidate> graphCandidates = buildGraphVectorCandidates(trimmedQuestion);
             List<Candidate> merged = mergeCandidates(vectorCandidates, graphCandidates);
+
+                log.info("RAG retrieval summary. questionLength={}, vectorCandidates={}, graphCandidates={}, mergedCandidates={}",
+                    trimmedQuestion.length(), vectorCandidates.size(), graphCandidates.size(), merged.size());
+
             if (merged.isEmpty()) {
+                log.info("RAG retrieval returned empty context. questionLength={}, costMs={}",
+                    trimmedQuestion.length(), System.currentTimeMillis() - start);
                 return "";
             }
 
-            List<Candidate> rankedCandidates = applyRerank(question.trim(), merged);
+                List<Candidate> rankedCandidates = applyRerank(trimmedQuestion, merged);
             List<Candidate> finalCandidates = rankedCandidates.stream()
                     .limit(Math.max(finalTopK, 1))
                     .toList();
+
+                log.info("RAG ranking summary. rankedCandidates={}, finalCandidates={}, finalTopK={}",
+                    rankedCandidates.size(), finalCandidates.size(), Math.max(finalTopK, 1));
+
+                logDebugCandidates("RAG final candidates", finalCandidates, Math.max(debugTopN, 1));
 
             StringBuilder contextBuilder = new StringBuilder();
             int hitIndex = 1;
@@ -110,7 +126,10 @@ public class RagRetrievalService {
                         .append("\n\n");
             }
 
-            return contextBuilder.toString().trim();
+            String context = contextBuilder.toString().trim();
+            log.info("RAG context built. finalContextLength={}, costMs={}",
+                    context.length(), System.currentTimeMillis() - start);
+            return context;
         } catch (Exception ex) {
             log.warn("RAG retrieval failed, fallback to normal chat. reason={}", ex.getMessage());
             return "";
@@ -337,6 +356,25 @@ public class RagRetrievalService {
 
     private String formatScore(double score) {
         return String.format("%.4f", score);
+    }
+
+    private void logDebugCandidates(String tag, List<Candidate> candidates, int maxCount) {
+        if (!log.isDebugEnabled() || candidates == null || candidates.isEmpty()) {
+            return;
+        }
+
+        int limit = Math.min(Math.max(maxCount, 1), candidates.size());
+        for (int i = 0; i < limit; i++) {
+            Candidate candidate = candidates.get(i);
+            log.debug("{}[{}] knowledgeId={}, route={}, vectorScore={}, rerankScore={}, finalScore={}",
+                    tag,
+                    i + 1,
+                    candidate.knowledgeId(),
+                    candidate.route(),
+                    formatScore(candidate.vectorScore()),
+                    formatScore(candidate.rerankScore()),
+                    formatScore(candidate.finalScore()));
+        }
     }
 
     private record Candidate(
