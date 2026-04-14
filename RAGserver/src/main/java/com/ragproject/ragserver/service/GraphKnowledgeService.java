@@ -19,11 +19,13 @@ import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 @Service
 @ConditionalOnProperty(prefix = "app.graph", name = "enabled", havingValue = "true", matchIfMissing = true)
@@ -32,6 +34,10 @@ public class GraphKnowledgeService {
 
     private static final Set<String> ALLOWED_ENTITY_TYPES = Set.of("PERSON", "ORGANIZATION", "LOCATION", "CONCEPT", "EVENT");
     private static final Set<String> ALLOWED_RELATION_TYPES = Set.of("RELATED_TO", "MENTIONS", "WORKS_FOR", "LOCATED_IN", "PART_OF");
+    private static final Pattern PERSON_PATTERN = Pattern.compile("^[\\p{IsHan}]{2,4}$|^[A-Za-z]+(?:\\s+[A-Za-z]+)+$");
+    private static final Pattern ORG_HINT_PATTERN = Pattern.compile("公司|集团|大学|学院|学校|医院|法院|检察院|政府|委员会|研究所|实验室|协会|银行");
+    private static final Pattern LOCATION_HINT_PATTERN = Pattern.compile("省|市|区|县|镇|乡|村|路|街|大道|园区|中国|美国|欧洲|亚洲|北京|上海|广州|深圳");
+    private static final Pattern EVENT_HINT_PATTERN = Pattern.compile("会议|峰会|发布会|论坛|比赛|战争|事故|活动|展会|运动会|演练");
 
     private final EntityExtractionService entityExtractionService;
     private final GraphEntityNodeRepository graphEntityNodeRepository;
@@ -58,13 +64,16 @@ public class GraphKnowledgeService {
 
         Map<String, GraphEntityNode> entityNodeMap = new HashMap<>();
         List<GraphEntityLink> links = new ArrayList<>();
+        Map<String, Integer> typeDistribution = new LinkedHashMap<>();
 
         for (ExtractedEntity extractedEntity : extraction.getEntities()) {
             String entityName = normalizeText(extractedEntity == null ? null : extractedEntity.getName());
             String entityType = normalizeEnum(extractedEntity == null ? null : extractedEntity.getType());
+            entityType = correctEntityType(entityName, entityType);
             if (!StringUtils.hasText(entityName) || !ALLOWED_ENTITY_TYPES.contains(entityType)) {
                 continue;
             }
+            typeDistribution.merge(entityType, 1, Integer::sum);
 
             String normalizedName = normalizeName(entityName);
             GraphEntityNode node = getOrCreateNode(documentId, item.getKnowledgeId(), entityName, normalizedName, entityType);
@@ -82,6 +91,11 @@ public class GraphKnowledgeService {
 
         if (!links.isEmpty()) {
             graphEntityLinkMapper.insertBatch(links);
+        }
+
+        if (!typeDistribution.isEmpty()) {
+            log.info("Graph entity distribution. documentId={}, knowledgeId={}, distribution={}",
+                    documentId, item.getKnowledgeId(), typeDistribution);
         }
 
         if (extraction.getRelations() == null || extraction.getRelations().isEmpty()) {
@@ -186,6 +200,31 @@ public class GraphKnowledgeService {
             return "";
         }
         return value.trim().toUpperCase(Locale.ROOT);
+    }
+
+    private String correctEntityType(String entityName, String entityType) {
+        if (!StringUtils.hasText(entityName)) {
+            return entityType;
+        }
+
+        String normalizedType = normalizeEnum(entityType);
+        if (!"CONCEPT".equals(normalizedType)) {
+            return normalizedType;
+        }
+
+        if (ORG_HINT_PATTERN.matcher(entityName).find()) {
+            return "ORGANIZATION";
+        }
+        if (LOCATION_HINT_PATTERN.matcher(entityName).find()) {
+            return "LOCATION";
+        }
+        if (EVENT_HINT_PATTERN.matcher(entityName).find()) {
+            return "EVENT";
+        }
+        if (PERSON_PATTERN.matcher(entityName).find()) {
+            return "PERSON";
+        }
+        return normalizedType;
     }
 
     private String normalizeName(String value) {

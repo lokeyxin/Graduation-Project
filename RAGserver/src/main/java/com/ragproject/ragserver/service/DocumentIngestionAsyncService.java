@@ -103,14 +103,14 @@ public class DocumentIngestionAsyncService {
      * 解析本地文档并切片：
      * - docx: 使用 Apache POI 提取段落文本；
      * - pdf: 使用 PDFBox 提取全文文本；
-     * - md/txt/json: 按 UTF-8 原文读取。
+     * - md/txt/json/jsonl: 按 UTF-8 原文读取。
      */
     private List<String> parseAndChunkDocument(String sourcePath, String documentName) {
         String extension = resolveExtension(sourcePath, documentName);
         String text = switch (extension) {
             case ".docx" -> extractDocxText(sourcePath);
             case ".pdf" -> extractPdfText(sourcePath);
-            case ".md", ".txt", ".json" -> extractPlainText(sourcePath);
+            case ".md", ".txt", ".json", ".jsonl" -> extractPlainText(sourcePath);
             default -> throw new BusinessException("D415", "暂不支持该文件格式: " + extension);
         };
 
