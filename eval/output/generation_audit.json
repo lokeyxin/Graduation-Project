@@ -1,13 +1,14 @@
 {
-  "run_name": "smoke-start",
-  "size_per_source": 10,
+  "run_name": "ragas-real",
+  "size_per_source": 50,
   "distribution": "simple:0.4,reasoning:0.4,multi_context:0.2",
   "sources": {
     "nq": {
-      "generated": 10,
-      "target": 10,
-      "status": "ok"
+      "generated": 0,
+      "target": 50,
+      "status": "error",
+      "message": "Documents appears to be too short (ie 100 tokens or less). Please provide longer documents."
     }
   },
-  "note": "当前版本已完成多源生成框架入口；LLM生成与critic过滤将在下一步接入RAGAS TestsetGenerator。"
+  "note": "RAGAS TestsetGenerator enabled"
 }

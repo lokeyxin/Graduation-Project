@@ -1,0 +1,82 @@
+[
+  {
+    "index": 0,
+    "user_input": "the last time la dodgers won the world series",
+    "reference": "1988",
+    "response_len": 298,
+    "context_count": 2,
+    "context_avg_len": 757.5
+  },
+  {
+    "index": 1,
+    "user_input": "who sings ain't nothing but a good time",
+    "reference": "Poison",
+    "response_len": 68,
+    "context_count": 2,
+    "context_avg_len": 758.5
+  },
+  {
+    "index": 2,
+    "user_input": "where does the movie the sound of music take place",
+    "reference": "Salzburg, Austria",
+    "response_len": 64,
+    "context_count": 2,
+    "context_avg_len": 758.0
+  },
+  {
+    "index": 3,
+    "user_input": "statue coming out of the ground in washington dc",
+    "reference": "The Awakening",
+    "response_len": 120,
+    "context_count": 2,
+    "context_avg_len": 758.5
+  },
+  {
+    "index": 4,
+    "user_input": "field hockey is the national sport of which country",
+    "reference": "Pakistan",
+    "response_len": 33,
+    "context_count": 2,
+    "context_avg_len": 758.0
+  },
+  {
+    "index": 5,
+    "user_input": "who governs in america’s representative democracy (republic) system",
+    "reference": "Senators",
+    "response_len": 251,
+    "context_count": 2,
+    "context_avg_len": 757.5
+  },
+  {
+    "index": 6,
+    "user_input": "who is the song you're my best friend about",
+    "reference": "Veronica Tetzlaff",
+    "response_len": 132,
+    "context_count": 2,
+    "context_avg_len": 691.0
+  },
+  {
+    "index": 7,
+    "user_input": "where was the church of latter day saints founded",
+    "reference": "April 6, 1830",
+    "response_len": 98,
+    "context_count": 2,
+    "context_avg_len": 757.5
+  },
+  {
+    "index": 8,
+    "user_input": "who os the father of bridget jones baby",
+    "reference": "Mark",
+    "response_len": 109,
+    "context_count": 2,
+    "context_avg_len": 757.0
+  },
+  {
+    "index": 9,
+    "user_input": "who is the nationalist leader associated with the american revolution",
+    "reference": "George Washington",
+    "response_len": 198,
+    "context_count": 2,
+    "context_avg_len": 757.0
+  }
+]

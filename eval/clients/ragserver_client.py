@@ -1,4 +1,3 @@
-from dataclasses import asdict
 from typing import Any, Dict
 
 import requests
