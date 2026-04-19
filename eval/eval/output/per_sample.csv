@@ -1,0 +1,105 @@
+question_id,source_id,difficulty,question,answer,retrieved_count,latency_ms,used_rag,request_id
+nq-1,nq,simple,the last time la dodgers won the world series,根据提供的知识片段，洛杉矶道奇队（LA Dodgers）上一次赢得世界系列赛（World Series）是在1988年。,5,4640,True,118634e5-3891-4100-8105-4fd536adb28d
+nq-2,nq,simple,who sings ain't nothing but a good time,"The song ""Ain't Nothing but a Good Time"" is sung by the band Poison.",5,2922,True,b3eeb8ad-7f49-43ed-bf04-665554c3d322
+nq-3,nq,simple,where does the movie the sound of music take place,"The movie ""The Sound of Music"" takes place in Salzburg, Austria.",5,3371,True,0440ea56-3053-4c3e-839e-be92fc527fac
+nq-4,nq,simple,statue coming out of the ground in washington dc,"The statue coming out of the ground in Washington D.C. is known as ""The Awakening.""",5,3728,True,ba40fed0-3b26-4af8-a977-a9a4df3f1927
+nq-5,nq,simple,field hockey is the national sport of which country,"根据提供的知识片段，曲棍球是巴基斯坦的国球。具体信息来自第一条知识片段，其答案为 ""Pakistan""。其他片段没有提供与此问题相关的信息，因此我们依据这条信息作答。如果您有更多关于其他国家体育项目的问题，欢迎继续询问！",5,5198,True,04a2e231-d458-4878-9565-3faf5e7389a2
+nq-6,nq,simple,who governs in america’s representative democracy (republic) system,"In America's representative democracy, also known as a republic system, the governance is primarily carried out by Senators, who are part of the legislative branch. However, it's important to note that this is a simplified answer. In reality, the U.S. government is divided into three branches: the legislative (which includes both the Senate and the House of Representatives), the executive (headed by the President), and the judicial (headed by the Supreme Court). Each branch plays a crucial role in the governance of the country, with checks and balances in place to ensure no single branch becomes too powerful. 
+
+The provided information specifically mentions Senators, but for a complete understanding, all three branches should be considered.",5,9324,True,fd28768b-de36-4a68-a64b-aec779688179
+nq-7,nq,simple,who is the song you're my best friend about,"The song ""You're My Best Friend"" is about Veronica Tetzlaff. This information comes from the first knowledge fragment, which has a higher final score (0.2250) compared to the other fragments and provides a direct answer to your question.",5,4148,True,23043ed9-4e89-4eec-9fcf-3a85b9c97cad
+nq-8,nq,simple,where was the church of latter day saints founded,"The Church of Jesus Christ of Latter-day Saints was founded on April 6, 1830, in western New York. This information is based on the most relevant and complete answer from the provided knowledge fragments.",5,4121,True,4e9d5f01-7fbc-4d27-9785-fe77a687e38d
+nq-9,nq,simple,who os the father of bridget jones baby,"根据提供的知识片段，Bridget Jones's Baby的父亲是Mark。请注意，这里的""Mark""可能指的是电影中的角色Mark Darcy，由Colin Firth饰演。如果你有更多具体的问题或需要进一步的信息，请告诉我！",5,6055,True,cc4fe3ae-4111-4c6d-84ee-4c9a31d31c5a
+nq-10,nq,simple,who is the nationalist leader associated with the american revolution,"The nationalist leaders associated with the American Revolution include George Washington and Thomas Paine. George Washington was a key military leader and later the first President of the United States, while Thomas Paine was an influential writer whose works, such as ""Common Sense,"" helped to inspire and shape public opinion in favor of independence from British rule.",5,6947,True,7020dd9e-1402-4b68-8e18-8e6738482a75
+nq-11,nq,simple,what color is the president of south koreas house,"The president of South Korea's house, also known as the Blue House or Cheong Wa Dae, is blue in color. This distinctive color gives the official residence its well-known nickname.",5,3065,True,3b80c875-76ca-4b8e-bcf4-ad7214467e10
+nq-12,nq,simple,who is the security general of the un,"The Security General of the UN is António Guterres. 
+
+This information was provided in the first knowledge fragment with a high relevance score, and there were no conflicting details in the other fragments. If you need more information about his role or term, feel free to ask!",5,5588,True,c6c20c14-2912-4e50-9c63-1ce1df386de1
+nq-13,nq,simple,who won the first season of the rap game,"The winner of the first season of ""The Rap Game"" was Miss Mulatto.",5,2329,True,3a9bd077-fc72-45d3-929d-036aa4596d5c
+nq-14,nq,simple,actor who played tommy in terms of endearment,"根据提供的知识片段，没有直接提到在《Terms of Endearment》（《母女情深》）中扮演Tommy的演员信息。因此，我无法从给定的知识片段中直接提供答案。
+
+建议您可以尝试通过其他途径查询该信息，例如使用电影数据库网站（如IMDb）或搜索引擎来查找相关演员信息。如果需要进一步的帮助，请随时告诉我！",5,8434,True,17acba35-5654-409e-a1e4-8d15ad78d9be
+nq-15,nq,simple,when did early voting start in the us,"Based on the provided knowledge fragments, there is no specific information about when early voting started in the United States. The relevant fragment was cut off and does not provide a complete answer.
+
+However, I can offer some general information: Early voting in the U.S. has been implemented in various states over time, with some of the earliest instances dating back to the 1970s and 1980s. The exact start date varies by state, as each state has its own laws and regulations regarding early voting. If you need more specific information, it would be best to check the historical records or official sources for the particular state you are interested in.",5,10150,True,257fa0eb-b607-49c1-b4a0-90ae563c26fe
+nq-16,nq,simple,list of longest running tv shows in india,"根据提供的知识片段，印度最长运行的电视节目包括以下几个：
+
+- Abhhishekam
+- Rannaghor
+- Rasoi Show
+- Olimayamana Ethirkaalam
+- Didi No. 1
+- Munshi
+- Star Mahila
+
+这些节目都是在印度播出时间较长的电视节目。请注意，这个列表可能不是完整的，也可能有其他长期播出的节目未被提及。",5,7568,True,59cbc7fd-fbad-447b-aadb-d11b2881bb7f
+nq-17,nq,simple,who wrote i will be home for christmas,"""I'll Be Home for Christmas"" was written by Walter Kent (composer) and Kim Gannon (lyricist). 
+
+This information is based on the most relevant and highest scoring knowledge fragment provided.",5,4411,True,f978277a-464f-4eb7-b676-3b62b426dd7a
+nq-18,nq,simple,icc world cup outside england first time sponsor,"关于首次在英格兰以外举办的ICC板球世界杯的赞助商，有以下信息：
+
+- 根据一条信息，赞助商是Prudential plc。
+- 另一条信息提到，除了Prudential plc外，还有巴基斯坦和印度。
+
+综合来看，**Prudential plc** 是首次在英格兰以外（具体为印度和巴基斯坦）举办的ICC板球世界杯的主要赞助商。其他信息表明，该赛事还得到了来自举办国的支持。请注意，这里可能存在一些细微差异，但Prudential plc作为主要赞助商的信息较为明确。",5,11468,True,0684e569-ef5f-42dd-abef-180490fe5902
+nq-19,nq,simple,when is the draw for the european championships 2020,"The draw for the European Championships 2020 took place on **1 December 2019**. 
+
+This information is based on the highest scoring and most relevant knowledge fragment provided. If you have any other questions or need further details, feel free to ask!",5,3742,True,49525c04-8c18-486f-9484-ff3f73f7a6fb
+nq-20,nq,simple,who plays the medical examiner on hawaii five-o,"The medical examiner on ""Hawaii Five-0"" is played by Masi Oka. This information comes from the highest scoring and most relevant knowledge fragment provided.",5,4906,True,4daed195-84c6-4104-b96f-2e62dbdbb750
+nq-21,nq,simple,which piece of legislation placed the protections in the european convention on human rights,"The protections in the European Convention on Human Rights were placed through the efforts of the Council of Europe. However, it's important to note that the European Convention on Human Rights itself is a treaty rather than a piece of national legislation. It was opened for signature in 1950 by the Council of Europe and came into force in 1953. The convention sets out a number of fundamental rights and freedoms that are protected across all member states of the Council of Europe. If you're asking about specific national legislation that incorporates these protections, it would vary by country. For example, in the UK, the Human Rights Act 1998 is the key piece of legislation that incorporates the rights set out in the European Convention on Human Rights into domestic law.",5,11943,True,1ed77325-80ae-4018-88af-96af7f536bfe
+nq-22,nq,simple,who sang vande maataram in 1896 congress session,"根据提供的知识片段，1896年国会上演唱《Vande Mataram》的是Rabindranath Tagore。这一信息来自分数较高的知识片段（命中知识1 [rerank=0.9181, final=0.2786]）。因此，可以确定答案是Rabindranath Tagore。",5,7695,True,61d897b2-2864-4ad7-948f-4a681bdfba34
+nq-23,nq,simple,who were the sponsor of the icc world cup when it was hosted outside england for the first time,"When the ICC World Cup was hosted outside England for the first time, the sponsors were Prudential plc, and the event was co-hosted by Pakistan and India. 
+
+This information is based on the higher-scoring and more detailed knowledge fragments provided. If you need more specific details or have any other questions, feel free to ask!",5,3861,True,6f257fef-b652-43c0-8e5c-95a2067c6ab4
+nq-24,nq,simple,what is the most uneducated state in america,"According to the provided knowledge, there are conflicting answers regarding the most uneducated state in America. The first relevant piece of information (from 命中知识1) suggests that both California and West Virginia could be considered the most uneducated states in America. However, this is a bit unusual as these two states typically have different educational profiles. 
+
+To provide a more accurate answer, it's important to clarify the specific metric used to determine ""most uneducated,"" such as high school graduation rates, college degree attainment, or other educational indicators. Without this context, it's difficult to definitively state which state is the most uneducated.
+
+If you need more detailed or up-to-date information, I recommend checking the latest data from sources like the U.S. Census Bureau or the National Center for Education Statistics.",5,9889,True,70760008-995a-433f-a34a-8dbbb4c8176c
+nq-25,nq,simple,who makes the most tires in the world,"According to the information provided, Lego is mentioned as making the most tires in the world. However, this is likely a playful or figurative statement, as Lego produces toy tires, not actual vehicle tires. For real-world tire production, companies like Bridgestone, Michelin, and Goodyear are typically recognized as leading manufacturers. If you need more specific or detailed information about tire production, I would recommend checking the latest industry reports or official company data.",5,7202,True,ebbea54d-bcfa-4041-a6e3-db97bf5ede10
+nq-26,nq,simple,who argued with congress during the early years of reconstruction,根据提供的知识片段，与国会在重建时期早期发生争执的是**安德鲁·约翰逊（Andrew Johnson）**。请注意，这里的信息可能存在一定的简化，实际历史事件中涉及的细节和背景可能更为复杂。如果你需要更详细的历史背景信息，建议查阅相关的历史资料或专业书籍。,5,7216,True,6637c1e4-e6f2-46d7-a61f-35157979093d
+nq-27,nq,simple,in humans what determines the gender of the offspring,"在人类中，后代的性别由性染色体决定。具体来说，男性有一个X和一个Y染色体（XY），而女性有两个X染色体（XX）。如果精子携带X染色体与卵子结合，则后代为女性（XX）；如果精子携带Y染色体与卵子结合，则后代为男性（XY）。
+
+虽然知识片段中提到“性激素”、“外生殖器”和“性腺类型”等因素，但这些因素是在受精后发育过程中起作用的，而不是决定性别的初始因素。性别是由受精时的性染色体组合决定的。",5,9943,True,d2b96465-374c-418a-ade1-cfbe847fb8a0
+nq-28,nq,simple,when did rolex daytona stop using zenith movement,"According to the information provided, Rolex Daytona stopped using the Zenith movement in 1975. However, it's important to note that this date seems a bit off, as Rolex started using the Zenith El Primero movement for the Daytona models in 1988 and continued to do so until around 2000, when they transitioned to their in-house movements. If you need more precise or detailed information, I would recommend checking with an official Rolex source or a trusted watch expert.",5,7428,True,1f7f051b-1f6f-443c-bf08-5ea3258394e4
+nq-29,nq,simple,what is the song shine bright like a diamond about,"The song ""Shine Bright Like a Diamond"" is about a prominent concept of love. This interpretation comes from the provided knowledge, which suggests that the song's theme revolves around the idea of love being something enduring and precious, much like a diamond.",5,8045,True,77c88d2d-25d1-4406-afee-c83a8ef7694c
+nq-30,nq,simple,what does the valley mean in los angeles,"When referring to ""the Valley"" in Los Angeles, it typically means the San Fernando Valley. This area is a large, sprawling region located in the northwestern part of Los Angeles, known for its suburban neighborhoods, diverse communities, and significant role in the entertainment industry.",5,4943,True,c89f4c74-6bd5-43a1-ad42-951e73acb7cf
+nq-31,nq,simple,what time period is a league of their own,"""A League of Their Own"" is set during the time period of 1943. This information is based on the most relevant and higher-scored knowledge fragment provided, which indicates that the movie is set in 1943. However, it's also worth noting that the movie was released in 1988, but the story it tells is from the 1940s, specifically focusing on the formation of the All-American Girls Professional Baseball League during World War II.",5,7406,True,c0cb77ba-3cf1-4d1e-b642-f7df74ce1fd0
+nq-32,nq,simple,when was harry potter and the deathly hallows part 2 movie released,"根据提供的知识片段，关于《哈利·波特与死亡圣器（下）》电影的上映时间，有以下信息：
+
+- 在命中知识1中提到该电影的上映时间为“13–15”，但这个答案并不完整且不明确。
+- 在命中知识2中，虽然提到了第一部《哈利·波特》系列电影的上映时间是“2001年11月16日”，但这并不是《哈利·波特与死亡圣器（下）》的上映时间。
+
+遗憾的是，给出的知识片段中没有直接提供《哈利·波特与死亡圣器（下）》具体的上映日期。然而，根据公共知识，《哈利·波特与死亡圣器（下）》实际上是在2011年7月15日于美国首次公映的。如果需要更准确的信息或有其他相关问题，请进一步查询或提供更多的上下文。",5,12217,True,2f3c0a0b-ff52-4cde-9df0-e4fdcdca873d
+nq-33,nq,simple,the man in the high castle who is he,"In ""The Man in the High Castle,"" the character you're referring to is Hawthorne Abendsen. He is a significant figure in the story, known for writing a novel that presents an alternate history where the Axis powers did not win World War II. This makes his work subversive and dangerous in the context of the show's universe, where the Axis powers have control.",5,4759,True,8cc159c7-5fcd-4249-a190-1165fdca43e8
+nq-34,nq,simple,what was the last episode of inspector morse,"The last episode of *Inspector Morse* is titled ""The Remorseful Day.""",5,2343,True,3086ddf4-fead-4e8f-bbee-2642614689d9
+nq-35,nq,simple,who sings this crazy little thing called love,"The song ""Crazy Little Thing Called Love"" is sung by the band Queen, with Freddie Mercury as the lead vocalist. However, the provided knowledge snippets do not contain this specific information. For your query, I recommend checking music databases or the official sources related to the band Queen for more accurate and detailed information. If you have any other questions, feel free to ask!",5,8213,True,e8f6f744-9a63-49c9-87f2-ac1e3ffb7d8c
+nq-36,nq,simple,which console to get red dead redemption 2,"根据提供的知识片段，您可以选择在**PlayStation 4**或**Xbox One**上玩《Red Dead Redemption 2》。这两个平台都支持这款游戏。
+
+请注意，这里的信息是基于现有知识片段给出的。如果您还有其他关于游戏平台的选择需求或者对特定版本有疑问，建议您查看最新的官方信息或游戏评测以做出最适合您的选择。",5,10468,True,b6e3c44e-d61b-4f75-a1ec-11d96204f893
+nq-37,nq,simple,who won her first tennis grand slam in 2018,Simona Halep won her first tennis Grand Slam in 2018. This information is provided by the highest scored and most relevant knowledge fragment available.,5,5046,True,0e076552-0cc1-4e52-b157-45b0cf10585a
+nq-38,nq,simple,who sings i got you under my skin,"""I've Got You Under My Skin"" is a song that has been performed by many artists, but it was originally written by Cole Porter. One of the well-known versions is sung by Virginia Bruce. Therefore, both Cole Porter and Virginia Bruce are associated with this song. If you're referring to a specific version, please provide more details, and I can give you a more precise answer.",5,8314,True,b692eaeb-e1f5-4ce6-966c-5ad72af106bd
+nq-39,nq,simple,where did france colonize in the new world,"According to the information provided, France colonized much of eastern North America, a number of Caribbean islands, and parts of South America in the New World. This answer is based on the most relevant and complete information from the given knowledge fragments.",5,3919,True,0f117639-f6cd-4424-b8d5-c4eb6f0610dd
+nq-40,nq,simple,a management information system is which type of system,"根据提供的知识片段，管理信息系统（Management Information System, MIS）是一种信息系统。具体来说：
+
+- 箔片1中提到：“a management information system is which type of system”，答案是“an information system”和“information system”。
+
+因此，可以明确的是，管理信息系统属于信息系统的一种。",5,4555,True,c8d17d1d-ea7a-4c86-a576-6925ab077326
+nq-41,nq,simple,when did the harry potter movie come out,"The first Harry Potter movie, ""Harry Potter and the Philosopher's Stone"" (also known as ""Harry Potter and the Sorcerer's Stone"" in some regions), was released on November 16, 2001. 
+
+This information is based on the most relevant and highest-scored knowledge fragment provided, which indicates the release date as ""16 November 2001"".",5,8442,True,6ccef278-53c1-49da-b517-55403ffcc9d7
+nq-42,nq,simple,who went home on the first week of dancing with the stars juniors,根据提供的知识片段，没有直接提到《与星共舞》少儿版第一周被淘汰的选手信息。因此，我无法给出具体答案。建议您查看该节目第一季首周的官方报道或相关娱乐新闻，以获取准确信息。如果您有其他问题，欢迎继续提问！,5,4948,True,4bc00c22-14a6-482c-b66f-b6fb238ce5fd
+nq-43,nq,simple,where was the eastern front located in ww1,"The Eastern Front in World War I was located in an area that included most of Eastern Europe. This front primarily involved the conflict between the Central Powers (primarily Germany, Austria-Hungary, Bulgaria, and the Ottoman Empire) and the Allied Powers (mainly Russia, Romania, and later, other countries). The battles were fought across territories such as present-day Poland, Ukraine, Belarus, and parts of the Baltic states.",5,5049,True,176bb9b9-6967-49f1-bafd-d0086b12f7a6
+nq-44,nq,simple,who sings now that we have love what are we going to do with it,"The song ""Now That We Have Love, What Are We Going To Do With It"" is sung by The O'Jays. This information comes from the second knowledge fragment provided, which has a higher relevance score (rerank=0.5599) compared to the others and directly answers your question.",5,4035,True,1a3c4390-f192-43c2-aaad-e37fe5906a22
+nq-45,nq,simple,who played apollo creed in the original rocky,在最初的《洛奇》电影中，阿波罗·克里德这一角色是由卡尔·韦瑟斯（Carl Weathers）扮演的。,5,3648,True,8cf07cc9-1c45-4e4b-a694-84917adb9f21
+nq-46,nq,simple,kuchipudi is a dance form of which state,Kuchipudi is a dance form of Andhra Pradesh.,5,3938,True,dcb1830d-0aab-461f-b2e7-f667071b9b27
+nq-47,nq,simple,what is the meaning of zhongguo renmin yinhang,"The meaning of ""Zhongguo Renmin Yinhang"" is ""People's Bank of China."" This is the central bank of the People's Republic of China, responsible for implementing monetary policy and maintaining financial stability. 
+
+This answer is based on the information provided in the first knowledge fragment, which has the highest rerank score (0.8243) among the given fragments.",5,12453,True,01aea616-8bd2-4abf-8201-6ca84c6ba603
+nq-48,nq,simple,where was the lion king musical first performed,"""The Lion King"" musical was first performed on July 8, 1997, at the Orpheum Theatre in Minneapolis, Minnesota. 这个信息来自分数较高的知识片段，因此具有较高的可信度。",5,7873,True,27715c9c-df10-4abe-9f1d-58483960040d
+nq-49,nq,simple,the federal housing administration (fha) insures lenders against,"The provided knowledge fragments do not contain specific information about what the Federal Housing Administration (FHA) insures lenders against. However, based on general knowledge, the FHA insures lenders against losses that may occur if a borrower defaults on their mortgage. This insurance is designed to encourage lenders to offer mortgages to homebuyers who might not otherwise qualify for a loan, thereby making homeownership more accessible.
+
+If you need more detailed or specific information, I would recommend checking the official website of the U.S. Department of Housing and Urban Development (HUD) or other reliable sources.",5,7637,True,244712a1-06c0-4410-a756-69662a53802e
+nq-50,nq,simple,when the united states entered world war 1 it joined what powers,"When the United States entered World War I, it joined the Allied Powers. The information provided in the knowledge fragments is incomplete, but based on historical context, the Allied Powers included countries such as the United Kingdom, France, and Russia. 
+
+If you need more detailed information about the specific countries or further details about the U.S. entry into World War I, I would recommend consulting a reliable history source or a more comprehensive database.",5,7512,True,67a9ab21-f751-4dd7-a9c5-6b66d618133b

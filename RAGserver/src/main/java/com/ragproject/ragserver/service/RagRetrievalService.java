@@ -63,8 +63,13 @@ public class RagRetrievalService {
     }
 
     public String retrieveContext(String question) {
+        RetrievalResult result = retrieveForEval(question, null, false);
+        return result.contextText();
+    }
+
+    public RetrievalResult retrieveForEval(String question, Integer topKOverride, boolean includeDebug) {
         if (!StringUtils.hasText(question)) {
-            return "";
+            return new RetrievalResult("", List.of(), 0L);
         }
 
         String trimmedQuestion = question.trim();
@@ -84,35 +89,40 @@ public class RagRetrievalService {
                 List<Candidate> graphCandidates = buildGraphVectorCandidates(trimmedQuestion);
             List<Candidate> merged = mergeCandidates(vectorCandidates, graphCandidates);
 
-                log.info("RAG retrieval summary. questionLength={}, vectorCandidates={}, graphCandidates={}, mergedCandidates={}",
+            log.info("RAG retrieval summary. questionLength={}, vectorCandidates={}, graphCandidates={}, mergedCandidates={}",
                     trimmedQuestion.length(), vectorCandidates.size(), graphCandidates.size(), merged.size());
 
             if (merged.isEmpty()) {
                 log.info("RAG retrieval returned empty context. questionLength={}, costMs={}",
-                    trimmedQuestion.length(), System.currentTimeMillis() - start);
-                return "";
+                        trimmedQuestion.length(), System.currentTimeMillis() - start);
+                return new RetrievalResult("", List.of(), System.currentTimeMillis() - start);
             }
 
-                List<Candidate> rankedCandidates = applyRerank(trimmedQuestion, merged);
+            List<Candidate> rankedCandidates = applyRerank(trimmedQuestion, merged);
+            int desiredTopK = Math.max(topKOverride == null ? finalTopK : topKOverride, 1);
             List<Candidate> finalCandidates = rankedCandidates.stream()
-                    .limit(Math.max(finalTopK, 1))
+                    .limit(desiredTopK)
                     .toList();
 
-                log.info("RAG ranking summary. rankedCandidates={}, finalCandidates={}, finalTopK={}",
-                    rankedCandidates.size(), finalCandidates.size(), Math.max(finalTopK, 1));
+            log.info("RAG ranking summary. rankedCandidates={}, finalCandidates={}, finalTopK={}",
+                    rankedCandidates.size(), finalCandidates.size(), desiredTopK);
 
+            if (includeDebug) {
                 logDebugCandidates("RAG final candidates", finalCandidates, Math.max(debugTopN, 1));
+            }
 
             StringBuilder contextBuilder = new StringBuilder();
+            List<RetrievalContext> retrievalContexts = new ArrayList<>();
             int hitIndex = 1;
             for (Candidate candidate : finalCandidates) {
                 String content = candidate.content();
                 if (!StringUtils.hasText(content)) {
                     continue;
                 }
+                int rank = hitIndex;
                 contextBuilder
                         .append("命中知识")
-                        .append(hitIndex++)
+                        .append(rank)
                         .append(" [vector=")
                         .append(formatScore(candidate.vectorScore()))
                         .append(", rerank=")
@@ -124,15 +134,25 @@ public class RagRetrievalService {
                         .append("]:\n")
                         .append(content.trim())
                         .append("\n\n");
+                    retrievalContexts.add(new RetrievalContext(
+                        candidate.knowledgeId(),
+                        content.trim(),
+                        candidate.vectorScore(),
+                        candidate.rerankScore(),
+                        candidate.finalScore(),
+                        candidate.route(),
+                        rank));
+                    hitIndex++;
             }
 
             String context = contextBuilder.toString().trim();
+                    long costMs = System.currentTimeMillis() - start;
             log.info("RAG context built. finalContextLength={}, costMs={}",
-                    context.length(), System.currentTimeMillis() - start);
-            return context;
+                        context.length(), costMs);
+                    return new RetrievalResult(context, retrievalContexts, costMs);
         } catch (Exception ex) {
             log.warn("RAG retrieval failed, fallback to normal chat. reason={}", ex.getMessage());
-            return "";
+                    return new RetrievalResult("", List.of(), System.currentTimeMillis() - start);
         }
     }
 
@@ -388,4 +408,22 @@ public class RagRetrievalService {
             String route
     ) {
     }
+
+            public record RetrievalContext(
+                Long knowledgeId,
+                String content,
+                double vectorScore,
+                double rerankScore,
+                double finalScore,
+                String route,
+                int rank
+            ) {
+            }
+
+            public record RetrievalResult(
+                String contextText,
+                List<RetrievalContext> contexts,
+                long costMs
+            ) {
+            }
 }

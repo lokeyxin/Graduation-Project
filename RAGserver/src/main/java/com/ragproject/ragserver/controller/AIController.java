@@ -1,6 +1,9 @@
 package com.ragproject.ragserver.controller;
 
+import com.ragproject.ragserver.common.ApiResponse;
+import com.ragproject.ragserver.dto.request.ChatEvalRequest;
 import com.ragproject.ragserver.dto.request.ChatStreamRequest;
+import com.ragproject.ragserver.dto.response.ChatEvalResponse;
 import com.ragproject.ragserver.service.ChatService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -36,5 +39,16 @@ public class AIController {
         log.info("Chat stream request accepted. userId={}, sessionId={}, messageLength={}",
                 userId, sessionId, messageLength);
         return chatService.streamChat(userId, request.getSessionId(), request.getMessage());
+    }
+
+    @PostMapping("/eval")
+    public ApiResponse<ChatEvalResponse> chatEval(@RequestBody ChatEvalRequest request,
+                                                  HttpServletRequest servletRequest) {
+        Long userId = (Long) servletRequest.getAttribute("currentUserId");
+        int messageLength = request != null && request.getQuestion() != null ? request.getQuestion().length() : 0;
+        Long sessionId = request != null ? request.getSessionId() : null;
+        log.info("Chat eval request accepted. userId={}, sessionId={}, messageLength={}",
+                userId, sessionId, messageLength);
+        return ApiResponse.ok(chatService.evalChat(userId, request));
     }
 }

@@ -1,0 +1,13 @@
+{
+  "run_name": "smoke-start",
+  "size_per_source": 50,
+  "distribution": "simple:0.4,reasoning:0.4,multi_context:0.2",
+  "sources": {
+    "nq": {
+      "generated": 50,
+      "target": 50,
+      "status": "ok"
+    }
+  },
+  "note": "当前版本已完成多源生成框架入口；LLM生成与critic过滤将在下一步接入RAGAS TestsetGenerator。"
+}

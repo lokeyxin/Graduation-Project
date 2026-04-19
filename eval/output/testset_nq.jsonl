@@ -1,0 +1,10 @@
+{"question_id": "nq-1", "source_id": "nq", "difficulty": "simple", "question": "the last time la dodgers won the world series", "ground_truths": ["1988"], "metadata": {"line_no": 1}}
+{"question_id": "nq-2", "source_id": "nq", "difficulty": "simple", "question": "who sings ain't nothing but a good time", "ground_truths": ["Poison"], "metadata": {"line_no": 2}}
+{"question_id": "nq-3", "source_id": "nq", "difficulty": "simple", "question": "where does the movie the sound of music take place", "ground_truths": ["Salzburg, Austria", "Austria"], "metadata": {"line_no": 3}}
+{"question_id": "nq-4", "source_id": "nq", "difficulty": "simple", "question": "statue coming out of the ground in washington dc", "ground_truths": ["The Awakening"], "metadata": {"line_no": 4}}
+{"question_id": "nq-5", "source_id": "nq", "difficulty": "simple", "question": "field hockey is the national sport of which country", "ground_truths": ["Pakistan"], "metadata": {"line_no": 5}}
+{"question_id": "nq-6", "source_id": "nq", "difficulty": "simple", "question": "who governs in america’s representative democracy (republic) system", "ground_truths": ["Senators"], "metadata": {"line_no": 6}}
+{"question_id": "nq-7", "source_id": "nq", "difficulty": "simple", "question": "who is the song you're my best friend about", "ground_truths": ["Veronica Tetzlaff"], "metadata": {"line_no": 7}}
+{"question_id": "nq-8", "source_id": "nq", "difficulty": "simple", "question": "where was the church of latter day saints founded", "ground_truths": ["April 6, 1830", "western New York"], "metadata": {"line_no": 8}}
+{"question_id": "nq-9", "source_id": "nq", "difficulty": "simple", "question": "who os the father of bridget jones baby", "ground_truths": ["Mark"], "metadata": {"line_no": 9}}
+{"question_id": "nq-10", "source_id": "nq", "difficulty": "simple", "question": "who is the nationalist leader associated with the american revolution", "ground_truths": ["George Washington", "Thomas Paine"], "metadata": {"line_no": 10}}
