@@ -7,6 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
+import com.ragproject.ragserver.service.agent.GraphRagAgentService;
+
 @SpringBootTest
 @ActiveProfiles("test")
 class RAGserverApplicationTests {
@@ -16,6 +18,9 @@ class RAGserverApplicationTests {
 
     @MockBean
     private VectorStore vectorStore;
+
+    @MockBean
+    private GraphRagAgentService graphRagAgentService;
 
     @Test
     void contextLoads() {

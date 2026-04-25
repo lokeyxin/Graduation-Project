@@ -63,11 +63,20 @@ public class RagRetrievalService {
     }
 
     public String retrieveContext(String question) {
-        RetrievalResult result = retrieveForEval(question, null, false);
+        RetrievalResult result = retrieveForEval(question, null, false, true);
+        return result.contextText();
+    }
+
+    public String retrieveContext(String question, boolean includeGraph) {
+        RetrievalResult result = retrieveForEval(question, null, false, includeGraph);
         return result.contextText();
     }
 
     public RetrievalResult retrieveForEval(String question, Integer topKOverride, boolean includeDebug) {
+        return retrieveForEval(question, topKOverride, includeDebug, true);
+    }
+
+    public RetrievalResult retrieveForEval(String question, Integer topKOverride, boolean includeDebug, boolean includeGraph) {
         if (!StringUtils.hasText(question)) {
             return new RetrievalResult("", List.of(), 0L);
         }
@@ -86,11 +95,11 @@ public class RagRetrievalService {
             }
 
             List<Candidate> vectorCandidates = buildCandidates(documents, "vector", Map.of(), false);
-                List<Candidate> graphCandidates = buildGraphVectorCandidates(trimmedQuestion);
+            List<Candidate> graphCandidates = includeGraph ? buildGraphVectorCandidates(trimmedQuestion) : List.of();
             List<Candidate> merged = mergeCandidates(vectorCandidates, graphCandidates);
 
-            log.info("RAG retrieval summary. questionLength={}, vectorCandidates={}, graphCandidates={}, mergedCandidates={}",
-                    trimmedQuestion.length(), vectorCandidates.size(), graphCandidates.size(), merged.size());
+            log.info("RAG retrieval summary. questionLength={}, includeGraph={}, vectorCandidates={}, graphCandidates={}, mergedCandidates={}",
+                    trimmedQuestion.length(), includeGraph, vectorCandidates.size(), graphCandidates.size(), merged.size());
 
             if (merged.isEmpty()) {
                 log.info("RAG retrieval returned empty context. questionLength={}, costMs={}",

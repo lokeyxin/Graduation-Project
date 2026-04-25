@@ -3,7 +3,7 @@
     "index": 0,
     "user_input": "the last time la dodgers won the world series",
     "reference": "1988",
-    "response_len": 298,
+    "response_len": 318,
     "context_count": 2,
     "context_avg_len": 757.5
   },
@@ -27,7 +27,7 @@
     "index": 3,
     "user_input": "statue coming out of the ground in washington dc",
     "reference": "The Awakening",
-    "response_len": 120,
+    "response_len": 81,
     "context_count": 2,
     "context_avg_len": 758.5
   },
@@ -35,7 +35,7 @@
     "index": 4,
     "user_input": "field hockey is the national sport of which country",
     "reference": "Pakistan",
-    "response_len": 33,
+    "response_len": 94,
     "context_count": 2,
     "context_avg_len": 758.0
   },
@@ -43,7 +43,7 @@
     "index": 5,
     "user_input": "who governs in america’s representative democracy (republic) system",
     "reference": "Senators",
-    "response_len": 251,
+    "response_len": 905,
     "context_count": 2,
     "context_avg_len": 757.5
   },
@@ -67,7 +67,7 @@
     "index": 8,
     "user_input": "who os the father of bridget jones baby",
     "reference": "Mark",
-    "response_len": 109,
+    "response_len": 89,
     "context_count": 2,
     "context_avg_len": 757.0
   },
@@ -75,7 +75,7 @@
     "index": 9,
     "user_input": "who is the nationalist leader associated with the american revolution",
     "reference": "George Washington",
-    "response_len": 198,
+    "response_len": 194,
     "context_count": 2,
     "context_avg_len": 757.0
   }

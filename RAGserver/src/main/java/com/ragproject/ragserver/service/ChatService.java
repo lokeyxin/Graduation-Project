@@ -8,7 +8,7 @@ import com.ragproject.ragserver.mapper.ChatMessageMapper;
 import com.ragproject.ragserver.model.ChatMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -18,21 +18,17 @@ import java.util.UUID;
 @Service
 public class ChatService {
     private static final Logger log = LoggerFactory.getLogger(ChatService.class);
-    private static final String SYSTEM_PROMPT_PREFIX = "你是客服知识库问答助手。你会收到按重排序后的多条知识片段，请综合所有相关片段回答，不要默认只采用第一条。若多条片段存在冲突，优先采用分数更高且表述更完整的片段，并在回答中给出明确说明。若知识片段不足，请明确说明并给出尽可能有帮助的建议。\n\n知识片段:\n";
 
-    private final ChatClient chatClient;
     private final SessionService sessionService;
     private final ChatMessageMapper chatMessageMapper;
-    private final RagRetrievalService ragRetrievalService;
+    private final ObjectProvider<com.ragproject.ragserver.service.agent.GraphRagAgentService> graphRagAgentServiceProvider;
 
-    public ChatService(ChatClient.Builder chatClientBuilder,
-                       SessionService sessionService,
+    public ChatService(SessionService sessionService,
                        ChatMessageMapper chatMessageMapper,
-                       RagRetrievalService ragRetrievalService) {
-        this.chatClient = chatClientBuilder.build();
+                       ObjectProvider<com.ragproject.ragserver.service.agent.GraphRagAgentService> graphRagAgentServiceProvider) {
         this.sessionService = sessionService;
         this.chatMessageMapper = chatMessageMapper;
-        this.ragRetrievalService = ragRetrievalService;
+        this.graphRagAgentServiceProvider = graphRagAgentServiceProvider;
     }
 
     public SseEmitter streamChat(Long userId, Long sessionId, String message) {
@@ -59,15 +55,20 @@ public class ChatService {
             long start = System.currentTimeMillis();
             StringBuilder fullAnswer = new StringBuilder();
             try {
-                String ragContext = ragRetrievalService.retrieveContext(trimmedMessage);
+                var agentResult = graphRagAgentServiceProvider.getObject().answer(trimmedMessage);
+                String ragContext = agentResult.contextText();
                 boolean useRagContext = StringUtils.hasText(ragContext);
                 int contextHitCount = countContextHits(ragContext);
-                log.info("Chat retrieval finished. requestId={}, useRagContext={}, contextHitCount={}, contextLength={}",
-                        requestId, useRagContext, contextHitCount, useRagContext ? ragContext.length() : 0);
+                log.info("Chat routing finished. requestId={}, selectedTool={}, usedGraph={}, reason={}, contextHitCount={}, contextLength={}",
+                        requestId,
+                        agentResult.selectedTool(),
+                        agentResult.usedGraph(),
+                        agentResult.routeReason(),
+                        contextHitCount,
+                        useRagContext ? ragContext.length() : 0);
 
-                String answer = generateAnswer(trimmedMessage, ragContext);
-
-                if (answer == null) {
+                String answer = agentResult.answer();
+                if (!StringUtils.hasText(answer)) {
                     answer = "";
                 }
 
@@ -126,23 +127,22 @@ public class ChatService {
         sessionService.ensureSessionOwner(userId, sessionId);
 
         long start = System.currentTimeMillis();
-        RagRetrievalService.RetrievalResult retrievalResult =
-                ragRetrievalService.retrieveForEval(trimmedQuestion, request.getTopK(), includeDebug);
+        var agentResult = graphRagAgentServiceProvider.getObject().answer(trimmedQuestion, request.getTopK(), includeDebug);
 
-        String ragContext = retrievalResult.contextText();
-        boolean usedRag = StringUtils.hasText(ragContext);
-        String answer = generateAnswer(trimmedQuestion, ragContext);
-        if (answer == null) {
+        String ragContext = agentResult.contextText();
+        boolean usedRag = agentResult.usedGraph() || StringUtils.hasText(ragContext);
+        String answer = agentResult.answer();
+        if (!StringUtils.hasText(answer)) {
             answer = "";
         }
 
-        java.util.List<String> retrievedContexts = retrievalResult.contexts().stream()
+        java.util.List<String> retrievedContexts = agentResult.retrievalContexts().stream()
                 .map(RagRetrievalService.RetrievalContext::content)
                 .toList();
 
         java.util.List<RetrievedContextItem> contextItems;
         if (includeDebug) {
-            contextItems = retrievalResult.contexts().stream()
+            contextItems = agentResult.retrievalContexts().stream()
                     .map(item -> new RetrievedContextItem(
                             item.knowledgeId(),
                             item.content(),
@@ -157,8 +157,8 @@ public class ChatService {
         }
 
         long latencyMs = System.currentTimeMillis() - start;
-        log.info("Chat eval completed. requestId={}, sessionId={}, questionLength={}, contexts={}, usedRag={}, latencyMs={}",
-                requestId, sessionId, trimmedQuestion.length(), retrievedContexts.size(), usedRag, latencyMs);
+        log.info("Chat eval completed. requestId={}, sessionId={}, questionLength={}, contexts={}, usedRag={}, selectedTool={}, latencyMs={}",
+                requestId, sessionId, trimmedQuestion.length(), retrievedContexts.size(), usedRag, agentResult.selectedTool(), latencyMs);
 
         return new ChatEvalResponse(
                 request.getQuestionId(),
@@ -172,17 +172,6 @@ public class ChatService {
                 latencyMs,
                 usedRag,
                 requestId);
-    }
-
-    private String generateAnswer(String question, String ragContext) {
-        if (StringUtils.hasText(ragContext)) {
-            return chatClient.prompt()
-                    .system(SYSTEM_PROMPT_PREFIX + ragContext)
-                    .user(question)
-                    .call()
-                    .content();
-        }
-        return chatClient.prompt().user(question).call().content();
     }
 
     private int countContextHits(String ragContext) {
