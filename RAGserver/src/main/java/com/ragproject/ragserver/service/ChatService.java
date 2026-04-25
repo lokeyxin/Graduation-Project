@@ -156,6 +156,23 @@ public class ChatService {
             contextItems = java.util.List.of();
         }
 
+        java.util.List<String> subQuestions = includeDebug ? agentResult.subQuestions() : java.util.List.of();
+        java.util.List<ChatEvalResponse.AgentIterationItem> iterationItems;
+        if (includeDebug) {
+            iterationItems = agentResult.iterationSummaries().stream()
+                    .map(item -> new ChatEvalResponse.AgentIterationItem(
+                            item.round(),
+                            item.selectedTool(),
+                            item.usedGraph(),
+                            item.contextCount(),
+                            item.retrievalCostMs(),
+                            item.evidenceSufficient(),
+                            item.evidenceReason()))
+                    .toList();
+        } else {
+            iterationItems = java.util.List.of();
+        }
+
         long latencyMs = System.currentTimeMillis() - start;
         log.info("Chat eval completed. requestId={}, sessionId={}, questionLength={}, contexts={}, usedRag={}, selectedTool={}, latencyMs={}",
                 requestId, sessionId, trimmedQuestion.length(), retrievedContexts.size(), usedRag, agentResult.selectedTool(), latencyMs);
@@ -171,7 +188,15 @@ public class ChatService {
                 retrievedContexts.size(),
                 latencyMs,
                 usedRag,
-                requestId);
+                requestId,
+                agentResult.selectedTool(),
+                includeDebug ? agentResult.routeReason() : null,
+                includeDebug ? agentResult.usedGraph() : null,
+                includeDebug ? agentResult.queryAnalysis().complexity() : null,
+                includeDebug ? Boolean.valueOf(subQuestions.size() > 1) : null,
+                subQuestions,
+                iterationItems,
+                includeDebug ? agentResult.finalStopReason() : null);
     }
 
     private int countContextHits(String ragContext) {
