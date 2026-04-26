@@ -108,6 +108,26 @@ textarea {
   cursor: not-allowed;
 }
 
+.authSwitchButton {
+  align-self: flex-start;
+  border: none;
+  background: transparent;
+  color: var(--primary);
+  font-size: 13px;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.authSwitchButton:hover {
+  color: var(--primary-hover);
+}
+
+.authSwitchButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .chatLayout {
   display: grid;
   grid-template-columns: 280px 1fr;

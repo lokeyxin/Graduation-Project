@@ -56,6 +56,13 @@ export function login(payload) {
   })
 }
 
+export function register(payload) {
+  return request('/auth/register', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  })
+}
+
 export function createSession(payload = { title: '新对话' }) {
   return request('/sessions', {
     method: 'POST',

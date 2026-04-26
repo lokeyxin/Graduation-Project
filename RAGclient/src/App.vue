@@ -1,11 +1,16 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref, nextTick } from 'vue'
-import { createSession, deleteDocument, deleteSession, listDocuments, listMessages, listSessions, login, streamChat, uploadDocument } from './services/api'
+import { createSession, deleteDocument, deleteSession, listDocuments, listMessages, listSessions, login, register, streamChat, uploadDocument } from './services/api'
 
 const username = ref('demo01')
 const password = ref('123456')
+const confirmPassword = ref('')
+const registerDisplayName = ref('')
 const errorMessage = ref('')
+const registerMessage = ref('')
 const loginLoading = ref(false)
+const registerLoading = ref(false)
+const isRegisterMode = ref(false)
 const token = ref('')
 const displayName = ref('')
 
@@ -45,6 +50,7 @@ function autoScrollToBottom() {
 async function handleLogin() {
   if (loginLoading.value) return
   errorMessage.value = ''
+  registerMessage.value = ''
   loginLoading.value = true
   try {
     const response = await login({
@@ -70,6 +76,64 @@ async function handleLogin() {
     errorMessage.value = error?.message || '登录失败，请重试。'
   } finally {
     loginLoading.value = false
+  }
+}
+
+function switchAuthMode(registerMode) {
+  isRegisterMode.value = registerMode
+  errorMessage.value = ''
+  registerMessage.value = ''
+  password.value = ''
+  confirmPassword.value = ''
+  registerDisplayName.value = ''
+  if (!registerMode) {
+    username.value = username.value.trim()
+  }
+}
+
+async function handleRegister() {
+  if (registerLoading.value) return
+  errorMessage.value = ''
+  registerMessage.value = ''
+
+  const normalizedUsername = username.value.trim()
+  const normalizedDisplayName = registerDisplayName.value.trim()
+
+  if (!normalizedUsername) {
+    errorMessage.value = '用户名不能为空。'
+    return
+  }
+  if (!password.value) {
+    errorMessage.value = '密码不能为空。'
+    return
+  }
+  if (password.value.length < 6) {
+    errorMessage.value = '密码至少需要6位。'
+    return
+  }
+  if (password.value !== confirmPassword.value) {
+    errorMessage.value = '两次输入的密码不一致。'
+    return
+  }
+
+  registerLoading.value = true
+  try {
+    await register({
+      username: normalizedUsername,
+      password: password.value,
+      displayName: normalizedDisplayName || normalizedUsername,
+    })
+
+    registerMessage.value = '注册成功，请使用新账号登录。'
+    isRegisterMode.value = false
+    username.value = normalizedUsername
+    password.value = ''
+    confirmPassword.value = ''
+    registerDisplayName.value = ''
+  } catch (error) {
+    errorMessage.value = error?.message || '注册失败，请重试。'
+  } finally {
+    registerLoading.value = false
   }
 }
 
@@ -364,18 +428,48 @@ onBeforeUnmount(() => {
   <div class="appShell">
     <div v-if="!isLoggedIn" class="loginPanel">
       <h1>AI 智能客服系统</h1>
-      <p>使用测试账号登录后开始对话</p>
+      <p>{{ isRegisterMode ? '创建新账号后，返回登录页继续使用。' : '使用账号登录后开始对话。' }}</p>
       <label>
         用户名
         <input v-model="username" type="text" placeholder="请输入用户名" />
       </label>
-      <label>
-        密码
-        <input v-model="password" type="password" placeholder="请输入密码" @keydown.enter="handleLogin" />
-      </label>
-      <button class="loginActionButton" :disabled="loginLoading" @click="handleLogin">
-        {{ loginLoading ? '登录中...' : '确定登录' }}
+
+      <template v-if="isRegisterMode">
+        <label>
+          显示名（可选）
+          <input v-model="registerDisplayName" type="text" placeholder="默认为用户名" />
+        </label>
+        <label>
+          密码
+          <input v-model="password" type="password" placeholder="请输入密码（至少6位）" />
+        </label>
+        <label>
+          确认密码
+          <input v-model="confirmPassword" type="password" placeholder="请再次输入密码" @keydown.enter="handleRegister" />
+        </label>
+        <button class="loginActionButton" :disabled="registerLoading" @click="handleRegister">
+          {{ registerLoading ? '注册中...' : '确定注册' }}
+        </button>
+      </template>
+
+      <template v-else>
+        <label>
+          密码
+          <input v-model="password" type="password" placeholder="请输入密码" @keydown.enter="handleLogin" />
+        </label>
+        <button class="loginActionButton" :disabled="loginLoading" @click="handleLogin">
+          {{ loginLoading ? '登录中...' : '确定登录' }}
+        </button>
+      </template>
+
+      <button
+        class="authSwitchButton"
+        :disabled="loginLoading || registerLoading"
+        @click="switchAuthMode(!isRegisterMode)"
+      >
+        {{ isRegisterMode ? '已有账号？返回登录' : '没有账号？去注册' }}
       </button>
+      <span v-if="registerMessage" class="successText">{{ registerMessage }}</span>
       <span v-if="errorMessage" class="errorText">{{ errorMessage }}</span>
     </div>
 
