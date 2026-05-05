@@ -75,7 +75,16 @@ public class GraphRagAgentService {
                         3) 若已可交付或继续检索价值不大，nextAction=finish。
             """;
 
-    private static final String ANSWER_SYSTEM_PROMPT_PREFIX = "你是客服知识库问答助手。你会收到按重排序后的多条知识片段，请综合所有相关片段回答，不要默认只采用第一条。若多条片段存在冲突，优先采用分数更高且表述更完整的片段，并在回答中给出明确说明。若知识片段不足，请明确说明并给出尽可能有帮助的建议。\n\n知识片段:\n";
+    //private static final String ANSWER_SYSTEM_PROMPT_PREFIX = "你是客服知识库问答助手。你会收到按重排序后的多条知识片段，请综合所有相关片段回答，不要默认只采用第一条。若多条片段存在冲突，优先采用分数更高且表述更完整的片段，并在回答中给出明确说明。若知识片段不足，请明确说明并给出尽可能有帮助的建议。\n\n知识片段:\n";
+
+    private static final String ANSWER_SYSTEM_PROMPT_PREFIX = """
+        你是客服知识库问答助手。请遵循以下严格规则：
+        1. 你必须、且只能根据提供的【知识片段】来回答问题。
+        2. 如果提供的知识片段中没有能解答问题的任何信息，请直接回答“根据已有知识库，无法回答此问题”，绝对不要编造答案或给出外部建议。
+        3. 若多条片段存在冲突，优先采用分数更高且表述更完整的片段，并在回答中给出明确说明。
+
+        知识片段:
+        """;
 
     private final ChatClient routerChatClient;
     private final ChatClient answerChatClient;

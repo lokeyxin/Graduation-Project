@@ -13,25 +13,23 @@
     {
       "user_input": "the last time la dodgers won the world series",
       "retrieved_contexts": [
-        "标准问题: 【NQ-open.efficientqa.dev.1.1.sample.jsonl】第1段\n标准答案: {\"question\": \"the last time la dodgers won the world series\", \"answer\": [\"1988\"]}\n{\"question\": \"who sings ain't nothing but a good time\", \"answer\": [\"Poison\"]}\n{\"question\": \"where does the movie the sound of music take place\", \"answer\": [\"Salzburg, Austria\", \"Austria\"]}\n{\"question\": \"statue coming out of the ground in washington dc\", \"answer\": [\"The Awakening\"]}\n{\"question\": \"field hockey is the national sport of which country\", \"answer\": [\"Pakistan\"]}\n{\"question\": \"who governs in america\\u2019s representative democracy (republic) system\", \"answer\": [\"Senators\"]}\n{\"question\": \"who is the song you're my best friend about\", \"answer\": [\"Veronica Tetzlaff\"]}\n{\"question\": \"where was the church of",
-        "标准问题: 【NQ-open.efficientqa.dev.1.1.sample.jsonl】第9段\n标准答案: llies\", \"allied powers\"]}\n{\"question\": \"who is the main character in the labyrinth\", \"answer\": [\"Sarah Williams\", \"Sarah\"]}\n{\"question\": \"the predictable order of changes in communities after a change occurs\", \"answer\": [\"Ecological succession\"]}\n{\"question\": \"who came up with the name rock and roll\", \"answer\": [\"Alan Freed\"]}\n{\"question\": \"what is the front of your lower leg called\", \"answer\": [\"tibia\", \"fibula\", \"shinbone\"]}\n{\"question\": \"which branch of the us government makes federal laws\", \"answer\": [\"legislative branch\", \"legislative\"]}\n{\"question\": \"by the year 2000 the largest number of legal immigrations to the united states came from\", \"answer\": [\"Europe\", \"All of Latin America\"]}"
+        "标准问题: 【NQ-open.efficientqa.dev.1.1.sample.jsonl】第1段\n标准答案: {\"question\": \"the last time la dodgers won the world series\", \"answer\": [\"1988\"]}\n{\"question\": \"who sings ain't nothing but a good time\", \"answer\": [\"Poison\"]}\n{\"question\": \"where does the movie the sound of music take place\", \"answer\": [\"Salzburg, Austria\", \"Austria\"]}\n{\"question\": \"statue coming out of the ground in washington dc\", \"answer\": [\"The Awakening\"]}\n{\"question\": \"field hockey is the national sport of which country\", \"answer\": [\"Pakistan\"]}\n{\"question\": \"who governs in america\\u2019s representative democracy (republic) system\", \"answer\": [\"Senators\"]}\n{\"question\": \"who is the song you're my best friend about\", \"answer\": [\"Veronica Tetzlaff\"]}\n{\"question\": \"where was the church of"
       ],
-      "response": "The last time the Los Angeles Dodgers won the World Series was in 1988. However, please note that this information might not be up-to-date, as the Dodgers have won more recently. For the most accurate and current information, I recommend checking the latest sports news or official MLB (Major League Baseball) sources.",
+      "response": "The last time the LA Dodgers won the World Series was in 1988.",
       "reference": "1988",
-      "faithfulness": 0.25,
-      "answer_relevancy": 0.0,
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8560331893193408,
       "context_precision": 0.9999999999,
       "context_recall": 1.0,
-      "answer_relevancy_main": 0.0,
+      "answer_relevancy_main": 0.8560331893193408,
       "answer_relevancy_fallback": null
     },
     {
       "user_input": "who sings ain't nothing but a good time",
       "retrieved_contexts": [
-        "标准问题: 【NQ-open.efficientqa.dev.1.1.sample.jsonl】第1段\n标准答案: {\"question\": \"the last time la dodgers won the world series\", \"answer\": [\"1988\"]}\n{\"question\": \"who sings ain't nothing but a good time\", \"answer\": [\"Poison\"]}\n{\"question\": \"where does the movie the sound of music take place\", \"answer\": [\"Salzburg, Austria\", \"Austria\"]}\n{\"question\": \"statue coming out of the ground in washington dc\", \"answer\": [\"The Awakening\"]}\n{\"question\": \"field hockey is the national sport of which country\", \"answer\": [\"Pakistan\"]}\n{\"question\": \"who governs in america\\u2019s representative democracy (republic) system\", \"answer\": [\"Senators\"]}\n{\"question\": \"who is the song you're my best friend about\", \"answer\": [\"Veronica Tetzlaff\"]}\n{\"question\": \"where was the church of",
-        "标准问题: 【NQ-open.efficientqa.dev.1.1.sample.jsonl】第11段\n标准答案: red piano\", \"answer\": [\"John Cage\", \"usually traced to John Cage\"]}\n{\"question\": \"who decided what rights should be included in the convention on the rights of the child\", \"answer\": [\"The United Nations\"]}\n{\"question\": \"when did the saskatchewan roughriders last won the grey cup\", \"answer\": [\"2013\"]}\n{\"question\": \"who played the mom in the home alone movies\", \"answer\": [\"Catherine O'Hara\"]}\n{\"question\": \"what do you call a vest in the uk\", \"answer\": [\"waistcoat\"]}\n{\"question\": \"what age do you go to school in japan\", \"answer\": [\"6\"]}\n{\"question\": \"when did indiana jones and the last crusade come out\", \"answer\": [\"May\\u00a024,\\u00a01989\", \"May 24, 1989\"]}\n{\"question\": \"when does the good witc"
+        "标准问题: 【NQ-open.efficientqa.dev.1.1.sample.jsonl】第1段\n标准答案: {\"question\": \"the last time la dodgers won the world series\", \"answer\": [\"1988\"]}\n{\"question\": \"who sings ain't nothing but a good time\", \"answer\": [\"Poison\"]}\n{\"question\": \"where does the movie the sound of music take place\", \"answer\": [\"Salzburg, Austria\", \"Austria\"]}\n{\"question\": \"statue coming out of the ground in washington dc\", \"answer\": [\"The Awakening\"]}\n{\"question\": \"field hockey is the national sport of which country\", \"answer\": [\"Pakistan\"]}\n{\"question\": \"who governs in america\\u2019s representative democracy (republic) system\", \"answer\": [\"Senators\"]}\n{\"question\": \"who is the song you're my best friend about\", \"answer\": [\"Veronica Tetzlaff\"]}\n{\"question\": \"where was the church of"
       ],
-      "response": "The song \"Ain't Nothing but a Good Time\" is sung by the band Poison.",
+      "response": "The song \"Ain't Nothing but a Good Time\" is sung by Poison.",
       "reference": "Poison",
       "faithfulness": 1.0,
       "answer_relevancy": 0.9520430659462057,
@@ -43,8 +41,7 @@
     {
       "user_input": "where does the movie the sound of music take place",
       "retrieved_contexts": [
-        "标准问题: 【NQ-open.efficientqa.dev.1.1.sample.jsonl】第1段\n标准答案: {\"question\": \"the last time la dodgers won the world series\", \"answer\": [\"1988\"]}\n{\"question\": \"who sings ain't nothing but a good time\", \"answer\": [\"Poison\"]}\n{\"question\": \"where does the movie the sound of music take place\", \"answer\": [\"Salzburg, Austria\", \"Austria\"]}\n{\"question\": \"statue coming out of the ground in washington dc\", \"answer\": [\"The Awakening\"]}\n{\"question\": \"field hockey is the national sport of which country\", \"answer\": [\"Pakistan\"]}\n{\"question\": \"who governs in america\\u2019s representative democracy (republic) system\", \"answer\": [\"Senators\"]}\n{\"question\": \"who is the song you're my best friend about\", \"answer\": [\"Veronica Tetzlaff\"]}\n{\"question\": \"where was the church of",
-        "标准问题: 【NQ-open.efficientqa.dev.1.1.sample.jsonl】第8段\n标准答案: oing to do with it\", \"answer\": [\"The O'Jays\"]}\n{\"question\": \"who played apollo creed in the original rocky\", \"answer\": [\"Carl Weathers\"]}\n{\"question\": \"kuchipudi is a dance form of which state\", \"answer\": [\"Andhra Pradesh\"]}\n{\"question\": \"what is the meaning of zhongguo renmin yinhang\", \"answer\": [\"People's Bank of China\", \"without tones\"]}\n{\"question\": \"where was the lion king musical first performed\", \"answer\": [\"July 8, 1997\", \"Minneapolis, Minnesota\", \"the Orpheum Theatre\"]}\n{\"question\": \"the federal housing administration (fha) insures lenders against\", \"answer\": [\"loan default on mortgages\"]}\n{\"question\": \"when the united states entered world war 1 it joined what powers\", \"answer\": [\"A"
+        "标准问题: 【NQ-open.efficientqa.dev.1.1.sample.jsonl】第1段\n标准答案: {\"question\": \"the last time la dodgers won the world series\", \"answer\": [\"1988\"]}\n{\"question\": \"who sings ain't nothing but a good time\", \"answer\": [\"Poison\"]}\n{\"question\": \"where does the movie the sound of music take place\", \"answer\": [\"Salzburg, Austria\", \"Austria\"]}\n{\"question\": \"statue coming out of the ground in washington dc\", \"answer\": [\"The Awakening\"]}\n{\"question\": \"field hockey is the national sport of which country\", \"answer\": [\"Pakistan\"]}\n{\"question\": \"who governs in america\\u2019s representative democracy (republic) system\", \"answer\": [\"Senators\"]}\n{\"question\": \"who is the song you're my best friend about\", \"answer\": [\"Veronica Tetzlaff\"]}\n{\"question\": \"where was the church of"
       ],
       "response": "The movie \"The Sound of Music\" takes place in Salzburg, Austria.",
       "reference": "Salzburg, Austria",
@@ -58,106 +55,99 @@
     {
       "user_input": "statue coming out of the ground in washington dc",
       "retrieved_contexts": [
-        "标准问题: 【NQ-open.efficientqa.dev.1.1.sample.jsonl】第1段\n标准答案: {\"question\": \"the last time la dodgers won the world series\", \"answer\": [\"1988\"]}\n{\"question\": \"who sings ain't nothing but a good time\", \"answer\": [\"Poison\"]}\n{\"question\": \"where does the movie the sound of music take place\", \"answer\": [\"Salzburg, Austria\", \"Austria\"]}\n{\"question\": \"statue coming out of the ground in washington dc\", \"answer\": [\"The Awakening\"]}\n{\"question\": \"field hockey is the national sport of which country\", \"answer\": [\"Pakistan\"]}\n{\"question\": \"who governs in america\\u2019s representative democracy (republic) system\", \"answer\": [\"Senators\"]}\n{\"question\": \"who is the song you're my best friend about\", \"answer\": [\"Veronica Tetzlaff\"]}\n{\"question\": \"where was the church of",
-        "标准问题: 【NQ-open.efficientqa.dev.1.1.sample.jsonl】第10段\n标准答案: {\"question\": \"one who signals train to start or stop\", \"answer\": [\"signalman\"]}\n{\"question\": \"when do cory and topanga get back together after lauren\", \"answer\": [\"\\\"Starry Night\\\"\", \"Starry Night\", \"\\\"Honesty Night\\\"\"]}\n{\"question\": \"who sang out of my head over you\", \"answer\": [\"Little Anthony & the Imperials\"]}\n{\"question\": \"who is the tallest woman in the world and how tall is she\", \"answer\": [\"Sun Fang\"]}\n{\"question\": \"when was the last time the detroit tigers went to the world series\", \"answer\": [\"2012\"]}\n{\"question\": \"who is covered by the right to financial privacy act\", \"answer\": [\"customers of financial institutions\"]}\n{\"question\": \"who is considered to be the inventor of the prepa"
+        "标准问题: 【NQ-open.efficientqa.dev.1.1.sample.jsonl】第1段\n标准答案: {\"question\": \"the last time la dodgers won the world series\", \"answer\": [\"1988\"]}\n{\"question\": \"who sings ain't nothing but a good time\", \"answer\": [\"Poison\"]}\n{\"question\": \"where does the movie the sound of music take place\", \"answer\": [\"Salzburg, Austria\", \"Austria\"]}\n{\"question\": \"statue coming out of the ground in washington dc\", \"answer\": [\"The Awakening\"]}\n{\"question\": \"field hockey is the national sport of which country\", \"answer\": [\"Pakistan\"]}\n{\"question\": \"who governs in america\\u2019s representative democracy (republic) system\", \"answer\": [\"Senators\"]}\n{\"question\": \"who is the song you're my best friend about\", \"answer\": [\"Veronica Tetzlaff\"]}\n{\"question\": \"where was the church of"
       ],
-      "response": "The statue coming out of the ground in Washington D.C. is called \"The Awakening.\"",
+      "response": "The statue coming out of the ground in Washington DC is called \"The Awakening\".",
       "reference": "The Awakening",
       "faithfulness": 1.0,
-      "answer_relevancy": 0.9325538387780123,
+      "answer_relevancy": 0.9274874731901085,
       "context_precision": 0.9999999999,
       "context_recall": 1.0,
-      "answer_relevancy_main": 0.9325538387780123,
+      "answer_relevancy_main": 0.9274874731901085,
       "answer_relevancy_fallback": null
     },
     {
       "user_input": "field hockey is the national sport of which country",
       "retrieved_contexts": [
-        "标准问题: 【NQ-open.efficientqa.dev.1.1.sample.jsonl】第1段\n标准答案: {\"question\": \"the last time la dodgers won the world series\", \"answer\": [\"1988\"]}\n{\"question\": \"who sings ain't nothing but a good time\", \"answer\": [\"Poison\"]}\n{\"question\": \"where does the movie the sound of music take place\", \"answer\": [\"Salzburg, Austria\", \"Austria\"]}\n{\"question\": \"statue coming out of the ground in washington dc\", \"answer\": [\"The Awakening\"]}\n{\"question\": \"field hockey is the national sport of which country\", \"answer\": [\"Pakistan\"]}\n{\"question\": \"who governs in america\\u2019s representative democracy (republic) system\", \"answer\": [\"Senators\"]}\n{\"question\": \"who is the song you're my best friend about\", \"answer\": [\"Veronica Tetzlaff\"]}\n{\"question\": \"where was the church of",
-        "标准问题: 【NQ-open.efficientqa.dev.1.1.sample.jsonl】第4段\n标准答案: uestion\": \"which piece of legislation placed the protections in the european convention on human rights\", \"answer\": [\"Council of Europe\"]}\n{\"question\": \"who sang vande maataram in 1896 congress session\", \"answer\": [\"Rabindranath Tagore\"]}\n{\"question\": \"who were the sponsor of the icc world cup when it was hosted outside england for the first time\", \"answer\": [\"Prudential plc\", \"Pakistan\", \"India\"]}\n{\"question\": \"what is the most uneducated state in america\", \"answer\": [\"California\", \"West Virginia\"]}\n{\"question\": \"who makes the most tires in the world\", \"answer\": [\"Lego tire\", \"Lego\"]}\n{\"question\": \"who argued with congress during the early years of reconstruction\", \"answer\": [\"Johnson\", \"U."
+        "标准问题: 【NQ-open.efficientqa.dev.1.1.sample.jsonl】第1段\n标准答案: {\"question\": \"the last time la dodgers won the world series\", \"answer\": [\"1988\"]}\n{\"question\": \"who sings ain't nothing but a good time\", \"answer\": [\"Poison\"]}\n{\"question\": \"where does the movie the sound of music take place\", \"answer\": [\"Salzburg, Austria\", \"Austria\"]}\n{\"question\": \"statue coming out of the ground in washington dc\", \"answer\": [\"The Awakening\"]}\n{\"question\": \"field hockey is the national sport of which country\", \"answer\": [\"Pakistan\"]}\n{\"question\": \"who governs in america\\u2019s representative democracy (republic) system\", \"answer\": [\"Senators\"]}\n{\"question\": \"who is the song you're my best friend about\", \"answer\": [\"Veronica Tetzlaff\"]}\n{\"question\": \"where was the church of"
       ],
-      "response": "根据提供的知识片段，曲棍球是巴基斯坦的国球。这是从分数较高的第一条知识片段中获得的信息。如果有更多或不同的信息需求，建议进一步查询具体资料或官方声明以确认。但基于现有信息，答案是巴基斯坦。",
+      "response": "Field hockey is the national sport of Pakistan.",
       "reference": "Pakistan",
-      "faithfulness": 0.5,
-      "answer_relevancy": 0.7150926040784025,
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.6304218782224028,
       "context_precision": 0.9999999999,
       "context_recall": 1.0,
-      "answer_relevancy_main": 0.7150926040784025,
+      "answer_relevancy_main": 0.6304218782224028,
       "answer_relevancy_fallback": null
     },
     {
       "user_input": "who governs in america’s representative democracy (republic) system",
       "retrieved_contexts": [
-        "标准问题: 【NQ-open.efficientqa.dev.1.1.sample.jsonl】第9段\n标准答案: llies\", \"allied powers\"]}\n{\"question\": \"who is the main character in the labyrinth\", \"answer\": [\"Sarah Williams\", \"Sarah\"]}\n{\"question\": \"the predictable order of changes in communities after a change occurs\", \"answer\": [\"Ecological succession\"]}\n{\"question\": \"who came up with the name rock and roll\", \"answer\": [\"Alan Freed\"]}\n{\"question\": \"what is the front of your lower leg called\", \"answer\": [\"tibia\", \"fibula\", \"shinbone\"]}\n{\"question\": \"which branch of the us government makes federal laws\", \"answer\": [\"legislative branch\", \"legislative\"]}\n{\"question\": \"by the year 2000 the largest number of legal immigrations to the united states came from\", \"answer\": [\"Europe\", \"All of Latin America\"]}",
-        "标准问题: 【NQ-open.efficientqa.dev.1.1.sample.jsonl】第4段\n标准答案: uestion\": \"which piece of legislation placed the protections in the european convention on human rights\", \"answer\": [\"Council of Europe\"]}\n{\"question\": \"who sang vande maataram in 1896 congress session\", \"answer\": [\"Rabindranath Tagore\"]}\n{\"question\": \"who were the sponsor of the icc world cup when it was hosted outside england for the first time\", \"answer\": [\"Prudential plc\", \"Pakistan\", \"India\"]}\n{\"question\": \"what is the most uneducated state in america\", \"answer\": [\"California\", \"West Virginia\"]}\n{\"question\": \"who makes the most tires in the world\", \"answer\": [\"Lego tire\", \"Lego\"]}\n{\"question\": \"who argued with congress during the early years of reconstruction\", \"answer\": [\"Johnson\", \"U."
+        "标准问题: 【NQ-open.efficientqa.dev.1.1.sample.jsonl】第9段\n标准答案: llies\", \"allied powers\"]}\n{\"question\": \"who is the main character in the labyrinth\", \"answer\": [\"Sarah Williams\", \"Sarah\"]}\n{\"question\": \"the predictable order of changes in communities after a change occurs\", \"answer\": [\"Ecological succession\"]}\n{\"question\": \"who came up with the name rock and roll\", \"answer\": [\"Alan Freed\"]}\n{\"question\": \"what is the front of your lower leg called\", \"answer\": [\"tibia\", \"fibula\", \"shinbone\"]}\n{\"question\": \"which branch of the us government makes federal laws\", \"answer\": [\"legislative branch\", \"legislative\"]}\n{\"question\": \"by the year 2000 the largest number of legal immigrations to the united states came from\", \"answer\": [\"Europe\", \"All of Latin America\"]}"
       ],
-      "response": "The question you asked is not directly answered in the provided knowledge fragments. However, I can still provide a general answer based on common knowledge about the American system of government.\n\nIn America's representative democracy (republic) system, the government is divided into three branches: the Legislative, the Executive, and the Judicial. The Legislative Branch, which includes the House of Representatives and the Senate, is responsible for making federal laws. This branch represents the people and is elected by them. The Executive Branch, led by the President, is responsible for enforcing the laws. The Judicial Branch, headed by the Supreme Court, interprets the laws and ensures they are applied fairly. Each branch has its own distinct powers and responsibilities, but they work together to govern the country. \n\nIf you need more specific or detailed information, please let me know!",
+      "response": "根据已有知识库，无法回答此问题。",
       "reference": "Senators",
-      "faithfulness": 0.1,
-      "answer_relevancy": 0.7894922674948086,
+      "faithfulness": 0.0,
+      "answer_relevancy": 0.0,
       "context_precision": 0.0,
       "context_recall": 0.0,
-      "answer_relevancy_main": 0.7894922674948086,
+      "answer_relevancy_main": 0.0,
       "answer_relevancy_fallback": null
     },
     {
       "user_input": "who is the song you're my best friend about",
       "retrieved_contexts": [
-        "标准问题: 【NQ-open.efficientqa.dev.1.1.sample.jsonl】第1段\n标准答案: {\"question\": \"the last time la dodgers won the world series\", \"answer\": [\"1988\"]}\n{\"question\": \"who sings ain't nothing but a good time\", \"answer\": [\"Poison\"]}\n{\"question\": \"where does the movie the sound of music take place\", \"answer\": [\"Salzburg, Austria\", \"Austria\"]}\n{\"question\": \"statue coming out of the ground in washington dc\", \"answer\": [\"The Awakening\"]}\n{\"question\": \"field hockey is the national sport of which country\", \"answer\": [\"Pakistan\"]}\n{\"question\": \"who governs in america\\u2019s representative democracy (republic) system\", \"answer\": [\"Senators\"]}\n{\"question\": \"who is the song you're my best friend about\", \"answer\": [\"Veronica Tetzlaff\"]}\n{\"question\": \"where was the church of",
-        "标准问题: 【NQ-open.efficientqa.dev.1.1.sample.jsonl】第16段\n标准答案: \"]}\n{\"question\": \"when do meredith and derek get back together in season 2\", \"answer\": [\"Losing My Religion\", \"27\"]}\n{\"question\": \"who sings a white sport coat and a pink carnation\", \"answer\": [\"Marty Robbins\"]}\n{\"question\": \"an act of the legislature directly punishing a person or group is referred to as a\\u200b\", \"answer\": [\"bill of attainder\"]}\n{\"question\": \"the official u.s. poverty line is based on the cost of what\", \"answer\": [\"ICP purchasing power\"]}\n{\"question\": \"what place did jennifer hudson get in american idol\", \"answer\": [\"Jennifer Hudson\", \"7\"]}"
+        "标准问题: 【NQ-open.efficientqa.dev.1.1.sample.jsonl】第1段\n标准答案: {\"question\": \"the last time la dodgers won the world series\", \"answer\": [\"1988\"]}\n{\"question\": \"who sings ain't nothing but a good time\", \"answer\": [\"Poison\"]}\n{\"question\": \"where does the movie the sound of music take place\", \"answer\": [\"Salzburg, Austria\", \"Austria\"]}\n{\"question\": \"statue coming out of the ground in washington dc\", \"answer\": [\"The Awakening\"]}\n{\"question\": \"field hockey is the national sport of which country\", \"answer\": [\"Pakistan\"]}\n{\"question\": \"who governs in america\\u2019s representative democracy (republic) system\", \"answer\": [\"Senators\"]}\n{\"question\": \"who is the song you're my best friend about\", \"answer\": [\"Veronica Tetzlaff\"]}\n{\"question\": \"where was the church of"
       ],
-      "response": "The song \"You're My Best Friend\" by Queen is about Veronica Tetzlaff. This information is based on the provided knowledge fragments.",
+      "response": "The song \"You're My Best Friend\" is about Veronica Tetzlaff.",
       "reference": "Veronica Tetzlaff",
-      "faithfulness": 0.0,
-      "answer_relevancy": 0.8681548675416103,
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9519441077612176,
       "context_precision": 0.9999999999,
       "context_recall": 1.0,
-      "answer_relevancy_main": 0.8681548675416103,
+      "answer_relevancy_main": 0.9519441077612176,
       "answer_relevancy_fallback": null
     },
     {
       "user_input": "where was the church of latter day saints founded",
       "retrieved_contexts": [
-        "标准问题: 【NQ-open.efficientqa.dev.1.1.sample.jsonl】第2段\n标准答案: latter day saints founded\", \"answer\": [\"April 6, 1830\", \"western New York\"]}\n{\"question\": \"who os the father of bridget jones baby\", \"answer\": [\"Mark\"]}\n{\"question\": \"who is the nationalist leader associated with the american revolution\", \"answer\": [\"George Washington\", \"Thomas Paine\"]}\n{\"question\": \"what color is the president of south koreas house\", \"answer\": [\"Blue\"]}\n{\"question\": \"who is the security general of the un\", \"answer\": [\"Ant\\u00f3nio Guterres\"]}\n{\"question\": \"who won the first season of the rap game\", \"answer\": [\"Miss Mulatto\"]}\n{\"question\": \"actor who played tommy in terms of endearment\", \"answer\": [\"Troy Bishop\", \"Shane Sherwin\"]}\n{\"question\": \"when did early voting start i",
-        "标准问题: 【NQ-open.efficientqa.dev.1.1.sample.jsonl】第1段\n标准答案: {\"question\": \"the last time la dodgers won the world series\", \"answer\": [\"1988\"]}\n{\"question\": \"who sings ain't nothing but a good time\", \"answer\": [\"Poison\"]}\n{\"question\": \"where does the movie the sound of music take place\", \"answer\": [\"Salzburg, Austria\", \"Austria\"]}\n{\"question\": \"statue coming out of the ground in washington dc\", \"answer\": [\"The Awakening\"]}\n{\"question\": \"field hockey is the national sport of which country\", \"answer\": [\"Pakistan\"]}\n{\"question\": \"who governs in america\\u2019s representative democracy (republic) system\", \"answer\": [\"Senators\"]}\n{\"question\": \"who is the song you're my best friend about\", \"answer\": [\"Veronica Tetzlaff\"]}\n{\"question\": \"where was the church of"
+        "标准问题: 【NQ-open.efficientqa.dev.1.1.sample.jsonl】第2段\n标准答案: latter day saints founded\", \"answer\": [\"April 6, 1830\", \"western New York\"]}\n{\"question\": \"who os the father of bridget jones baby\", \"answer\": [\"Mark\"]}\n{\"question\": \"who is the nationalist leader associated with the american revolution\", \"answer\": [\"George Washington\", \"Thomas Paine\"]}\n{\"question\": \"what color is the president of south koreas house\", \"answer\": [\"Blue\"]}\n{\"question\": \"who is the security general of the un\", \"answer\": [\"Ant\\u00f3nio Guterres\"]}\n{\"question\": \"who won the first season of the rap game\", \"answer\": [\"Miss Mulatto\"]}\n{\"question\": \"actor who played tommy in terms of endearment\", \"answer\": [\"Troy Bishop\", \"Shane Sherwin\"]}\n{\"question\": \"when did early voting start i"
       ],
-      "response": "The Church of Jesus Christ of Latter-day Saints was founded on April 6, 1830, in western New York.",
+      "response": "The Church of Latter-day Saints was founded on April 6, 1830, in western New York.",
       "reference": "April 6, 1830",
       "faithfulness": 1.0,
-      "answer_relevancy": 0.8713765224123021,
+      "answer_relevancy": 0.9213405147320263,
       "context_precision": 0.9999999999,
       "context_recall": 1.0,
-      "answer_relevancy_main": 0.8713765224123021,
+      "answer_relevancy_main": 0.9213405147320263,
       "answer_relevancy_fallback": null
     },
     {
       "user_input": "who os the father of bridget jones baby",
       "retrieved_contexts": [
-        "标准问题: 【NQ-open.efficientqa.dev.1.1.sample.jsonl】第2段\n标准答案: latter day saints founded\", \"answer\": [\"April 6, 1830\", \"western New York\"]}\n{\"question\": \"who os the father of bridget jones baby\", \"answer\": [\"Mark\"]}\n{\"question\": \"who is the nationalist leader associated with the american revolution\", \"answer\": [\"George Washington\", \"Thomas Paine\"]}\n{\"question\": \"what color is the president of south koreas house\", \"answer\": [\"Blue\"]}\n{\"question\": \"who is the security general of the un\", \"answer\": [\"Ant\\u00f3nio Guterres\"]}\n{\"question\": \"who won the first season of the rap game\", \"answer\": [\"Miss Mulatto\"]}\n{\"question\": \"actor who played tommy in terms of endearment\", \"answer\": [\"Troy Bishop\", \"Shane Sherwin\"]}\n{\"question\": \"when did early voting start i",
-        "标准问题: 【NQ-open.efficientqa.dev.1.1.sample.jsonl】第5段\n标准答案: S. President Andrew Johnson\", \"Lincoln\"]}\n{\"question\": \"in humans what determines the gender of the offspring\", \"answer\": [\"the sex hormones\", \"the external genitalia\", \"the type of gonads\"]}\n{\"question\": \"when did rolex daytona stop using zenith movement\", \"answer\": [\"1975\"]}\n{\"question\": \"what is the song shine bright like a diamond about\", \"answer\": [\"a prominent concept of love\"]}\n{\"question\": \"what does the valley mean in los angeles\", \"answer\": [\"San Fernando Valley\", \"The San Fernando Valley\"]}\n{\"question\": \"what time period is a league of their own\", \"answer\": [\"1988\", \"1943\"]}\n{\"question\": \"when was harry potter and the deathly hallows part 2 movie released\", \"answer\": [\"13\\u201315"
+        "标准问题: 【NQ-open.efficientqa.dev.1.1.sample.jsonl】第2段\n标准答案: latter day saints founded\", \"answer\": [\"April 6, 1830\", \"western New York\"]}\n{\"question\": \"who os the father of bridget jones baby\", \"answer\": [\"Mark\"]}\n{\"question\": \"who is the nationalist leader associated with the american revolution\", \"answer\": [\"George Washington\", \"Thomas Paine\"]}\n{\"question\": \"what color is the president of south koreas house\", \"answer\": [\"Blue\"]}\n{\"question\": \"who is the security general of the un\", \"answer\": [\"Ant\\u00f3nio Guterres\"]}\n{\"question\": \"who won the first season of the rap game\", \"answer\": [\"Miss Mulatto\"]}\n{\"question\": \"actor who played tommy in terms of endearment\", \"answer\": [\"Troy Bishop\", \"Shane Sherwin\"]}\n{\"question\": \"when did early voting start i"
       ],
-      "response": "根据提供的知识片段，\"Bridget Jones's Baby\"中婴儿的父亲是Mark。请注意，这里的回答基于电影的情节设定。如果有更多具体问题或需要进一步的帮助，请随时告诉我！",
+      "response": "根据知识片段中的信息，Bridget Jones's baby的父亲是Mark。",
       "reference": "Mark",
-      "faithfulness": 0.5,
-      "answer_relevancy": 0.6816868939147813,
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8808418494274003,
       "context_precision": 0.9999999999,
       "context_recall": 1.0,
-      "answer_relevancy_main": 0.6816868939147813,
+      "answer_relevancy_main": 0.8808418494274003,
       "answer_relevancy_fallback": null
     },
     {
       "user_input": "who is the nationalist leader associated with the american revolution",
       "retrieved_contexts": [
-        "标准问题: 【NQ-open.efficientqa.dev.1.1.sample.jsonl】第2段\n标准答案: latter day saints founded\", \"answer\": [\"April 6, 1830\", \"western New York\"]}\n{\"question\": \"who os the father of bridget jones baby\", \"answer\": [\"Mark\"]}\n{\"question\": \"who is the nationalist leader associated with the american revolution\", \"answer\": [\"George Washington\", \"Thomas Paine\"]}\n{\"question\": \"what color is the president of south koreas house\", \"answer\": [\"Blue\"]}\n{\"question\": \"who is the security general of the un\", \"answer\": [\"Ant\\u00f3nio Guterres\"]}\n{\"question\": \"who won the first season of the rap game\", \"answer\": [\"Miss Mulatto\"]}\n{\"question\": \"actor who played tommy in terms of endearment\", \"answer\": [\"Troy Bishop\", \"Shane Sherwin\"]}\n{\"question\": \"when did early voting start i",
-        "标准问题: 【NQ-open.efficientqa.dev.1.1.sample.jsonl】第9段\n标准答案: llies\", \"allied powers\"]}\n{\"question\": \"who is the main character in the labyrinth\", \"answer\": [\"Sarah Williams\", \"Sarah\"]}\n{\"question\": \"the predictable order of changes in communities after a change occurs\", \"answer\": [\"Ecological succession\"]}\n{\"question\": \"who came up with the name rock and roll\", \"answer\": [\"Alan Freed\"]}\n{\"question\": \"what is the front of your lower leg called\", \"answer\": [\"tibia\", \"fibula\", \"shinbone\"]}\n{\"question\": \"which branch of the us government makes federal laws\", \"answer\": [\"legislative branch\", \"legislative\"]}\n{\"question\": \"by the year 2000 the largest number of legal immigrations to the united states came from\", \"answer\": [\"Europe\", \"All of Latin America\"]}"
+        "标准问题: 【NQ-open.efficientqa.dev.1.1.sample.jsonl】第2段\n标准答案: latter day saints founded\", \"answer\": [\"April 6, 1830\", \"western New York\"]}\n{\"question\": \"who os the father of bridget jones baby\", \"answer\": [\"Mark\"]}\n{\"question\": \"who is the nationalist leader associated with the american revolution\", \"answer\": [\"George Washington\", \"Thomas Paine\"]}\n{\"question\": \"what color is the president of south koreas house\", \"answer\": [\"Blue\"]}\n{\"question\": \"who is the security general of the un\", \"answer\": [\"Ant\\u00f3nio Guterres\"]}\n{\"question\": \"who won the first season of the rap game\", \"answer\": [\"Miss Mulatto\"]}\n{\"question\": \"actor who played tommy in terms of endearment\", \"answer\": [\"Troy Bishop\", \"Shane Sherwin\"]}\n{\"question\": \"when did early voting start i"
       ],
-      "response": "The nationalist leaders associated with the American Revolution are George Washington and Thomas Paine. These figures played significant roles in the movement for independence from British rule.",
+      "response": "The nationalist leaders associated with the American Revolution are George Washington and Thomas Paine.",
       "reference": "George Washington",
-      "faithfulness": 0.3333333333333333,
-      "answer_relevancy": 0.8753415008798651,
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9093920159426523,
       "context_precision": 0.9999999999,
       "context_recall": 1.0,
-      "answer_relevancy_main": 0.8753415008798651,
+      "answer_relevancy_main": 0.9093920159426523,
       "answer_relevancy_fallback": null
     }
   ],

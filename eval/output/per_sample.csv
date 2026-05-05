@@ -1,15 +1,11 @@
 question_id,source_id,difficulty,question,answer,retrieved_count,latency_ms,used_rag,request_id
-nq-1,nq,simple,the last time la dodgers won the world series,"The last time the Los Angeles Dodgers won the World Series was in 1988. However, please note that this information might not be up-to-date, as the Dodgers have won more recently. For the most accurate and current information, I recommend checking the latest sports news or official MLB (Major League Baseball) sources.",2,12046,True,0c9484ab-0c24-446e-9fa1-5f4f5916335b
-nq-2,nq,simple,who sings ain't nothing but a good time,"The song ""Ain't Nothing but a Good Time"" is sung by the band Poison.",2,5346,True,82ac7b7e-01a8-4a1e-be28-7b7c73247b1a
-nq-3,nq,simple,where does the movie the sound of music take place,"The movie ""The Sound of Music"" takes place in Salzburg, Austria.",2,3632,True,3df31640-38a2-4bb4-b89d-59c1e68d782a
-nq-4,nq,simple,statue coming out of the ground in washington dc,"The statue coming out of the ground in Washington D.C. is called ""The Awakening.""",2,9063,True,1571b31d-014a-4239-8db3-0730ef42bdc9
-nq-5,nq,simple,field hockey is the national sport of which country,根据提供的知识片段，曲棍球是巴基斯坦的国球。这是从分数较高的第一条知识片段中获得的信息。如果有更多或不同的信息需求，建议进一步查询具体资料或官方声明以确认。但基于现有信息，答案是巴基斯坦。,2,10043,True,869e6872-874b-468d-a426-efd832e2e88b
-nq-6,nq,simple,who governs in america’s representative democracy (republic) system,"The question you asked is not directly answered in the provided knowledge fragments. However, I can still provide a general answer based on common knowledge about the American system of government.
-
-In America's representative democracy (republic) system, the government is divided into three branches: the Legislative, the Executive, and the Judicial. The Legislative Branch, which includes the House of Representatives and the Senate, is responsible for making federal laws. This branch represents the people and is elected by them. The Executive Branch, led by the President, is responsible for enforcing the laws. The Judicial Branch, headed by the Supreme Court, interprets the laws and ensures they are applied fairly. Each branch has its own distinct powers and responsibilities, but they work together to govern the country. 
-
-If you need more specific or detailed information, please let me know!",2,15070,True,b24fbf07-040e-4f43-9f91-7f83793bd30c
-nq-7,nq,simple,who is the song you're my best friend about,"The song ""You're My Best Friend"" by Queen is about Veronica Tetzlaff. This information is based on the provided knowledge fragments.",2,9453,True,2be0af46-1b15-4273-83ab-9ea058593e73
-nq-8,nq,simple,where was the church of latter day saints founded,"The Church of Jesus Christ of Latter-day Saints was founded on April 6, 1830, in western New York.",2,5980,True,48584d12-95dc-42b6-938d-d2efd9ccedfd
-nq-9,nq,simple,who os the father of bridget jones baby,"根据提供的知识片段，""Bridget Jones's Baby""中婴儿的父亲是Mark。请注意，这里的回答基于电影的情节设定。如果有更多具体问题或需要进一步的帮助，请随时告诉我！",2,5755,True,6d05bc2d-38fe-4737-afcb-a6e8851fb673
-nq-10,nq,simple,who is the nationalist leader associated with the american revolution,The nationalist leaders associated with the American Revolution are George Washington and Thomas Paine. These figures played significant roles in the movement for independence from British rule.,2,5669,True,db9a0bd6-aa8f-4f28-af49-20fbf245de98
+nq-1,nq,simple,the last time la dodgers won the world series,The last time the LA Dodgers won the World Series was in 1988.,1,7463,True,5e05d672-efcc-49a6-9f32-326ec91ea5a6
+nq-2,nq,simple,who sings ain't nothing but a good time,"The song ""Ain't Nothing but a Good Time"" is sung by Poison.",1,9233,True,29d61748-6c64-4015-96ec-cca02ccfca71
+nq-3,nq,simple,where does the movie the sound of music take place,"The movie ""The Sound of Music"" takes place in Salzburg, Austria.",1,9358,True,25f70f05-d4b2-4b62-a6b8-96a5c0efe66d
+nq-4,nq,simple,statue coming out of the ground in washington dc,"The statue coming out of the ground in Washington DC is called ""The Awakening"".",1,7575,True,a55f2893-7606-4eee-a202-7a30961071ba
+nq-5,nq,simple,field hockey is the national sport of which country,Field hockey is the national sport of Pakistan.,1,8033,True,21acf079-2cfd-4167-b2c9-76c7cdcb763c
+nq-6,nq,simple,who governs in america’s representative democracy (republic) system,根据已有知识库，无法回答此问题。,1,14834,True,9e805735-7e2b-49b1-abd4-6849b9f931e4
+nq-7,nq,simple,who is the song you're my best friend about,"The song ""You're My Best Friend"" is about Veronica Tetzlaff.",1,15264,True,f4732162-428a-40c5-bd73-06549e22f6fd
+nq-8,nq,simple,where was the church of latter day saints founded,"The Church of Latter-day Saints was founded on April 6, 1830, in western New York.",1,13704,True,d473496b-cb78-46ae-833d-a58d05f02fca
+nq-9,nq,simple,who os the father of bridget jones baby,根据知识片段中的信息，Bridget Jones's baby的父亲是Mark。,1,16611,True,743e00fa-16af-4bb1-b2d8-c50690ebd362
+nq-10,nq,simple,who is the nationalist leader associated with the american revolution,The nationalist leaders associated with the American Revolution are George Washington and Thomas Paine.,1,10632,True,65821578-089e-4c4e-a415-724a24fec789
