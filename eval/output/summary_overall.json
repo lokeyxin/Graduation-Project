@@ -1,20 +1,20 @@
 {
-  "run_name": "ragas-real",
-  "total": 10,
+  "run_name": "hotpotqa-50-eval",
+  "total": 25,
   "note": "RAGAS evaluate enabled",
-  "avg_latency_ms": 11270.7,
+  "avg_latency_ms": 16581.44,
   "rag_hit_rate": 1.0,
   "fallback_used": false,
   "answer_relevancy_fallback_used": false,
   "max_eval_samples": 0,
   "metrics": {
-    "faithfulness": 0.9,
-    "answer_relevancy": 0.7989971299457277,
-    "context_precision": 0.89999999991,
-    "context_recall": 0.9,
-    "faithfulness_valid_count": 10,
-    "answer_relevancy_valid_count": 10,
-    "context_precision_valid_count": 10,
-    "context_recall_valid_count": 10
+    "faithfulness": 0.7119047619047619,
+    "answer_relevancy": 0.821282291000101,
+    "context_precision": 0.8194444443701389,
+    "context_recall": 0.8245614035087719,
+    "faithfulness_valid_count": 13,
+    "answer_relevancy_valid_count": 12,
+    "context_precision_valid_count": 12,
+    "context_recall_valid_count": 19
   }
 }

@@ -1,13 +1,13 @@
 {
-  "run_name": "ragas-real",
-  "size_per_source": 50,
+  "run_name": "ragas-multisource-v1",
+  "size_per_source": 10,
   "distribution": "simple:0.4,reasoning:0.4,multi_context:0.2",
   "sources": {
-    "nq": {
+    "hotpotqa": {
       "generated": 0,
-      "target": 50,
+      "target": 10,
       "status": "error",
-      "message": "[Errno 2] No such file or directory: 'NQ-open.efficientqa.dev.1.1.sample.jsonl'"
+      "message": "[Errno 2] No such file or directory: 'hotpot_sample_500.json'"
     }
   },
   "note": "RAGAS TestsetGenerator enabled"

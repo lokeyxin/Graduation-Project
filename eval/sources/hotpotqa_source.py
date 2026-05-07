@@ -42,27 +42,24 @@ class HotpotQASourceAdapter(SourceAdapter):
 
     def load_knowledge_docs(self) -> List[KnowledgeDoc]:
         docs: List[KnowledgeDoc] = []
-        seen_titles = set()
         data = self._load_data()
         
-        for item in data:
+        for idx, item in enumerate(data[:30]):   # 保留数量限制
             contexts = item.get("context", [])
+            item_id = item.get("_id", f"item_{idx}")
+        
             for ctx in contexts:
-                title = ctx[0]
-                sentences = ctx[1]
-                
-                # Deduplicate contexts by title
-                if title in seen_titles:
-                    continue
-                seen_titles.add(title)
-                
-                content = "".join(sentences)
-                docs.append(
-                    KnowledgeDoc(
-                        source_id=self.source_id(),
-                        title=title,
-                        content=content,
-                        metadata={"hotpotqa_title": title}
+                title = ctx[0]                  # 段落标题
+                sentences = ctx[1]              # 句子列表
+                content = title + "\n" + "".join(sentences)
+            
+                if content.strip():
+                    docs.append(
+                        KnowledgeDoc(
+                            source_id=self.source_id(),
+                            title=title,                # 直接用段落标题
+                            content=content,
+                            metadata={"headlines": [title]}  # 列表形式，只有一个标题
+                        )
                     )
-                )
         return docs

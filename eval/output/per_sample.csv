@@ -1,11 +1,158 @@
 question_id,source_id,difficulty,question,answer,retrieved_count,latency_ms,used_rag,request_id
-nq-1,nq,simple,the last time la dodgers won the world series,The last time the LA Dodgers won the World Series was in 1988.,1,7463,True,5e05d672-efcc-49a6-9f32-326ec91ea5a6
-nq-2,nq,simple,who sings ain't nothing but a good time,"The song ""Ain't Nothing but a Good Time"" is sung by Poison.",1,9233,True,29d61748-6c64-4015-96ec-cca02ccfca71
-nq-3,nq,simple,where does the movie the sound of music take place,"The movie ""The Sound of Music"" takes place in Salzburg, Austria.",1,9358,True,25f70f05-d4b2-4b62-a6b8-96a5c0efe66d
-nq-4,nq,simple,statue coming out of the ground in washington dc,"The statue coming out of the ground in Washington DC is called ""The Awakening"".",1,7575,True,a55f2893-7606-4eee-a202-7a30961071ba
-nq-5,nq,simple,field hockey is the national sport of which country,Field hockey is the national sport of Pakistan.,1,8033,True,21acf079-2cfd-4167-b2c9-76c7cdcb763c
-nq-6,nq,simple,who governs in america’s representative democracy (republic) system,根据已有知识库，无法回答此问题。,1,14834,True,9e805735-7e2b-49b1-abd4-6849b9f931e4
-nq-7,nq,simple,who is the song you're my best friend about,"The song ""You're My Best Friend"" is about Veronica Tetzlaff.",1,15264,True,f4732162-428a-40c5-bd73-06549e22f6fd
-nq-8,nq,simple,where was the church of latter day saints founded,"The Church of Latter-day Saints was founded on April 6, 1830, in western New York.",1,13704,True,d473496b-cb78-46ae-833d-a58d05f02fca
-nq-9,nq,simple,who os the father of bridget jones baby,根据知识片段中的信息，Bridget Jones's baby的父亲是Mark。,1,16611,True,743e00fa-16af-4bb1-b2d8-c50690ebd362
-nq-10,nq,simple,who is the nationalist leader associated with the american revolution,The nationalist leaders associated with the American Revolution are George Washington and Thomas Paine.,1,10632,True,65821578-089e-4c4e-a415-724a24fec789
+hotpotqa-1,hotpotqa,generated,What is the relationship between Ed Wood and actor Bela Lugosi as portrayed in the film Ed Wood?,"根据提供的知识片段，命中知识1包含了相关信息：
+
+在电影《Ed Wood》中，讲述了Ed Wood与演员Bela Lugosi之间的关系。Bela Lugosi由Martin Landau扮演，他是Ed Wood的偶像和合作伙伴。影片描绘了两人之间的深厚友谊，以及他们在拍摄电影过程中共同经历的点点滴滴。
+
+因此，答案是：在电影《Ed Wood》中，Ed Wood与Bela Lugosi的关系被描绘为一种深厚的友谊和合作关系，Bela Lugosi是Ed Wood的偶像和合作伙伴。",5,14886,True,a76395cf-80c1-4ffd-9546-91d1ca8f96c8
+hotpotqa-2,hotpotqa,generated,Scott Derrickson he direct Deliver Us From Evil? What else he direct?,"Yes, Scott Derrickson directed *Deliver Us From Evil*. According to the provided knowledge, he also directed other films such as *Sinister*, *The Exorcism of Emily Rose*, and *Doctor Strange* (2016). 
+
+The information about *Sinister* comes from a higher-ranked source (""**Sinister** is a 2012 supernatural horror film directed by Scott Derrickson""), making it more reliable in case of any potential conflicts.",5,13707,True,8ef1e7c5-05a7-4632-ac88-d5c8396e14a0
+hotpotqa-3,hotpotqa,generated,"As a local historiean focused on documenting the histroy and demografics of small communities in Pulaski County, Arkansas, I'm wondring about Woodson, Arkansaw, in the Unitid Stats. Could you tell me about its populashun at the 2010 census, its role in the metropolotan area, and how it got its name from Ed Wood Sr., who was a promenent planatation owner?","根据提供的知识片段，我可以回答您的问题如下：
+
+1. **2010年人口普查时Woodson的人口**：  
+   根据命中知识1，Woodson, Arkansas在2010年的人口普查中人口为403人。
+
+2. **Woodson在大都市区中的角色**：  
+   根据命中知识1，Woodson是Little Rock–North Little Rock–Conway Metropolitan Statistical Area（小石城-北小石城-康威大都会统计区）的一部分。然而，关于其具体角色的详细信息并未在知识片段中提供。
+
+3. **Woodson如何得名于Ed Wood Sr.**：  
+   根据命中知识1，Woodson及其周边地区（包括Woodson Lake和Wood Hollow）是以Ed Wood Sr.的名字命名的。Ed Wood Sr.是一位在20世纪初著名的种植园主、商人和贸易商。Woodson毗邻Wood Plantation，这是Ed Wood Sr.拥有的最大种植园。
+
+综上所述，Woodson在2010年的人口为403人，它是小石城大都会区的一部分，并以Ed Wood Sr.的名字命名，他是该地区历史上一位重要的种植园主和商人。",5,20971,True,e6c0cc50-f751-4ee0-b7ac-fe0dd89f8cf2
+hotpotqa-4,hotpotqa,generated,Which James Gunn films did Tyler Bates score?,根据命中知识1，Tyler Bates为James Gunn导演的所有电影配乐，包括《银河护卫队》（2014年）及其2017年的续集。因此，答案是：Tyler Bates为James Gunn导演的每一部电影都进行了配乐，特别是《银河护卫队》及其续集。,5,11466,True,01e07309-b149-45e8-889e-dc3057866e4c
+hotpotqa-5,hotpotqa,generated,"Wen did Ed Wood, the filmmker, die? Is it tru that he passed away on Decembr 10, 1978? I'm a horror fan and want to no.","根据提供的知识片段，Edward Davis Wood Jr.（即 Ed Wood）确实于1978年12月10日去世。因此，答案是肯定的。
+
+**回答：** 是的，Ed Wood 于1978年12月10日去世。",5,9583,True,021a8b6e-f8f8-444f-860a-d8506e247a7e
+hotpotqa-6,hotpotqa,generated,Who produced the film 'Deliver Us from Evil'?,根据提供的知识片段，电影《Deliver Us from Evil》（2014年）由Jerry Bruckheimer制作。这一信息来源于命中知识1，其中明确提到“Deliver Us from Evil is a 2014 American supernatural horror film directed by Scott Derrickson and produced by Jerry Bruckheimer.”,5,10298,True,fa8fb3b2-bd89-4116-9bde-87f8e1ff7b91
+hotpotqa-7,hotpotqa,generated,"What is Adam Collis's educational history including the University of California, Los Angeles?","Adam Collis is an American filmmaker and actor. He attended Duke University from 1986 to 1990 and the University of California, Los Angeles (UCLA) from 2007 to 2010. He also studied cinema at the University of Southern California from 1991 to 1997. 
+
+This information is derived from the most relevant knowledge fragment (命中知识1), which provides a clear and comprehensive overview of Adam Collis's educational background, including his time at UCLA.",5,11898,True,9897def8-4316-449b-a64b-d39df2c24653
+hotpotqa-8,hotpotqa,generated,"Im a film music composer wanting to know more abot the career of C. Robert Cargill, who co-wrote the film Sinister. Can you give me detales on his involement in that movie? I herd he worked with Scott Derrickson and Id like to understand his part in making the film.","根据提供的知识片段，C. Robert Cargill 与 Scott Derrickson 共同编写了电影《险恶》(Sinister)。具体来说：
+
+- **命中知识1** 提到，《险恶》是一部2012年的超自然恐怖片，由 Scott Derrickson 执导，并由 Derrickson 和 C. Robert Cargill 编剧。
+- **命中知识2** 进一步确认了 C. Robert Cargill 与 Scott Derrickson 的合作关系，虽然这段信息主要描述的是他们后来在《奇异博士》(Doctor Strange) 中的合作，但可以推断出他们在《险恶》中也有类似的协作模式。
+
+因此，C. Robert Cargill 在《险恶》中的角色是共同编剧，他与导演 Scott Derrickson 一起创作了这部电影的剧本。这是基于现有知识库的信息，没有更多细节可以提供。",5,19676,True,4b161d2f-bd03-47a5-a4f3-5c949bb10799
+hotpotqa-9,hotpotqa,generated,Chiwetel Ejiofor in Doctor Strange,根据提供的知识片段，Chiwetel Ejiofor参演了电影《奇异博士》（Doctor Strange）。这是基于漫威漫画角色的2016年美国超级英雄电影，由Marvel Studios制作、Walt Disney Studios Motion Pictures发行。该电影是漫威电影宇宙（MCU）的第十四部作品，由Scott Derrickson执导，他与Jon Spaihts和C. Robert Cargill共同编写剧本。Benedict Cumberbatch主演饰演Stephen Strange，而Chiwetel Ejiofor与其他知名演员如Rachel McAdams、Benedict Wong、Michael Stuhlbarg、Benjamin Bratt、Scott Adkins、Mads Mikkelsen和Tilda Swinton一同出演。在电影中，外科医生Strange在一场导致职业生涯结束的车祸后学习神秘艺术。,5,11456,True,6b3db634-5004-405b-bf34-e7b966db4813
+hotpotqa-10,hotpotqa,generated,What American diplomatic positions did Shirley Temple Black hold as an adult?,"根据提供的知识片段，Shirley Temple Black 在成年后担任了以下美国外交职位：
+
+- 美国驻加纳大使
+- 美国驻捷克斯洛伐克大使
+- 美国首席礼宾官（Chief of Protocol of the United States）
+
+这些信息来源于命中知识1，它是相关性最高的片段（final=0.2505），并且明确列出了 Shirley Temple Black 的外交职位。其他片段虽然提到了她的名字或一些相关信息，但没有提供额外的外交职位信息，因此以命中知识1为准。",5,12717,True,c63eee11-e799-4870-b306-cb2c28a10306
+hotpotqa-11,hotpotqa,generated,How did Charles Craft start his career in Hollywood?,"Based on the provided knowledge fragments, Charles Craft started his career in Hollywood in 1927. The first film he edited was the Universal Pictures silent film, ""Painting the Town"". This information is derived from the highest-ranked relevant fragment (命中知识3), which provides the most complete and direct answer to the question. 
+
+Although other fragments mention additional details about his career, they do not conflict with this initial information and are less relevant to the specific question of how he started his career. Therefore, according to the rules, we prioritize the most pertinent and complete information available.",5,12252,True,a2335860-1d75-492b-869a-7645c9f00630
+hotpotqa-12,hotpotqa,generated,What is the Andre Norton Aword?,"The Andre Norton Award for Young Adult Science Fiction and Fantasy is an annual award presented by the Science Fiction and Fantasy Writers of America (SFWA) to the author of the best young adult or middle grade science fiction or fantasy book published in the United States in the preceding year. It is named to honor prolific science fiction and fantasy author Andre Norton (1912–2005). The award was established by then SFWA president Catherine Asaro and the SFWA Young Adult Fiction committee and announced on February 20, 2005. Any published young adult or middle grade science fiction or fantasy novel is eligible for the prize, including graphic novels, with no limit on word count. The award is presented along with the Nebula Awards and follows the same rules for nominations and voting; works may be simultaneously nominated for both the Andre Norton Award and a Nebula Award.",5,12284,True,e33d285c-ad05-453e-9258-c413eaa97280
+hotpotqa-13,hotpotqa,generated,"Dave Eggar, he record album Kingston Morning where? Include Kingston, Jamaica?","根据提供的知识片段，无法明确回答Dave Eggar的专辑《Kingston Morning》是否在Kingston, Jamaica录制。命中知识1提到《Kingston Morning》是Dave Eggar的第四张个人专辑，但没有提及具体的录制地点。因此，基于当前知识库的信息，无法确认Kingston, Jamaica是否为录制地点之一。
+
+根据已有知识库，无法回答此问题。",5,13419,True,ba48a0b5-c649-40a5-a993-6bf41c222d7b
+hotpotqa-14,hotpotqa,generated,"As a local historian documenting small communities in Pulaski County, Arkansas, I am interested in understanding the key details of Clinton, Minnesota, a city in the United States. Could you please provide information on its county, the origin of its name, and its population as recorded in the 2010 census?","Based on the provided knowledge fragments, here is the information about Clinton, Minnesota:
+
+1. **County**: Clinton is located in Big Stone County, Minnesota, United States. (Source: Hit Knowledge 1)
+2. **Origin of the Name**: The city was named after New York Governor DeWitt Clinton. (Source: Hit Knowledge 1)
+3. **Population according to the 2010 Census**: The provided knowledge fragments do not contain specific information about the population of Clinton, Minnesota, according to the 2010 census.
+
+For the population data, based on the strict rules provided, I must state: ""根据已有知识库，无法回答此问题.""",5,29118,True,c69835f6-2863-490a-90a3-7d17ee7f7609
+hotpotqa-15,hotpotqa,generated,What Logie Award winning comedy series is described in the context?,"The Logie Award winning comedy series described in the context is ""Hamish and Andy's Gap Year."" This series follows Australian comedians Hamish Blake and Andy Lee on their international trips. The first season was set in America, the second season, titled ""Hamish & Andy's Euro Gap Year,"" was broadcast from London, and the third season, ""Hamish and Andy's Gap Year Asia,"" was broadcast from Bangkok.",5,10916,True,186100b5-9158-44a8-8eba-343dae0be6a6
+hotpotqa-16,hotpotqa,generated,"Hey, what Kangana Ranaut she do in that movie I Love NY and who direct it and when it came out and where they film it and what the plot based on?","Based on the provided knowledge fragments, here's the information regarding your query:
+
+1. **Kangana Ranaut's Role & Director**: In the movie ""I Love NY"" (also known as ""I Love New Year""), Kangana Ranaut stars in one of the lead roles. The film is directed by Radhika Rao and Vinay Sapru.
+
+2. **Release Date & Filming Locations**: The movie was released on July 10, 2015. It was extensively shot in Mumbai, New York City, and Bangkok.
+
+3. **Plot Basis**: The main plot of ""I Love NY"" was taken from the Russian romantic comedy ""The Irony of Fate"" (1976).
+
+These details consolidate the answers from multiple knowledge fragments to provide a complete response to your question.",5,25079,True,f977fc3d-74c9-46b1-bc38-47ba12ad04b7
+hotpotqa-17,hotpotqa,generated,Big Stone Gap premiere at Virginia Film Festival?,"根据提供的知识片段，电影《Big Stone Gap》于2014年11月6日在弗吉尼亚电影节上进行了全球首映。这一信息来源于以下知识片段：
+
+**命中知识1** [vector=0.0000, rerank=0.9373, final=0.2844, route=vector, source=Big Stone Gap premiere at Virginia Film Festival?]:
+标准答案: ia Society. Based on Trigiani's 2000 best-selling novel of the same name, the story is set in the actual Virginia town of Big Stone Gap circa 1970s. The film had its world premiere at the Virginia Film Festival on November 6, 2014.
+
+因此，回答是：  
+**《Big Stone Gap》在2014年11月6日于弗吉尼亚电影节上进行了全球首映。**",5,13519,True,19ca7a9b-be57-4da8-ae66-9de44d44a7c3
+hotpotqa-18,hotpotqa,generated,"What was Adam Collis's first role as an assistant director, and how did Conrad Brooks later transition into directing films?","Adam Collis's first role as an assistant director was for Scott Derrickson's short film ""Love in the Ruins"" (1995).
+
+Conrad Brooks transitioned into directing films after initially gaining recognition as an actor, particularly through his roles in Ed Wood's films such as ""Plan 9 from Outer Space,"" ""Glen or Glenda,"" and ""Jail Bait."" Due to the ongoing interest in Ed Wood's films, Brooks reemerged in the 1980s and became a prolific actor. Later, he expanded his career by writing, producing, and directing several films. 
+
+(Note: The information about Conrad Brooks transitioning into directing is derived from the higher-scored knowledge fragment.)",5,15564,True,b214149e-9433-41ea-90a2-6ca7b63704ab
+hotpotqa-19,hotpotqa,generated,Who was an asisstant director on a short film and who later did directing?,根据已有知识库，无法回答此问题。,5,7593,True,04db049f-4808-45fc-8106-14aee85e22bc
+hotpotqa-20,hotpotqa,generated,What are the assistant director and directing experiences of Adam Collis and Conrad Brooks?,"Based on the provided knowledge fragments:
+
+### Adam Collis:
+- **Assistant Director Experience**: Adam Collis worked as an assistant director for Scott Derrickson's short film ""Love in the Ruins"" (1995).
+- **Directing Experience**: There is no specific mention of Adam Collis directing any films in the provided knowledge.
+
+### Conrad Brooks:
+- **Assistant Director Experience**: There is no mention of Conrad Brooks working as an assistant director in the provided knowledge.
+- **Directing Experience**: Conrad Brooks has written, produced, and directed several films. His directing career seems to have taken off after he reemerged in the 1980s due to ongoing interest in the films of Ed Wood, although specific titles are not mentioned in the provided knowledge.
+
+In summary, Adam Collis has experience as an assistant director but there's no mention of him directing. Conrad Brooks, on the other hand, has experience in writing, producing, and directing multiple films, though specific directing roles aren't detailed here.",5,17599,True,c6c623dc-86a5-4e0d-b7f2-1ab7dc367d73
+hotpotqa-21,hotpotqa,generated,Wat if u had a moovie abowt rapture and ancenstral spirts how would it be like the left behind series and shadowshaper? describe the supernaturl events from both books.,"To compare a movie combining rapture and ancestral spirits with the themes of ""Left Behind"" and ""Shadowshaper,"" we can analyze the supernatural events from both books based on the provided knowledge fragments.
+
+### Left Behind: The Kids
+""Left Behind: The Kids"" is a series that follows a group of teenagers experiencing the rapture and tribulation, based on biblical scriptures. The supernatural events in this series primarily revolve around the rapture, which includes:
+- **Disappearance of Believers:** A significant number of people suddenly vanish, leaving behind only their clothes and personal belongings. This event is central to the series and causes widespread confusion and chaos.
+- **Tribulation Events:** Following the rapture, various catastrophic events occur as part of the end-times prophecy, including natural disasters, political upheaval, and the rise of the Antichrist.
+
+### Shadowshaper
+""Shadowshaper"" is an urban fantasy novel featuring Sierra Santiago, an Afro-Boricua teenager who discovers her heritage as a shadowshaper—someone who infuses art with ancestral spirits. The supernatural elements in ""Shadowshaper"" include:
+- **Infusion of Art with Spirits:** Sierra learns to infuse her artwork with ancestral spirits, bringing her creations to life and granting them magical abilities.
+- **Spiritual Heritage:** Sierra taps into her artistic and spiritual lineage to combat forces threatening her community. This involves communicating with and channeling ancestral spirits to gain wisdom and power.
+- **Gentrification and Magic:** As gentrification invades her community, Sierra faces a mysterious entity appropriating shadowshaper magic, leading to a battle to protect her cultural heritage.
+
+### Comparison
+A movie combining rapture and ancestral spirits would likely blend elements from both ""Left Behind"" and ""Shadowshaper"":
+- **Rapture Elements:** Similar to ""Left Behind,"" the movie could depict the sudden disappearance of individuals and ensuing global chaos, focusing on characters grappling with these inexplicable events.
+- **Ancestral Spirits:** Drawing from ""Shadowshaper,"" the film might explore characters connecting with ancestral spirits to navigate or combat the tribulations brought by the rapture. This could involve rituals, infused art, or spiritual awakenings.
+- **Cultural and Spiritual Conflict:** The movie could delve into themes of cultural preservation versus external threats, akin to Sierra's fight against gentrification, but set against the backdrop of apocalyptic rapture scenarios.
+
+By merging the apocalyptic, faith-based supernatural occurrences of ""Left Behind"" with the culturally rich, spirit-infused world of ""Shadowshaper,"" such a movie would offer a unique narrative exploring both divine intervention and ancestral legacies.",5,30978,True,25b309b2-d26b-42e6-97eb-88d78c6ec460
+hotpotqa-22,hotpotqa,generated,Wat is the differens between the raptur in Left Behind: The Kids and the ancestrel spirits in Shadowshaper?,"To answer the question about the difference between the rapture in ""Left Behind: The Kids"" and the ancestral spirits in ""Shadowshaper,"" we need to look at the provided knowledge fragments.
+
+### Rapture in ""Left Behind: The Kids""
+From **命中知识2**:
+- The ""Left Behind: The Kids"" series is based on the concept of the rapture and tribulation, derived from Biblical scriptures.
+- It follows a group of teenagers who experience the rapture, which is an event where believers are taken to heaven, leaving others behind on Earth to face tribulation.
+
+### Ancestral Spirits in ""Shadowshaper""
+From **命中知识1**:
+- ""Shadowshaper"" is an urban fantasy novel where ancestral spirits are infused into art by shadowshapers.
+- Sierra Santiago, the protagonist, must learn about her artistic and spiritual heritage to stop a killer hunting aging shadowshapers.
+
+### Differences
+1. **Conceptual Basis**:
+   - **Rapture**: Rooted in Christian theology, specifically the idea of believers being taken to heaven and non-believers being left on Earth to endure tribulation.
+   - **Ancestral Spirits**: Based on cultural and spiritual practices, particularly those involving infusing ancestral spirits into art, representing a connection to one's heritage and past.
+
+2. **Narrative Role**:
+   - **Rapture**: Serves as a central plot device driving the characters' experiences and challenges as they navigate life post-rapture.
+   - **Ancestral Spirits**: Act as both a source of power and a cultural link, crucial for the protagonist's journey and battle against antagonistic forces.
+
+3. **Cultural Context**:
+   - **Rapture**: Draws from religious texts and beliefs, primarily Christianity.
+   - **Ancestral Spirits**: Reflects Afro-Boricua traditions and the importance of heritage and community in facing modern challenges like gentrification.
+
+In summary, the rapture in ""Left Behind: The Kids"" is a theological event shaping the narrative around faith and survival, while the ancestral spirits in ""Shadowshaper"" are culturally significant entities tied to personal and communal identity through art and heritage.",5,30401,True,b7ce0487-5525-4ebf-83f9-fc52ad5a6a47
+hotpotqa-23,hotpotqa,generated,What is the rapture in Left Behnd and ancesteral spirits in Shadowshaper?,"### The Rapture in *Left Behind: The Kids*
+The rapture, as described in the knowledge base, refers to an event based on scriptures found in the Bible. In the context of *Left Behind: The Kids*, it is part of the background plots introduced in the adult novels of the *Left Behind* series. The series follows a core group of teenagers as they navigate the aftermath of the rapture and the tribulation, which are central themes tied to Christian eschatology.
+
+### Ancestral Spirits in *Shadowshaper*
+Ancestral spirits in *Shadowshaper* refer to entities that are infused into art by individuals known as ""shadowshapers."" Sierra Santiago, the protagonist, is the granddaughter of a shadowshaper, and these ancestral spirits play a key role in her artistic and spiritual heritage. As forces of gentrification threaten her community and a mysterious being hunts aging shadowshapers, Sierra must embrace this legacy to confront the challenges she faces.
+
+### Summary
+- **Rapture in *Left Behind: The Kids***: A biblical event where believers are taken to heaven, leaving others behind to face tribulation.
+- **Ancestral Spirits in *Shadowshaper***: Spirits passed down through generations that are embedded in art, empowering shadowshapers like Sierra Santiago. 
+
+These elements are significant within their respective contexts—religious prophecy in *Left Behind* and cultural heritage in *Shadowshaper*.",5,19056,True,976994c6-aa5f-48d9-b12c-a2f1f35cd3f8
+hotpotqa-24,hotpotqa,generated,"Wich 2014 horror fillm basedd on a true story was directd by Scott Derrickson, who also directd Sinister and teh Exorcism of Emily Rose?",根据提供的知识片段，2014年基于真实故事的恐怖电影是由Scott Derrickson执导的《Deliver Us from Evil》。该电影受实际事件启发，并由Eric Bana、Édgar Ramírez、Sean Harris、Olivia Munn和Joel McHale等主演。此外，Scott Derrickson还导演了《Sinister》和《The Exorcism of Emily Rose》。因此，答案是《Deliver Us from Evil》。,5,10168,True,27c60dda-39ee-402e-9449-7dcf362b6cca
+hotpotqa-25,hotpotqa,generated,Which publisher is responsible for publishing both the Animorphs series and the later volumes of The Divide trilogy?,"Based on the provided knowledge fragments, the publisher responsible for publishing both the Animorphs series and the later volumes of The Divide trilogy is Scholastic.
+
+This conclusion is drawn from the following information:
+
+1. From Hit Knowledge 2: ""The Divide trilogy is a fantasy young adult novel trilogy by Elizabeth Kay... The first novel was originally published by the small press publisher Chicken House (now a division of Scholastic), with subsequent volumes published by Scholastic...""
+
+2. From Hit Knowledge 4: ""Animorphs is a science fantasy series of young adult books written by Katherine Applegate and her husband Michael Grant...""
+
+While the Animorphs publisher isn't explicitly stated in the provided fragments, Scholastic is well-known as the publisher of Animorphs, and the question specifically asks for the publisher of both series. Given that Scholastic is mentioned as the publisher for the later volumes of The Divide trilogy and is also the publisher of Animorphs (common knowledge not contradicted by the provided fragments), we can conclude that Scholastic is the publisher responsible for both series.",5,29932,True,4691ef4c-1fa7-4dd6-bc5c-c7012e13e298

@@ -1,14 +1,16 @@
 {
-  "run_name": "ragas-real",
-  "size_per_source": 50,
+  "run_name": "ragas-multisource-v1",
+  "size_per_source": 5,
   "distribution": "simple:0.4,reasoning:0.4,multi_context:0.2",
+  "max_workers": 1,
+  "timeout": 300,
+  "max_retries": 3,
+  "doc_limit": 0,
   "sources": {
-    "nq": {
-      "generated": 0,
-      "target": 50,
-      "status": "error",
-      "message": "Documents appears to be too short (ie 100 tokens or less). Please provide longer documents."
+    "hotpotqa": {
+      "generated": 4,
+      "target": 5,
+      "status": "ok"
     }
-  },
-  "note": "RAGAS TestsetGenerator enabled"
+  }
 }
